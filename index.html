@@ -1,148 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PACKZ-ITA — Official</title>
 
 <style>
-/* ===== BASE ===== */
+*{box-sizing:border-box}
 body{
   margin:0;
   min-height:100vh;
-  font-family: Impact, Arial Black, sans-serif;
-  background:#050505;
-  color:#fff;
-  text-align:center;
+  font-family: Arial Black, Impact, system-ui, sans-serif;
+  color:#f2f2f2;
+  background:#2b2b2b;
   overflow-x:hidden;
 }
 
-/* ===== SFONDO ITA / ESP ===== */
+/* MURO / CEMENTO */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:linear-gradient(90deg,
-    #008C45 0%,
-    #F4F5F0 33%,
-    #CD212A 50%,
-    #AA151B 75%,
-    #F1BF00 100%);
-  opacity:.12;
+  background:
+    linear-gradient(90deg,
+      #0a8f3e 0%,
+      #f2f2f2 33%,
+      #c4161c 50%,
+      #aa151b 75%,
+      #f1bf00 100%);
+  opacity:.35;
+  z-index:-3;
+}
+
+/* SPORCO / GRAFFI */
+body::after{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,0,0,.35), transparent 60%),
+    radial-gradient(circle at 80% 30%, rgba(0,0,0,.30), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(0,0,0,.35), transparent 60%);
+  filter: blur(18px);
   z-index:-2;
 }
 
-/* ===== CONTAINER ===== */
-.wrap{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:30px 20px;
+/* CONTENITORE */
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:40px 16px 70px;
+  text-align:center;
 }
 
-/* ===== LOGO TESTO ===== */
+/* TITOLO GRAFFITI */
 .logo{
-  font-size:78px;
+  font-size:72px;
   letter-spacing:4px;
   line-height:1;
-  color:#f5f5f5;
   text-shadow:
-    0 0 10px #fff,
-    0 0 25px #ff0000,
-    0 0 50px #ff0000;
+    4px 4px 0 #000,
+    8px 8px 0 rgba(0,0,0,.4);
 }
 
 .logo span{
   display:block;
-  font-size:92px;
-  margin-top:6px;
-  text-shadow:
-    0 0 10px #fff,
-    0 0 30px #00eaff,
-    0 0 60px #00eaff;
+  font-size:82px;
 }
 
-/* ===== SOTTOTITOLO ===== */
+/* SOTTOTITOLO */
 .sub{
-  margin-top:16px;
+  margin-top:10px;
   font-size:14px;
   letter-spacing:2px;
-  color:#ccc;
+  color:#111;
 }
 
-/* ===== BOX AVVISO ===== */
+/* BOX AVVISO */
 .alert{
-  margin-top:28px;
-  padding:18px;
-  max-width:420px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.05);
-  font-size:14px;
+  margin:26px auto 18px;
+  padding:14px;
+  border:2px solid #000;
+  background:rgba(0,0,0,.55);
+  font-size:13px;
+  line-height:1.4;
 }
 
-/* ===== BOTTONI ===== */
+/* BOTTONI GRAFFITI */
 .links{
-  margin-top:30px;
   display:flex;
   flex-direction:column;
   gap:14px;
-  width:100%;
-  max-width:320px;
+  margin-top:18px;
 }
 
 .links a{
-  padding:14px;
-  border-radius:14px;
+  display:block;
+  padding:16px 14px;
+  border:3px solid #000;
+  background:rgba(255,255,255,.15);
+  color:#000;
   text-decoration:none;
-  color:#fff;
   font-size:15px;
-  border:1px solid rgba(255,255,255,.25);
-  background:rgba(255,255,255,.06);
-  transition:.25s;
+  letter-spacing:1px;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.45);
+  transition:.15s;
 }
 
 .links a:hover{
-  background:rgba(255,255,255,.15);
-  box-shadow:0 0 18px rgba(255,255,255,.35);
+  transform: translate(-2px,-2px);
+  box-shadow: 10px 10px 0 rgba(0,0,0,.55);
 }
 
-/* ===== FOOTER ===== */
+/* COLORI BOTTONI */
+.tg-bot{background:#7ecbff}
+.tg-contact{background:#9bdcff}
+.ig-main{background:#ff8ad8}
+.ig-media{background:#ffb347}
+.potato{background:#c4a26a}
+.signal{background:#9fd4c5}
+
+/* FOOTER */
 .footer{
-  margin-top:35px;
-  font-size:12px;
-  color:#888;
+  margin-top:40px;
+  font-size:11px;
+  letter-spacing:1px;
+  color:#111;
 }
 </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <div class="container">
 
     <div class="logo">
       PACKZ
       <span>ITA</span>
     </div>
 
-    <div class="sub">
-      OFFICIAL NETWORK — IT 🇮🇹 / ES 🇪🇸
-    </div>
+    <div class="sub">OFFICIAL NETWORK — IT 🇮🇹 / ES 🇪🇸</div>
 
     <div class="alert">
-      ⚠️ Diffida da fake e profili esterni<br><br>
+      ⚠️ Diffida da fake e profili esterni<br>
       ✅ Solo i link presenti su questa pagina sono ufficiali
     </div>
 
     <div class="links">
-      <a href="https://t.me/TUO_TELEGRAM">📲 TELEGRAM UFFICIALE</a>
-      <a href="vetrina.html">🔥 VETRINA</a>
-      <a href="https://instagram.com/TUO_INSTAGRAM">📸 INSTAGRAM</a>
+      <a class="tg-bot" href="https://t.me/PACKZITA_bot" target="_blank">🤖 TELEGRAM BOT</a>
+      <a class="tg-contact" href="https://t.me/PackzIta" target="_blank">📲 TELEGRAM CONTACT</a>
+
+      <a class="ig-main" href="https://www.instagram.com/packzita?igsh=MXRzM2M1cjBrbWZn" target="_blank">📸 INSTAGRAM PACKZ ITA</a>
+      <a class="ig-media" href="https://www.instagram.com/packzmediaita?igsh=aXIzNzFhd2M3Nmpv" target="_blank">🎥 PACKZ MEDIA</a>
+
+      <a class="potato" href="https://dympt.org/joinchat/VEbcqOewg8Yw_oFANNBPFQ" target="_blank">🥔 POTATO ACCESS</a>
+      <a class="signal" href="https://signal.me/#eu/KZlpyX9M6SyZTbjUrmHIHyuRsOy-CRuRJbMgj4nA4t5d46OMdrJNw5tQwBj3L2_F" target="_blank">🔒 SIGNAL CONTACT</a>
     </div>
 
     <div class="footer">
-      © PACKZ-ITA — All rights reserved
+      PACKZ-ITA — OFFICIAL PAGE
     </div>
 
   </div>
