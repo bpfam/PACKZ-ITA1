@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PACKZ-ITA — Official</title>
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#000;
+      --glass:rgba(0,0,0,.66);
+      --line:rgba(255,255,255,.10);
+      --text:#eafcff;
+      --muted:#bdefff;
+      --neon:#00eaff;
+      --neon2:#7b2cff;
+      --gold:#ffcc33;
+      --r:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Space Grotesk",system-ui,Arial,sans-serif;
+      color:var(--text);
+      background:#000;
+    }
+
+    /* BACKGROUND */
+    .bg{
+      position:fixed; inset:0; z-index:-2;
+      background:
+        radial-gradient(1200px 700px at 50% -10%, rgba(0,234,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 20% 0%, rgba(123,44,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 10%, rgba(255,204,51,.12), transparent 55%),
+        url("assets/bg-packz.png") center/cover no-repeat;
+      filter:saturate(1.05) contrast(1.05);
+    }
+    .shade{
+      position:fixed; inset:0; z-index:-1;
+      background:linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.92));
+    }
+
+    .wrap{max-width:560px; margin:0 auto; padding:22px 14px 28px;}
+    .card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.58));
+      border-radius:var(--r);
+      box-shadow:
+        0 0 0 1px rgba(0,234,255,.12) inset,
+        0 0 26px rgba(0,234,255,.16),
+        0 0 52px rgba(123,44,255,.12);
+      overflow:hidden;
+    }
+
+    header{
+      padding:18px 16px 14px;
+      position:relative;
+    }
+    header:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:linear-gradient(90deg, rgba(0,234,255,.35), rgba(123,44,255,.25), rgba(255,204,51,.18));
+      opacity:.22; filter:blur(16px);
+      pointer-events:none;
+    }
+    .top{
+      position:relative;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .badge{
+      width:66px; height:66px; border-radius:18px;
+      display:flex; align-items:center; justify-content:center;
+      background:radial-gradient(circle at 30% 20%, rgba(0,234,255,.22), rgba(0,0,0,.9));
+      border:1px solid rgba(0,234,255,.22);
+      box-shadow:0 0 18px rgba(0,234,255,.25);
+      font-weight:800; letter-spacing:1px; text-transform:uppercase;
+      line-height:1.05;
+      text-align:center;
+    }
+    .titlebox{min-width:0}
+    h1{
+      margin:0;
+      font-size:24px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      text-shadow:0 0 16px rgba(0,234,255,.55);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .sub{
+      margin-top:6px;
+      font-size:12px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:var(--muted);
+      opacity:.95;
+    }
+    .chips{display:flex; gap:8px; align-items:center; justify-content:flex-end;}
+    .chip{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.55);
+      box-shadow:0 0 10px rgba(0,234,255,.12);
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    .notice{
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.55);
+      color:#d6fbff;
+      font-size:12px;
+      line-height:1.4;
+    }
+    .notice b{color:#fff}
+
+    .btns{display:flex; flex-direction:column; gap:12px; padding:14px 14px 16px;}
+    a.btn{
+      display:flex; align-items:center; gap:12px;
+      padding:14px 14px;
+      border-radius:18px;
+      text-decoration:none;
+      color:var(--text);
+      background:linear-gradient(180deg, rgba(8,12,16,.85), rgba(0,0,0,.65));
