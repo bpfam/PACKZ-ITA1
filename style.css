@@ -151,4 +151,66 @@ body{
   color:var(--muted);
 }
 
-/* ================= MENU
+/* ================= MENU ================= */
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding:10px 12px;
+}
+
+.btn{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px 18px;
+  border-radius:18px;
+  text-decoration:none;
+  color:#fff;
+  background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.35));
+  border:1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.btn:hover{
+  transform: translateY(-2px);
+  box-shadow:0 12px 26px rgba(0,0,0,.55);
+}
+
+/* ICONE COLORATE */
+.ico{
+  width:22px;
+  height:22px;
+}
+
+/* EMOJI */
+.emoji{
+  font-size:22px;
+}
+
+/* TESTO */
+.label{
+  font-weight:800;
+  font-size:17px;
+}
+
+.arrow{
+  margin-left:auto;
+  opacity:.8;
+}
+
+/* ================= FOOTER ================= */
+.foot{
+  text-align:center;
+  margin-top:14px;
+  font-size:12px;
+  letter-spacing:.22em;
+  color:rgba(255,255,255,.6);
+}
+
+/* MOBILE */
+@media(max-width:380px){
+  .title{font-size:38px}
+  .label{font-size:16px}
+}
