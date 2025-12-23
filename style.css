@@ -1,197 +1,346 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;600;800&display=swap');
 
 :root{
+  /* SFONDO */
   --bgimg: url("https://i.postimg.cc/J7PgCMKr/85CE1498-FFEA-47F6-B3F2-051581195369.png");
 
-  --text: #f2f2f2;
-  --muted: rgba(255,255,255,.65);
+  --text: #f3f6ff;
+  --muted: rgba(255,255,255,.72);
+
+  /* base glass (più invisibile) */
+  --glassA: rgba(10,10,14,.30);
+  --glassB: rgba(10,10,14,.16);
+  --stroke: rgba(255,255,255,.10);
+
+  /* glow (più soft, non invade) */
+  --gBlue:   rgba(42,215,255,.38);
+  --gGold:   rgba(255,210,74,.32);
+  --gPink:   rgba(255,77,216,.34);
+  --gRed:    rgba(255,59,59,.30);
+  --gOrange: rgba(255,155,47,.30);
+  --gCyan:   rgba(0,255,213,.34);
 }
 
-/* RESET */
 *{box-sizing:border-box}
-html,body{
-  height:100%;
-  margin:0;
-}
+html,body{height:100%}
 body{
-  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background:#000;
+  margin:0;
   color:var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#050509;
 
-  /* ❌ blocchiamo TUTTO lo scroll */
+  /* pagina ferma */
   overflow:hidden;
 }
 
-/* ===== BACKGROUND FISSO ===== */
+/* blocca scroll laterale su iOS */
+html, body { overflow-x:hidden; }
+
+/* --- BACKGROUND --- */
 .bg{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   background-image: var(--bgimg);
   background-size: cover;
   background-position: center;
   background-repeat:no-repeat;
-  filter: contrast(1.1) saturate(1.1) brightness(.9);
+
+  /* più “vivo” ma non bruciato */
+  filter: saturate(1.25) contrast(1.10) brightness(0.92);
+  transform: scale(1.02);
   z-index:-3;
 }
 
-/* FUMO LEGGERO */
-.smoke{
-  position:fixed;
-  inset:-20%;
-  z-index:-2;
-  pointer-events:none;
-  opacity:.35;
+/* overlay: meno scuro, lascia vedere il graffiti */
+.bg::after{
+  content:"";
+  position:absolute; inset:0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,.08), transparent 60%),
-    radial-gradient(circle at 70% 40%, rgba(255,255,255,.06), transparent 60%),
-    radial-gradient(circle at 50% 70%, rgba(255,255,255,.05), transparent 65%);
-  filter: blur(32px);
+    radial-gradient(1100px 650px at 20% 15%, rgba(0,255,210,.14), transparent 60%),
+    radial-gradient(900px 700px  at 82% 22%, rgba(255,60,180,.12), transparent 62%),
+    radial-gradient(900px 900px  at 60% 92%, rgba(255,170,40,.10), transparent 65%),
+    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.60));
 }
 
 /* vignette */
 .vignette{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:-2px;
   background: radial-gradient(ellipse at center,
     rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.45) 65%,
-    rgba(0,0,0,.85) 100%);
+    rgba(0,0,0,.22) 55%,
+    rgba(0,0,0,.72) 100%);
   z-index:-1;
+  pointer-events:none;
 }
 
-/* ===== LAYOUT ===== */
+/* fumo: presente ma NON copre l’immagine */
+.smoke{
+  position:fixed; inset:-35%;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.48;                /* ↓ meno fumo */
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 22% 32%, rgba(255,255,255,.14), transparent 58%),
+    radial-gradient(circle at 64% 34%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(circle at 40% 72%, rgba(255,255,255,.09), transparent 62%),
+    radial-gradient(circle at 82% 78%, rgba(255,255,255,.10), transparent 62%);
+  filter: blur(24px);
+  animation: smokeMove 20s linear infinite;
+}
+.smoke::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 18% 62%, rgba(255,255,255,.11), transparent 60%),
+    radial-gradient(circle at 72% 52%, rgba(255,255,255,.08), transparent 62%),
+    radial-gradient(circle at 55% 16%, rgba(255,255,255,.10), transparent 58%);
+  filter: blur(26px);
+  animation: smokeMove2 24s linear infinite;
+  opacity:.82;
+}
+@keyframes smokeMove{
+  0%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.03)}
+  50%{transform:translate3d(2%, 1.6%, 0) rotate(5deg) scale(1.08)}
+  100%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.03)}
+}
+@keyframes smokeMove2{
+  0%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.05)}
+  50%{transform:translate3d(-2.6%, -1.8%, 0) rotate(-6deg) scale(1.10)}
+  100%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.05)}
+}
+
+/* --- LAYOUT (tutto dentro lo schermo) --- */
 .wrap{
-  height:100%;
+  width:min(520px, 92vw);
+  height:100vh;
+  margin:0 auto;
+  padding:14px 0 14px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:18px;
-  padding:24px 14px;
+  justify-content:flex-start;
 }
 
-/* HEADER TESTO */
+/* HERO */
 .hero{
   text-align:center;
-  margin-bottom:10px;
+  padding:6px 10px 8px; /* ↓ più compatto */
 }
+
+/* avatar (se lo usi) */
+.avatar{
+  width:84px; height:84px;
+  margin:2px auto 8px;
+  border-radius:999px;
+  padding:3px;
+  background: conic-gradient(from 90deg,
+    rgba(0,255,210,.75),
+    rgba(255,60,180,.70),
+    rgba(255,170,40,.65),
+    rgba(0,255,210,.75));
+  box-shadow:
+    0 0 18px rgba(0,255,210,.25),
+    0 0 20px rgba(255,60,180,.16);
+}
+.avatar img{
+  width:100%; height:100%;
+  border-radius:999px;
+  display:block;
+  object-fit:cover;
+  background:#0b0b10;
+}
+
+/* TITOLI (se presenti) */
+.title{
+  margin:0;
+  font-family:"Permanent Marker", system-ui, sans-serif;
+  font-size:40px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  line-height:1.02;
+  color:#f6f2e6;
+
+  /* più street, meno “neon pulito” */
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.75),
+    1px 1px 0 rgba(0,0,0,.45),
+    -1px 1px 0 rgba(0,0,0,.35),
+    0 0 10px rgba(0,0,0,.35);
+}
+
+/* effetto “sporco/grunge” (opzionale)
+   -> se vuoi, metti: <h1 class="title graffiti"> */
+.title.graffiti{
+  position:relative;
+}
+.title.graffiti::after{
+  content:"";
+  position:absolute; inset:-6px -10px;
+  background:
+    radial-gradient(10px 10px at 12% 55%, rgba(0,0,0,.28), transparent 55%),
+    radial-gradient(9px 9px   at 38% 40%, rgba(0,0,0,.22), transparent 55%),
+    radial-gradient(11px 11px at 64% 62%, rgba(0,0,0,.24), transparent 55%),
+    radial-gradient(10px 10px at 84% 46%, rgba(0,0,0,.20), transparent 55%);
+  mix-blend-mode:multiply;
+  pointer-events:none;
+  opacity:.65;
+  filter: blur(.2px);
+}
+
 .subtitle{
+  margin:6px 0 0;
   font-size:13px;
-  letter-spacing:.2em;
+  letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--muted);
+  text-shadow: 0 0 10px rgba(0,0,0,.55);
 }
 
-/* ===== MENU ===== */
+/* --- BUTTONS --- */
 .menu{
-  width:100%;
-  max-width:520px;
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:12px;                 /* ↓ un filo meno */
+  padding:8px 10px 0;
+  flex:1;
+  justify-content:flex-start;
 }
 
-/* ===== BOTTONI VETRO ===== */
 .btn{
   position:relative;
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:12px;
 
-  padding:16px 20px;
-  border-radius:999px;
+  padding:16px 16px;        /* ↓ più compatto */
+  border-radius:22px;
 
   text-decoration:none;
-  color:#fff;
-  font-weight:700;
-  font-size:18px;
+  color:var(--text);
 
-  /* 🔥 MOLTO TRASPARENTE */
-  background: linear-gradient(
-    90deg,
-    rgba(10,10,12,.28),
-    rgba(10,10,12,.15)
-  );
+  /* più invisibili */
+  background: linear-gradient(90deg, var(--glassA), var(--glassB));
+  border:1px solid var(--stroke);
 
-  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-
+  transition: transform .14s ease, filter .14s ease;
   overflow:hidden;
 }
 
-/* riflesso vetro */
+/* shine più leggero */
 .btn::before{
   content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.08) 40%,
-    transparent 70%
-  );
-  opacity:.35;
+  position:absolute; inset:0;
+  background:
+    radial-gradient(650px 120px at 18% 0%,
+      rgba(255,255,255,.12), transparent 60%),
+    linear-gradient(115deg,
+      transparent 0%,
+      rgba(255,255,255,.10) 35%,
+      transparent 70%);
+  opacity:.22;
+  transform: translateX(-28%);
+  transition: opacity .16s ease, transform .30s ease;
 }
 
-/* glow soft */
+/* contorno glow più soft */
 .btn::after{
   content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:999px;
+  position:absolute; inset:-2px;
+  border-radius:24px;
   pointer-events:none;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 18px rgba(255,255,255,.06);
+    0 0 0 1px rgba(255,255,255,.09),
+    0 0 18px rgba(255,255,255,.05);
+  opacity:.92;
 }
 
-/* ===== ICONE COLORATE ===== */
+.btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+.btn:hover::before{
+  opacity:.35;
+  transform: translateX(0%);
+}
+
+/* ICONS (colorate) */
 .ico{
-  width:24px;
-  height:24px;
-  flex:0 0 24px;
+  width:22px; height:22px;
+  flex:0 0 22px;
+  opacity:.95;
+
+  /* niente invert -> se usi icone colorate restano colorate */
+  filter: drop-shadow(0 0 10px rgba(0,0,0,.25));
 }
 .emoji{
-  font-size:22px;
+  width:22px;
+  text-align:center;
+  font-size:20px;
+  line-height:1;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,.25));
 }
 
-/* testo */
 .label{
-  flex:1;
-}
-
-/* freccia */
-.arrow{
+  font-weight:800;
+  letter-spacing:.06em;
   font-size:18px;
-  opacity:.8;
 }
 
-/* ===== COLORI GLOW LEGGERI ===== */
+/* freccia più discreta */
+.arrow{
+  margin-left:auto;
+  font-size:16px;
+  opacity:.55;
+  transform: translateY(-.5px);
+  text-shadow:none;
+}
+
+/* micro-variazioni per “staccare” i bottoni (quasi invisibili) */
+.glow-blue   { background: linear-gradient(90deg, rgba(10,10,14,.26), rgba(10,10,14,.14)); }
+.glow-gold   { background: linear-gradient(90deg, rgba(12,10,14,.26), rgba(10,10,14,.14)); }
+.glow-pink   { background: linear-gradient(90deg, rgba(12,10,14,.24), rgba(10,10,14,.14)); }
+.glow-red    { background: linear-gradient(90deg, rgba(12,10,10,.24), rgba(10,10,14,.14)); }
+.glow-orange { background: linear-gradient(90deg, rgba(12,10,10,.24), rgba(10,10,14,.14)); }
+.glow-cyan   { background: linear-gradient(90deg, rgba(10,12,14,.24), rgba(10,10,14,.14)); }
+
+/* glow esterno (più delicato -> non copre lo sfondo) */
 .glow-blue::after{
-  box-shadow:0 0 18px rgba(0,170,255,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gBlue), 0 0 50px rgba(42,215,255,.12);
 }
 .glow-gold::after{
-  box-shadow:0 0 18px rgba(255,200,80,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gGold), 0 0 50px rgba(255,210,74,.10);
 }
 .glow-pink::after{
-  box-shadow:0 0 18px rgba(255,80,200,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gPink), 0 0 50px rgba(255,77,216,.10);
 }
 .glow-red::after{
-  box-shadow:0 0 18px rgba(255,70,70,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gRed), 0 0 50px rgba(255,59,59,.09);
 }
 .glow-orange::after{
-  box-shadow:0 0 18px rgba(255,150,70,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gOrange), 0 0 50px rgba(255,155,47,.09);
 }
 .glow-cyan::after{
-  box-shadow:0 0 18px rgba(0,255,210,.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gCyan), 0 0 50px rgba(0,255,213,.10);
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .foot{
-  margin-top:12px;
+  text-align:center;
+  margin-top:8px;
+  padding-bottom:10px;
   font-size:12px;
-  letter-spacing:.25em;
-  color:rgba(255,255,255,.55);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.58);
+  text-shadow: 0 0 12px rgba(0,0,0,.35);
+}
+
+/* SMALL SCREENS */
+@media (max-width: 380px){
+  .title{font-size:36px}
+  .label{font-size:16px}
+  .btn{padding:14px 14px}
+  .menu{gap:10px}
 }
