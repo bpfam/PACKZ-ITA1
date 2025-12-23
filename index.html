@@ -2,75 +2,93 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PACKZ-ITA — Link Ufficiali</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- SFONDO + FUMO -->
-  <div class="bg" aria-hidden="true"></div>
-  <div class="smoke" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+  <!-- BG: fumo + vignetta + glow -->
+  <div class="bg" aria-hidden="true">
+    <div class="smoke s1"></div>
+    <div class="smoke s2"></div>
+    <div class="smoke s3"></div>
+    <div class="grain"></div>
+    <div class="vignette"></div>
+  </div>
 
   <main class="wrap">
     <header class="hero">
-      <div class="logo">
-        <img
-          src="https://i.postimg.cc/QNK5zXMn/6CB01DF3-F4DE-4AE3-A3EC-D799940FE32B.png"
-          alt="PACKZ-ITA"
-        />
-      </div>
+      <!-- Se vuoi un’immagine di sfondo/logo dietro al titolo, metti il tuo link qui -->
+      <div class="tag-bg" style="--tagImg:url('https://i.postimg.cc/QNK5zXMn/6CB01DF3_F4DE_4AE3_A3EC_D799940FE32B.png');"></div>
 
-      <h1 class="title">PACKZ-ITA <span class="flags">🇪🇸 🇮🇹</span></h1>
-      <p class="sub">LINK UFFICIALI • BCN 🇪🇸 — ITA 🇮🇹</p>
+      <h1 class="graffiti">
+        PACKZ-ITA 🇪🇸🇮🇹
+      </h1>
+      <p class="sub">
+        🔗 LINK UFFICIALI PACKZ-ITA 🇪🇸🇮🇹
+      </p>
     </header>
 
-    <section class="links">
-      <a class="btn btn-blue" target="_blank" rel="noopener"
-         href="https://signal.me/#eu/KZlpyX9M6SyZTbjUrmHIHyuRsOy-CRuRJbMgj4nA4t5d46OMdrJNw5tQwBj3L2_F">
-        <span class="icon">💬</span>
-        <span class="label">Signal Contact</span>
-        <span class="go">↗</span>
+    <section class="links" aria-label="Link Ufficiali">
+      <!-- 1) Signal Contact -->
+      <a class="btn" href="https://signal.me/#eu/KZlpyX9M6SyZTbjUrmHIHyuRsOy-CRuRJbMgj4nA4t5d46OMdrJNw5tQwBj3L2_F" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <img class="ico" alt="Signal" src="https://cdn.jsdelivr.net/npm/@svg-icons/simple-icons@1.86.0/signal.svg">
+          <span class="txt">Signal Contact</span>
+        </span>
+        <span class="chev">›</span>
       </a>
 
-      <a class="btn btn-gold" target="_blank" rel="noopener"
-         href="https://dympt.org/joinchat/VEbcqOewg8Yw_oFANNBPFQ">
-        <span class="icon">🥔</span>
-        <span class="label">Potato</span>
-        <span class="go">↗</span>
+      <!-- 2) Potato -->
+      <a class="btn" href="https://dympt.org/joinchat/VEbcqOewg8Yw_oFANNBPFQ" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <span class="ico-fallback" aria-hidden="true">🥔</span>
+          <span class="txt">Potato</span>
+        </span>
+        <span class="chev">›</span>
       </a>
 
-      <a class="btn btn-pink" target="_blank" rel="noopener"
-         href="https://www.instagram.com/packzita?igsh=MXRzM2M1cjBrbWZn">
-        <span class="icon">📸</span>
-        <span class="label">Instagram — PACKZ-ITA</span>
-        <span class="go">↗</span>
+      <!-- 3) Instagram -->
+      <a class="btn" href="https://www.instagram.com/packzita?igsh=MXRzM2M1cjBrbWZn" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <img class="ico" alt="Instagram" src="https://cdn.jsdelivr.net/npm/@svg-icons/simple-icons@1.86.0/instagram.svg">
+          <span class="txt">Instagram</span>
+        </span>
+        <span class="chev">›</span>
       </a>
 
-      <a class="btn btn-red" target="_blank" rel="noopener"
-         href="https://www.instagram.com/packzmediaita?igsh=aXIzNzFhd2M3Nmpv">
-        <span class="icon">🎞️</span>
-        <span class="label">Instagram — PACKZ MEDIA</span>
-        <span class="go">↗</span>
+      <!-- 4) Instagram PACKZMEDIA -->
+      <a class="btn" href="https://www.instagram.com/packzmediaita?igsh=aXIzNzFhd2M3Nmpv" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <img class="ico" alt="Instagram" src="https://cdn.jsdelivr.net/npm/@svg-icons/simple-icons@1.86.0/instagram.svg">
+          <span class="txt">Instagram — PACKZMEDIA</span>
+        </span>
+        <span class="chev">›</span>
       </a>
 
-      <a class="btn btn-amber" target="_blank" rel="noopener"
-         href="https://t.me/PACKZITA_bot">
-        <span class="icon">🤖</span>
-        <span class="label">BOT Telegram — PACKZ-ITA</span>
-        <span class="go">↗</span>
+      <!-- 5) BOT Telegram -->
+      <a class="btn" href="https://t.me/PACKZITA_bot" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <img class="ico" alt="Telegram" src="https://cdn.jsdelivr.net/npm/@svg-icons/simple-icons@1.86.0/telegram.svg">
+          <span class="txt">BOT Telegram</span>
+        </span>
+        <span class="chev">›</span>
       </a>
 
-      <a class="btn btn-cyan" target="_blank" rel="noopener"
-         href="https://t.me/PackzIta">
-        <span class="icon">✈️</span>
-        <span class="label">Telegram Contact</span>
-        <span class="go">↗</span>
+      <!-- 6) Telegram Contact -->
+      <a class="btn" href="https://t.me/PackzIta" target="_blank" rel="noopener">
+        <span class="btn-left">
+          <img class="ico" alt="Telegram" src="https://cdn.jsdelivr.net/npm/@svg-icons/simple-icons@1.86.0/telegram.svg">
+          <span class="txt">Telegram Contact</span>
+        </span>
+        <span class="chev">›</span>
       </a>
     </section>
 
-    <footer class="foot">🖤 PACKZ-ITA • OFFICIAL</footer>
+    <footer class="foot">
+      <span class="small">PACKZ-ITA • Official Links</span>
+    </footer>
   </main>
 </body>
 </html>
