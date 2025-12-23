@@ -1,313 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
 
 :root{
-  /* ✅ SFONDO GRAFFITI (quello grande) */
   --bgimg: url("https://i.postimg.cc/J7PgCMKr/85CE1498-FFEA-47F6-B3F2-051581195369.png");
 
-  --text: #f3f6ff;
-  --muted: rgba(255,255,255,.72);
+  --white: #f5f7ff;
+  --muted: rgba(255,255,255,.75);
 
-  --stroke: rgba(255,255,255,.14);
-  --glassA: rgba(12,12,18,.52);
-  --glassB: rgba(12,12,18,.24);
-
-  /* glow colors */
-  --blue:   #2ad7ff;
-  --cyan:   #00ffd5;
-  --gold:   #ffd24a;
+  --blue:   #3bbcff;
+  --gold:   #ffcc33;
   --pink:   #ff4dd8;
   --red:    #ff3b3b;
   --orange: #ff9b2f;
+  --cyan:   #00ffd5;
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-
-body{
+*{
+  box-sizing:border-box;
   margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color:var(--text);
-  background:#050509;
-
-  /* ✅ BLOCCA SCROLL */
-  height:100vh;
-  overflow:hidden;
-  overscroll-behavior:none;
-  touch-action: manipulation;
+  padding:0;
 }
 
-/* ✅ SFONDO FISSO (NON SI MUOVE) */
-.bg{
-  position:fixed; inset:0;
-  background-image: var(--bgimg);
-  background-size: cover;
-  background-position: center;
-  background-repeat:no-repeat;
-  background-attachment: fixed;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden; /* ❗ niente scroll */
+  font-family:Inter, system-ui, sans-serif;
+  background:#000;
+  color:var(--white);
+}
 
-  /* più “street” ma leggibile */
-  filter: saturate(1.15) contrast(1.08) brightness(0.88);
-  transform: scale(1.02);
+/* ===== BACKGROUND ===== */
+.bg{
+  position:fixed;
+  inset:0;
+  background-image: var(--bgimg);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
   z-index:-3;
 }
 
-/* leggero overlay colore (non copre lo sfondo) */
+/* scurisce un filo per leggibilità */
 .bg::after{
   content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(1200px 700px at 18% 18%, rgba(0,255,210,.14), transparent 62%),
-    radial-gradient(900px 700px at 85% 20%, rgba(255,60,180,.12), transparent 62%),
-    radial-gradient(900px 900px at 55% 92%, rgba(255,170,40,.10), transparent 64%),
-    linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.58));
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.65)
+  );
 }
 
-/* ✅ VIGNETTE come foto (ai bordi) */
-.vignette{
-  position:fixed; inset:-2px;
-  pointer-events:none;
-  z-index:-1;
-  background: radial-gradient(ellipse at center,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.28) 58%,
-    rgba(0,0,0,.78) 100%);
-}
-
-/* ✅ FUMO: POCO, solo atmosfera (non copre lo sfondo) */
+/* ===== FUMO LEGGERO ===== */
 .smoke{
-  position:fixed; inset:-35%;
-  z-index:-2;
+  position:fixed;
+  inset:-20%;
   pointer-events:none;
-  opacity:.32;                 /* 👈 meno fumo */
-  mix-blend-mode: screen;
-  filter: blur(22px);
+  z-index:-2;
   background:
-    radial-gradient(circle at 25% 30%, rgba(255,255,255,.14), transparent 58%),
-    radial-gradient(circle at 60% 35%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(circle at 40% 70%, rgba(255,255,255,.08), transparent 62%),
-    radial-gradient(circle at 80% 75%, rgba(255,255,255,.10), transparent 62%);
-  animation: smokeMove 20s linear infinite;
-}
-.smoke::after{
-  content:"";
-  position:absolute; inset:0;
-  opacity:.80;
-  background:
-    radial-gradient(circle at 20% 60%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(circle at 70% 50%, rgba(255,255,255,.08), transparent 62%),
-    radial-gradient(circle at 55% 15%, rgba(255,255,255,.10), transparent 58%);
-  filter: blur(24px);
-  animation: smokeMove2 26s linear infinite;
-}
-@keyframes smokeMove{
-  0%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.06)}
-  50%{transform:translate3d(3%, 2%, 0) rotate(5deg) scale(1.12)}
-  100%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.06)}
-}
-@keyframes smokeMove2{
-  0%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.08)}
-  50%{transform:translate3d(-3%, -2%, 0) rotate(-6deg) scale(1.14)}
-  100%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.08)}
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,.12), transparent 55%),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(circle at 50% 70%, rgba(255,255,255,.08), transparent 65%);
+  filter: blur(40px);
+  animation: smoke 20s ease-in-out infinite;
 }
 
-/* ✅ BLOCCO PRINCIPALE: tutto dentro lo schermo */
+@keyframes smoke{
+  0%{transform:translate(0,0)}
+  50%{transform:translate(-2%, -1%)}
+  100%{transform:translate(0,0)}
+}
+
+/* ===== CONTENITORE ===== */
 .wrap{
-  width:min(520px, 92vw);
-  margin:0 auto;
-  height:100vh;
-  padding: clamp(10px, 2vh, 18px) 0 clamp(10px, 2vh, 16px);
-
+  height:100%;
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
+  justify-content:center;
+  align-items:center;
+  padding:24px 16px;
 }
 
-/* ✅ NASCONDI CERCHIO/LOGO E TITOLO GRANDE (come richiesto) */
-.avatar{ display:none !important; }
-.title{ display:none !important; }
-
-/* Header minimal con scritta “si vede e non si vede” */
-.hero{
-  text-align:center;
-  padding: 6px 10px 10px;
-}
-
+/* ===== TESTO LINK ===== */
 .subtitle{
-  margin: 0;
-  font-size: 12px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.78);
-  opacity:.88;
-
-  /* “si vede e non si vede” */
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.55),
-    0 0 12px rgba(0,0,0,.55),
-    0 0 10px rgba(255,255,255,.10);
+  font-size:13px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:22px;
+  text-shadow:0 0 12px rgba(0,0,0,.7);
 }
 
-/* MENU */
+/* ===== MENU ===== */
 .menu{
+  width:100%;
+  max-width:420px;
   display:flex;
   flex-direction:column;
-  gap: clamp(10px, 1.8vh, 14px);
-  padding: 8px 10px 10px;
-  flex: 1; /* occupa lo spazio */
-  justify-content:center; /* centra i bottoni nello schermo */
+  gap:16px;
 }
 
-/* BOTTONI: più “Linktree in foto”, non giganti */
+/* ===== BOTTONI ===== */
 .btn{
   position:relative;
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
 
-  /* altezza più controllata */
-  padding: clamp(14px, 2vh, 18px) clamp(14px, 3vw, 18px);
-  border-radius: 22px;
-
+  padding:18px 20px;
+  border-radius:22px;
   text-decoration:none;
-  color: var(--text);
+  color:var(--white);
 
-  background: linear-gradient(90deg, var(--glassA), var(--glassB));
-  border: 1px solid var(--stroke);
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  overflow:hidden;
-  transform: translateZ(0);
-  transition: transform .16s ease, filter .16s ease;
-}
-
-/* shine */
-.btn::before{
-  content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(700px 140px at 20% 0%,
-      rgba(255,255,255,.20), transparent 60%),
-    linear-gradient(115deg,
-      transparent 0%,
-      rgba(255,255,255,.14) 35%,
-      transparent 70%);
-  opacity:.28;
-  transform: translateX(-30%);
-  transition: opacity .18s ease, transform .35s ease;
-}
-
-/* neon outline container */
-.btn::after{
-  content:"";
-  position:absolute; inset:-2px;
-  border-radius: 24px;
-  pointer-events:none;
-  opacity:.95;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 22px rgba(255,255,255,.08);
-}
-
-.btn:hover{
-  transform: translateY(-2px) scale(1.01);
-  filter: brightness(1.05);
-}
-.btn:hover::before{
-  opacity:.50;
-  transform: translateX(0%);
-}
-
-/* ICONS */
-.ico{
-  width:24px; height:24px;
-  flex:0 0 24px;
-
-  /* base: chiaro + glow */
-  filter: invert(1) drop-shadow(0 0 10px rgba(255,255,255,.22));
-  opacity:.95;
-}
-.emoji{
-  width:24px;
-  text-align:center;
-  font-size:20px;
-  line-height:1;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.20));
-}
-
-.label{
-  font-weight:800;
-  letter-spacing:.04em;
-  font-size: clamp(15px, 3.8vw, 18px);
-}
-
-.arrow{
-  margin-left:auto;
-  font-size:18px;
-  opacity:.92;
-  text-shadow: 0 0 10px rgba(255,255,255,.18);
-}
-
-/* ✅ ICONA “più colorata” (senza cambiare HTML) */
-.glow-blue .ico{ filter: invert(1) saturate(5) hue-rotate(190deg) drop-shadow(0 0 12px rgba(42,215,255,.35)); }
-.glow-pink .ico{ filter: invert(1) saturate(6) hue-rotate(300deg) drop-shadow(0 0 12px rgba(255,77,216,.35)); }
-.glow-red  .ico{ filter: invert(1) saturate(6) hue-rotate(340deg) drop-shadow(0 0 12px rgba(255,59,59,.30)); }
-.glow-orange .ico{ filter: invert(1) saturate(6) hue-rotate(25deg) drop-shadow(0 0 12px rgba(255,155,47,.30)); }
-.glow-cyan .ico{ filter: invert(1) saturate(6) hue-rotate(160deg) drop-shadow(0 0 12px rgba(0,255,213,.32)); }
-
-/* ✅ GLOW per bottone (stile foto) */
-.glow-blue::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(42,215,255,.55),
-    0 0 64px rgba(42,215,255,.26);
-}
-.glow-gold::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(255,210,74,.55),
-    0 0 64px rgba(255,210,74,.22);
-}
-.glow-pink::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(255,77,216,.55),
-    0 0 64px rgba(255,77,216,.22);
-}
-.glow-red::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(255,59,59,.55),
-    0 0 64px rgba(255,59,59,.20);
-}
-.glow-orange::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(255,155,47,.55),
-    0 0 64px rgba(255,155,47,.20);
-}
-.glow-cyan::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(0,255,213,.55),
-    0 0 64px rgba(0,255,213,.22);
-}
-
-/* Footer minimal */
-.foot{
-  text-align:center;
-  margin: 6px 0 0;
-  font-size: 11px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.60);
-  text-shadow: 0 0 12px rgba(0,0,0,.55);
-}
-
-/* iPhone piccoli */
-@media (max-width: 380px){
-  .menu{ gap:10px; }
-  .btn{ border-radius:20px; }
-  .label{ font-size:15px; }
-}
+  background:rgba(10,10,14,.55);
+  backdrop-filter:blur
