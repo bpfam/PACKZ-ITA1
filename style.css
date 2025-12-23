@@ -1,24 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;600;800&display=swap');
 
 :root{
-  /* SFONDO */
   --bgimg: url("https://i.postimg.cc/J7PgCMKr/85CE1498-FFEA-47F6-B3F2-051581195369.png");
 
-  --text: #f3f6ff;
-  --muted: rgba(255,255,255,.72);
+  --text:#f3f6ff;
+  --muted:rgba(255,255,255,.74);
 
-  /* base glass (più invisibile) */
-  --glassA: rgba(10,10,14,.30);
-  --glassB: rgba(10,10,14,.16);
+  /* bottoni più “invisibili” */
+  --glassA: rgba(10,10,14,.22);
+  --glassB: rgba(10,10,14,.10);
   --stroke: rgba(255,255,255,.10);
 
-  /* glow (più soft, non invade) */
-  --gBlue:   rgba(42,215,255,.38);
-  --gGold:   rgba(255,210,74,.32);
-  --gPink:   rgba(255,77,216,.34);
-  --gRed:    rgba(255,59,59,.30);
-  --gOrange: rgba(255,155,47,.30);
-  --gCyan:   rgba(0,255,213,.34);
+  /* glow leggero (non copre lo sfondo) */
+  --gBlue:   rgba(42,215,255,.30);
+  --gGold:   rgba(255,210,74,.26);
+  --gPink:   rgba(255,77,216,.26);
+  --gRed:    rgba(255,59,59,.22);
+  --gOrange: rgba(255,155,47,.22);
+  --gCyan:   rgba(0,255,213,.26);
 }
 
 *{box-sizing:border-box}
@@ -28,75 +27,70 @@ body{
   color:var(--text);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background:#050509;
-
-  /* pagina ferma */
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
-/* blocca scroll laterale su iOS */
-html, body { overflow-x:hidden; }
-
-/* --- BACKGROUND --- */
+/* --- BACKGROUND (più “lontano” e più visibile) --- */
 .bg{
   position:fixed; inset:0;
   background-image: var(--bgimg);
-  background-size: cover;
-  background-position: center;
   background-repeat:no-repeat;
 
-  /* più “vivo” ma non bruciato */
-  filter: saturate(1.25) contrast(1.10) brightness(0.92);
-  transform: scale(1.02);
+  /* “allontana la telecamera”: cover ma meno zoom, spostato un pelo in alto */
+  background-size: 110%;
+  background-position: center 35%;
+
+  filter: saturate(1.22) contrast(1.10) brightness(0.96);
   z-index:-3;
 }
 
-/* overlay: meno scuro, lascia vedere il graffiti */
+/* overlay: meno scuro per far vedere l’immagine */
 .bg::after{
   content:"";
   position:absolute; inset:0;
   background:
-    radial-gradient(1100px 650px at 20% 15%, rgba(0,255,210,.14), transparent 60%),
-    radial-gradient(900px 700px  at 82% 22%, rgba(255,60,180,.12), transparent 62%),
-    radial-gradient(900px 900px  at 60% 92%, rgba(255,170,40,.10), transparent 65%),
-    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.60));
+    radial-gradient(1100px 650px at 18% 18%, rgba(0,255,210,.10), transparent 62%),
+    radial-gradient(900px 700px  at 82% 22%, rgba(255,60,180,.08), transparent 64%),
+    radial-gradient(900px 900px  at 60% 92%, rgba(255,170,40,.07), transparent 66%),
+    linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.52));
 }
 
-/* vignette */
+/* vignette più soft */
 .vignette{
   position:fixed; inset:-2px;
   background: radial-gradient(ellipse at center,
     rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.22) 55%,
-    rgba(0,0,0,.72) 100%);
+    rgba(0,0,0,.18) 55%,
+    rgba(0,0,0,.62) 100%);
   z-index:-1;
   pointer-events:none;
 }
 
-/* fumo: presente ma NON copre l’immagine */
+/* fumo: presente ma NON copre */
 .smoke{
   position:fixed; inset:-35%;
   z-index:-2;
   pointer-events:none;
-  opacity:.48;                /* ↓ meno fumo */
+  opacity:.30;
   mix-blend-mode: screen;
   background:
-    radial-gradient(circle at 22% 32%, rgba(255,255,255,.14), transparent 58%),
-    radial-gradient(circle at 64% 34%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(circle at 40% 72%, rgba(255,255,255,.09), transparent 62%),
-    radial-gradient(circle at 82% 78%, rgba(255,255,255,.10), transparent 62%);
-  filter: blur(24px);
-  animation: smokeMove 20s linear infinite;
+    radial-gradient(circle at 22% 32%, rgba(255,255,255,.12), transparent 60%),
+    radial-gradient(circle at 64% 34%, rgba(255,255,255,.08), transparent 62%),
+    radial-gradient(circle at 40% 72%, rgba(255,255,255,.07), transparent 64%),
+    radial-gradient(circle at 82% 78%, rgba(255,255,255,.08), transparent 64%);
+  filter: blur(22px);
+  animation: smokeMove 22s linear infinite;
 }
 .smoke::after{
   content:"";
   position:absolute; inset:0;
   background:
-    radial-gradient(circle at 18% 62%, rgba(255,255,255,.11), transparent 60%),
-    radial-gradient(circle at 72% 52%, rgba(255,255,255,.08), transparent 62%),
-    radial-gradient(circle at 55% 16%, rgba(255,255,255,.10), transparent 58%);
-  filter: blur(26px);
-  animation: smokeMove2 24s linear infinite;
-  opacity:.82;
+    radial-gradient(circle at 18% 62%, rgba(255,255,255,.09), transparent 62%),
+    radial-gradient(circle at 72% 52%, rgba(255,255,255,.06), transparent 64%),
+    radial-gradient(circle at 55% 16%, rgba(255,255,255,.08), transparent 60%);
+  filter: blur(24px);
+  animation: smokeMove2 26s linear infinite;
+  opacity:.80;
 }
 @keyframes smokeMove{
   0%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.03)}
@@ -109,85 +103,70 @@ html, body { overflow-x:hidden; }
   100%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.05)}
 }
 
-/* --- LAYOUT (tutto dentro lo schermo) --- */
+/* --- LAYOUT --- */
 .wrap{
   width:min(520px, 92vw);
-  height:100vh;
   margin:0 auto;
-  padding:14px 0 14px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
+  padding:18px 0 18px;
 }
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:6px 10px 8px; /* ↓ più compatto */
+  padding:8px 10px 14px;
 }
 
-/* avatar (se lo usi) */
-.avatar{
-  width:84px; height:84px;
-  margin:2px auto 8px;
-  border-radius:999px;
-  padding:3px;
-  background: conic-gradient(from 90deg,
-    rgba(0,255,210,.75),
-    rgba(255,60,180,.70),
-    rgba(255,170,40,.65),
-    rgba(0,255,210,.75));
-  box-shadow:
-    0 0 18px rgba(0,255,210,.25),
-    0 0 20px rgba(255,60,180,.16);
-}
-.avatar img{
-  width:100%; height:100%;
-  border-radius:999px;
-  display:block;
-  object-fit:cover;
-  background:#0b0b10;
-}
-
-/* TITOLI (se presenti) */
+/* TITOLO GRAFFITI (più “street”) */
 .title{
   margin:0;
   font-family:"Permanent Marker", system-ui, sans-serif;
-  font-size:40px;
+  font-size:42px;
   letter-spacing:2px;
   text-transform:uppercase;
   line-height:1.02;
-  color:#f6f2e6;
-
-  /* più street, meno “neon pulito” */
+  color:#f3ead7;
   text-shadow:
-    0 2px 0 rgba(0,0,0,.75),
-    1px 1px 0 rgba(0,0,0,.45),
+    0 2px 0 rgba(0,0,0,.78),
+    1px 1px 0 rgba(0,0,0,.55),
     -1px 1px 0 rgba(0,0,0,.35),
     0 0 10px rgba(0,0,0,.35);
 }
 
-/* effetto “sporco/grunge” (opzionale)
-   -> se vuoi, metti: <h1 class="title graffiti"> */
+/* drip / colature (effetto) */
 .title.graffiti{
   position:relative;
+  display:inline-block;
+}
+.title.graffiti::before{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  color:transparent;
+  -webkit-text-stroke: 6px rgba(0,0,0,.72);
+  text-stroke: 6px rgba(0,0,0,.72);
+  filter: blur(.2px);
+  z-index:-1;
 }
 .title.graffiti::after{
   content:"";
-  position:absolute; inset:-6px -10px;
+  position:absolute;
+  left:6%;
+  right:6%;
+  top:100%;
+  height:26px;
   background:
-    radial-gradient(10px 10px at 12% 55%, rgba(0,0,0,.28), transparent 55%),
-    radial-gradient(9px 9px   at 38% 40%, rgba(0,0,0,.22), transparent 55%),
-    radial-gradient(11px 11px at 64% 62%, rgba(0,0,0,.24), transparent 55%),
-    radial-gradient(10px 10px at 84% 46%, rgba(0,0,0,.20), transparent 55%);
-  mix-blend-mode:multiply;
+    radial-gradient(12px 18px at 10% 20%, rgba(0,0,0,.75), transparent 65%),
+    radial-gradient(10px 22px at 28% 0%,  rgba(0,0,0,.70), transparent 65%),
+    radial-gradient(14px 26px at 52% 10%, rgba(0,0,0,.72), transparent 65%),
+    radial-gradient(9px 18px  at 74% 0%,  rgba(0,0,0,.68), transparent 65%),
+    radial-gradient(12px 22px at 90% 18%, rgba(0,0,0,.72), transparent 65%);
+  opacity:.55;
+  filter: blur(.6px);
   pointer-events:none;
-  opacity:.65;
-  filter: blur(.2px);
 }
 
 .subtitle{
-  margin:6px 0 0;
+  margin:8px 0 0;
   font-size:13px;
   letter-spacing:.16em;
   text-transform:uppercase;
@@ -195,29 +174,30 @@ html, body { overflow-x:hidden; }
   text-shadow: 0 0 10px rgba(0,0,0,.55);
 }
 
-/* --- BUTTONS --- */
+/* --- MENU: BOTTONI CENTRATI --- */
 .menu{
   display:flex;
   flex-direction:column;
-  gap:12px;                 /* ↓ un filo meno */
-  padding:8px 10px 0;
-  flex:1;
-  justify-content:flex-start;
+  align-items:center;            /* ✅ centra */
+  gap:14px;
+  padding:6px 10px 0;
 }
 
 .btn{
+  width:min(460px, 100%);        /* ✅ non “a sinistra”, sempre centrato */
+  margin:0 auto;
+
   position:relative;
   display:flex;
   align-items:center;
   gap:12px;
 
-  padding:16px 16px;        /* ↓ più compatto */
-  border-radius:22px;
+  padding:16px 16px;
+  border-radius:24px;
 
   text-decoration:none;
   color:var(--text);
 
-  /* più invisibili */
   background: linear-gradient(90deg, var(--glassA), var(--glassB));
   border:1px solid var(--stroke);
 
@@ -228,27 +208,27 @@ html, body { overflow-x:hidden; }
   overflow:hidden;
 }
 
-/* shine più leggero */
+/* shine soft */
 .btn::before{
   content:"";
   position:absolute; inset:0;
   background:
     radial-gradient(650px 120px at 18% 0%,
-      rgba(255,255,255,.12), transparent 60%),
+      rgba(255,255,255,.10), transparent 60%),
     linear-gradient(115deg,
       transparent 0%,
-      rgba(255,255,255,.10) 35%,
+      rgba(255,255,255,.08) 35%,
       transparent 70%);
-  opacity:.22;
+  opacity:.20;
   transform: translateX(-28%);
   transition: opacity .16s ease, transform .30s ease;
 }
 
-/* contorno glow più soft */
+/* glow */
 .btn::after{
   content:"";
   position:absolute; inset:-2px;
-  border-radius:24px;
+  border-radius:26px;
   pointer-events:none;
   box-shadow:
     0 0 0 1px rgba(255,255,255,.09),
@@ -256,22 +236,14 @@ html, body { overflow-x:hidden; }
   opacity:.92;
 }
 
-.btn:hover{
-  transform: translateY(-2px);
-  filter: brightness(1.03);
-}
-.btn:hover::before{
-  opacity:.35;
-  transform: translateX(0%);
-}
+.btn:hover{transform: translateY(-2px); filter: brightness(1.03);}
+.btn:hover::before{opacity:.32; transform: translateX(0%);}
 
-/* ICONS (colorate) */
+/* icone colorate */
 .ico{
   width:22px; height:22px;
   flex:0 0 22px;
   opacity:.95;
-
-  /* niente invert -> se usi icone colorate restano colorate */
   filter: drop-shadow(0 0 10px rgba(0,0,0,.25));
 }
 .emoji{
@@ -288,48 +260,25 @@ html, body { overflow-x:hidden; }
   font-size:18px;
 }
 
-/* freccia più discreta */
+/* freccia più leggera */
 .arrow{
   margin-left:auto;
   font-size:16px;
   opacity:.55;
-  transform: translateY(-.5px);
-  text-shadow:none;
 }
 
-/* micro-variazioni per “staccare” i bottoni (quasi invisibili) */
-.glow-blue   { background: linear-gradient(90deg, rgba(10,10,14,.26), rgba(10,10,14,.14)); }
-.glow-gold   { background: linear-gradient(90deg, rgba(12,10,14,.26), rgba(10,10,14,.14)); }
-.glow-pink   { background: linear-gradient(90deg, rgba(12,10,14,.24), rgba(10,10,14,.14)); }
-.glow-red    { background: linear-gradient(90deg, rgba(12,10,10,.24), rgba(10,10,14,.14)); }
-.glow-orange { background: linear-gradient(90deg, rgba(12,10,10,.24), rgba(10,10,14,.14)); }
-.glow-cyan   { background: linear-gradient(90deg, rgba(10,12,14,.24), rgba(10,10,14,.14)); }
+/* glow per bottone (delicato) */
+.glow-blue::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gBlue);}
+.glow-gold::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gGold);}
+.glow-pink::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gPink);}
+.glow-red::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gRed);}
+.glow-orange::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gOrange);}
+.glow-cyan::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gCyan);}
 
-/* glow esterno (più delicato -> non copre lo sfondo) */
-.glow-blue::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gBlue), 0 0 50px rgba(42,215,255,.12);
-}
-.glow-gold::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gGold), 0 0 50px rgba(255,210,74,.10);
-}
-.glow-pink::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gPink), 0 0 50px rgba(255,77,216,.10);
-}
-.glow-red::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gRed), 0 0 50px rgba(255,59,59,.09);
-}
-.glow-orange::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gOrange), 0 0 50px rgba(255,155,47,.09);
-}
-.glow-cyan::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 0 26px var(--gCyan), 0 0 50px rgba(0,255,213,.10);
-}
-
-/* FOOTER */
+/* footer */
 .foot{
   text-align:center;
-  margin-top:8px;
-  padding-bottom:10px;
+  margin-top:14px;
   font-size:12px;
   letter-spacing:.22em;
   text-transform:uppercase;
@@ -337,10 +286,10 @@ html, body { overflow-x:hidden; }
   text-shadow: 0 0 12px rgba(0,0,0,.35);
 }
 
-/* SMALL SCREENS */
+/* small screens */
 @media (max-width: 380px){
   .title{font-size:36px}
   .label{font-size:16px}
   .btn{padding:14px 14px}
-  .menu{gap:10px}
+  .menu{gap:12px}
 }
