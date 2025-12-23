@@ -1,295 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;600;800&display=swap');
+/* =========================
+   A) TITLE DRIP (graffiti)
+   ========================= */
 
-:root{
-  --bgimg: url("https://i.postimg.cc/J7PgCMKr/85CE1498-FFEA-47F6-B3F2-051581195369.png");
-
-  --text:#f3f6ff;
-  --muted:rgba(255,255,255,.74);
-
-  /* bottoni più “invisibili” */
-  --glassA: rgba(10,10,14,.22);
-  --glassB: rgba(10,10,14,.10);
-  --stroke: rgba(255,255,255,.10);
-
-  /* glow leggero (non copre lo sfondo) */
-  --gBlue:   rgba(42,215,255,.30);
-  --gGold:   rgba(255,210,74,.26);
-  --gPink:   rgba(255,77,216,.26);
-  --gRed:    rgba(255,59,59,.22);
-  --gOrange: rgba(255,155,47,.22);
-  --gCyan:   rgba(0,255,213,.26);
-}
-
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  color:var(--text);
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background:#050509;
-  overflow-x:hidden;
-}
-
-/* --- BACKGROUND (più “lontano” e più visibile) --- */
-.bg{
-  position:fixed; inset:0;
-  background-image: var(--bgimg);
-  background-repeat:no-repeat;
-
-  /* “allontana la telecamera”: cover ma meno zoom, spostato un pelo in alto */
-  background-size: 110%;
-  background-position: center 35%;
-
-  filter: saturate(1.22) contrast(1.10) brightness(0.96);
-  z-index:-3;
-}
-
-/* overlay: meno scuro per far vedere l’immagine */
-.bg::after{
-  content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(1100px 650px at 18% 18%, rgba(0,255,210,.10), transparent 62%),
-    radial-gradient(900px 700px  at 82% 22%, rgba(255,60,180,.08), transparent 64%),
-    radial-gradient(900px 900px  at 60% 92%, rgba(255,170,40,.07), transparent 66%),
-    linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.52));
-}
-
-/* vignette più soft */
-.vignette{
-  position:fixed; inset:-2px;
-  background: radial-gradient(ellipse at center,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.18) 55%,
-    rgba(0,0,0,.62) 100%);
-  z-index:-1;
-  pointer-events:none;
-}
-
-/* fumo: presente ma NON copre */
-.smoke{
-  position:fixed; inset:-35%;
-  z-index:-2;
-  pointer-events:none;
-  opacity:.30;
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(circle at 22% 32%, rgba(255,255,255,.12), transparent 60%),
-    radial-gradient(circle at 64% 34%, rgba(255,255,255,.08), transparent 62%),
-    radial-gradient(circle at 40% 72%, rgba(255,255,255,.07), transparent 64%),
-    radial-gradient(circle at 82% 78%, rgba(255,255,255,.08), transparent 64%);
-  filter: blur(22px);
-  animation: smokeMove 22s linear infinite;
-}
-.smoke::after{
-  content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(circle at 18% 62%, rgba(255,255,255,.09), transparent 62%),
-    radial-gradient(circle at 72% 52%, rgba(255,255,255,.06), transparent 64%),
-    radial-gradient(circle at 55% 16%, rgba(255,255,255,.08), transparent 60%);
-  filter: blur(24px);
-  animation: smokeMove2 26s linear infinite;
-  opacity:.80;
-}
-@keyframes smokeMove{
-  0%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.03)}
-  50%{transform:translate3d(2%, 1.6%, 0) rotate(5deg) scale(1.08)}
-  100%{transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1.03)}
-}
-@keyframes smokeMove2{
-  0%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.05)}
-  50%{transform:translate3d(-2.6%, -1.8%, 0) rotate(-6deg) scale(1.10)}
-  100%{transform:translate3d(2%, 1%, 0) rotate(0deg) scale(1.05)}
-}
-
-/* --- LAYOUT --- */
-.wrap{
-  width:min(520px, 92vw);
-  margin:0 auto;
-  padding:18px 0 18px;
-}
-
-/* HERO */
-.hero{
-  text-align:center;
-  padding:8px 10px 14px;
-}
-
-/* TITOLO GRAFFITI (più “street”) */
-.title{
-  margin:0;
-  font-family:"Permanent Marker", system-ui, sans-serif;
-  font-size:42px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  line-height:1.02;
-  color:#f3ead7;
+.title.drip{
+  position: relative;
+  display: inline-block;
+  padding: 2px 8px 16px;
+  color: #e9e1d3;
   text-shadow:
-    0 2px 0 rgba(0,0,0,.78),
-    1px 1px 0 rgba(0,0,0,.55),
-    -1px 1px 0 rgba(0,0,0,.35),
-    0 0 10px rgba(0,0,0,.35);
+    2px 2px 0 #000,
+    4px 4px 0 rgba(0,0,0,.55),
+    0 10px 22px rgba(0,0,0,.75);
+  filter: contrast(1.08) saturate(0.95);
 }
 
-/* drip / colature (effetto) */
-.title.graffiti{
-  position:relative;
-  display:inline-block;
-}
-.title.graffiti::before{
-  content:attr(data-text);
-  position:absolute;
-  inset:0;
-  color:transparent;
-  -webkit-text-stroke: 6px rgba(0,0,0,.72);
-  text-stroke: 6px rgba(0,0,0,.72);
-  filter: blur(.2px);
-  z-index:-1;
-}
-.title.graffiti::after{
-  content:"";
-  position:absolute;
-  left:6%;
-  right:6%;
-  top:100%;
-  height:26px;
-  background:
-    radial-gradient(12px 18px at 10% 20%, rgba(0,0,0,.75), transparent 65%),
-    radial-gradient(10px 22px at 28% 0%,  rgba(0,0,0,.70), transparent 65%),
-    radial-gradient(14px 26px at 52% 10%, rgba(0,0,0,.72), transparent 65%),
-    radial-gradient(9px 18px  at 74% 0%,  rgba(0,0,0,.68), transparent 65%),
-    radial-gradient(12px 22px at 90% 18%, rgba(0,0,0,.72), transparent 65%);
-  opacity:.55;
-  filter: blur(.6px);
+/* “vernice sporca” sopra */
+.title.drip::before{
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #e9e1d3;
+  opacity: .35;
+  filter: blur(.6px) contrast(1.2);
+  transform: translate(1px, 1px);
+  mix-blend-mode: overlay;
   pointer-events:none;
 }
 
-.subtitle{
-  margin:8px 0 0;
-  font-size:13px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
-  text-shadow: 0 0 10px rgba(0,0,0,.55);
-}
+/* colature sotto (drip) */
+.title.drip::after{
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 100%;
+  height: 22px;
 
-/* --- MENU: BOTTONI CENTRATI --- */
-.menu{
-  display:flex;
-  flex-direction:column;
-  align-items:center;            /* ✅ centra */
-  gap:14px;
-  padding:6px 10px 0;
-}
-
-.btn{
-  width:min(460px, 100%);        /* ✅ non “a sinistra”, sempre centrato */
-  margin:0 auto;
-
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  padding:16px 16px;
-  border-radius:24px;
-
-  text-decoration:none;
-  color:var(--text);
-
-  background: linear-gradient(90deg, var(--glassA), var(--glassB));
-  border:1px solid var(--stroke);
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  transition: transform .14s ease, filter .14s ease;
-  overflow:hidden;
-}
-
-/* shine soft */
-.btn::before{
-  content:"";
-  position:absolute; inset:0;
   background:
-    radial-gradient(650px 120px at 18% 0%,
-      rgba(255,255,255,.10), transparent 60%),
-    linear-gradient(115deg,
-      transparent 0%,
-      rgba(255,255,255,.08) 35%,
-      transparent 70%);
-  opacity:.20;
-  transform: translateX(-28%);
-  transition: opacity .16s ease, transform .30s ease;
+    radial-gradient(circle at 8% 0%, rgba(0,0,0,.85) 0 5px, transparent 6px),
+    radial-gradient(circle at 22% 0%, rgba(0,0,0,.85) 0 4px, transparent 5px),
+    radial-gradient(circle at 46% 0%, rgba(0,0,0,.85) 0 6px, transparent 7px),
+    radial-gradient(circle at 74% 0%, rgba(0,0,0,.85) 0 4px, transparent 5px),
+    radial-gradient(circle at 92% 0%, rgba(0,0,0,.85) 0 5px, transparent 6px),
+
+    linear-gradient(to bottom,
+      rgba(0,0,0,.85) 0 7px,
+      rgba(0,0,0,.55) 8px,
+      rgba(0,0,0,0) 100%);
+
+  filter: blur(.15px);
+  opacity: .55;
+  pointer-events:none;
 }
 
-/* glow */
+/* =========================
+   B) BUTTON EDGE GLOW (soft)
+   ========================= */
+
+/* assegna colore glow per ogni bottone */
+.glow-blue   { --g: rgba(42,215,255,.55); }
+.glow-gold   { --g: rgba(255,210,74,.55); }
+.glow-pink   { --g: rgba(255,77,216,.55); }
+.glow-red    { --g: rgba(255,59,59,.55); }
+.glow-orange { --g: rgba(255,155,47,.55); }
+.glow-cyan   { --g: rgba(0,255,213,.55); }
+
+/* bottoni più “invisibili” ma con bordo neon elegante */
+.btn{
+  background: rgba(12,12,14,.30) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
+}
+
 .btn::after{
   content:"";
-  position:absolute; inset:-2px;
-  border-radius:26px;
+  position:absolute;
+  inset:-2px;
+  border-radius:22px;
   pointer-events:none;
+  opacity:.85;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.09),
-    0 0 18px rgba(255,255,255,.05);
-  opacity:.92;
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 22px rgba(0,0,0,.35),
+    0 0 22px var(--g, rgba(255,255,255,.10));
 }
 
-.btn:hover{transform: translateY(-2px); filter: brightness(1.03);}
-.btn:hover::before{opacity:.32; transform: translateX(0%);}
-
-/* icone colorate */
-.ico{
-  width:22px; height:22px;
-  flex:0 0 22px;
-  opacity:.95;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,.25));
-}
-.emoji{
-  width:22px;
-  text-align:center;
-  font-size:20px;
-  line-height:1;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,.25));
+/* niente pulse forte: solo un respiro leggero */
+.btn:hover::after{
+  opacity: .95;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(0,0,0,.38),
+    0 0 26px var(--g, rgba(255,255,255,.12));
 }
 
-.label{
-  font-weight:800;
-  letter-spacing:.06em;
-  font-size:18px;
+/* =========================
+   C) SIDE SMOKE (non copre logo)
+   ========================= */
+
+/* spegni il fumo “a schermo pieno” (se lo avevi troppo invadente) */
+.smoke{
+  opacity: .0 !important;
 }
 
-/* freccia più leggera */
-.arrow{
-  margin-left:auto;
-  font-size:16px;
-  opacity:.55;
+/* fumo solo ai lati */
+body::before,
+body::after{
+  content:"";
+  position: fixed;
+  top: -10%;
+  bottom: -10%;
+  width: 42vw;
+  pointer-events:none;
+  z-index: -1;
+  filter: blur(22px);
+  opacity: .38;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(circle at 60% 55%, rgba(255,255,255,.12), transparent 62%),
+    radial-gradient(circle at 35% 85%, rgba(255,255,255,.10), transparent 64%);
+  animation: sideSmoke 18s ease-in-out infinite;
 }
 
-/* glow per bottone (delicato) */
-.glow-blue::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gBlue);}
-.glow-gold::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gGold);}
-.glow-pink::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gPink);}
-.glow-red::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gRed);}
-.glow-orange::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gOrange);}
-.glow-cyan::after{box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 22px var(--gCyan);}
-
-/* footer */
-.foot{
-  text-align:center;
-  margin-top:14px;
-  font-size:12px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.58);
-  text-shadow: 0 0 12px rgba(0,0,0,.35);
+/* sinistra */
+body::before{
+  left: -12vw;
+  transform: rotate(-6deg);
 }
 
-/* small screens */
-@media (max-width: 380px){
-  .title{font-size:36px}
-  .label{font-size:16px}
-  .btn{padding:14px 14px}
-  .menu{gap:12px}
+/* destra */
+body::after{
+  right: -12vw;
+  transform: rotate(6deg);
+  animation-delay: -6s;
+}
+
+@keyframes sideSmoke{
+  0%   { transform: translateY(0) scale(1.02) rotate(var(--r,0deg)); }
+  50%  { transform: translateY(12px) scale(1.08) rotate(var(--r,0deg)); }
+  100% { transform: translateY(0) scale(1.02) rotate(var(--r,0deg)); }
 }
