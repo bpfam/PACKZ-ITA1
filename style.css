@@ -1,14 +1,8 @@
 :root{
-  --bg1:#05060a;
-  --bg2:#0a0f18;
-  --txt:#eaf2ff;
-  --muted:#a7b3c7;
-
-  --neon:#00eaff;
-  --neon2:#8a2be2;
-
-  --card: rgba(10,14,18,.72);
-  --stroke: rgba(255,255,255,.12);
+  --txt:#eef3ff;
+  --muted: rgba(240,245,255,.72);
+  --card: rgba(9,12,16,.62);
+  --stroke: rgba(255,255,255,.14);
 }
 
 *{box-sizing:border-box}
@@ -20,127 +14,177 @@ body{
   background:#000;
 }
 
-/* BACKGROUND */
+/* SFONDO (tua immagine 1 + overlay) */
 .bg{
-  position:fixed; inset:0; z-index:-1;
-  background: radial-gradient(1200px 700px at 50% 25%, #101a2a 0%, var(--bg1) 55%, #000 100%);
-}
-.smoke{
-  position:absolute; inset:-25%;
+  position:fixed; inset:0; z-index:-3;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(circle at 60% 40%, rgba(0,234,255,.12), transparent 58%),
-    radial-gradient(circle at 40% 70%, rgba(138,43,226,.10), transparent 60%);
-  filter: blur(18px);
-  opacity:.9;
-  animation: drift 14s ease-in-out infinite;
+    radial-gradient(900px 700px at 50% 20%, rgba(40,60,90,.55), rgba(0,0,0,.92) 70%),
+    url("https://i.postimg.cc/QNK5zXMn/6CB01DF3_F4DE_4AE3_A3EC_D799940FE32B.png");
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.1) contrast(1.05);
+  opacity:.30; /* <- qui decidi quanto deve vedersi sotto */
+}
+
+/* FUMO */
+.smoke{
+  position:fixed; inset:-25%; z-index:-2;
+  background:
+    radial-gradient(circle at 15% 30%, rgba(255,255,255,.14), transparent 60%),
+    radial-gradient(circle at 70% 35%, rgba(0,220,255,.18), transparent 58%),
+    radial-gradient(circle at 45% 75%, rgba(255,60,180,.16), transparent 60%),
+    radial-gradient(circle at 60% 80%, rgba(255,160,0,.14), transparent 60%);
+  filter: blur(22px);
   mix-blend-mode: screen;
+  opacity:.55;
+  animation: drift 13s ease-in-out infinite;
 }
 @keyframes drift{
   0%{transform:translate(-2%, -1%) scale(1.05)}
   50%{transform:translate(2%, 2%) scale(1.12)}
   100%{transform:translate(-2%, -1%) scale(1.05)}
 }
-.grain{
-  position:absolute; inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
-  opacity:.22;
-  mix-blend-mode: overlay;
-  pointer-events:none;
-}
+
+/* VIGNETTE */
 .vignette{
-  position:absolute; inset:0;
-  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(0,0,0,.70) 100%);
-  pointer-events:none;
+  position:fixed; inset:0; z-index:-1;
+  background: radial-gradient(circle at 50% 35%, transparent 35%, rgba(0,0,0,.78) 100%);
 }
 
 /* LAYOUT */
 .wrap{
-  width:min(720px, 92vw);
+  width:min(760px, 92vw);
   margin:0 auto;
-  padding: 26px 0 40px;
+  padding: 28px 0 44px;
 }
 
 .hero{
   text-align:center;
-  padding: 10px 12px 14px;
+  padding: 6px 10px 10px;
 }
-.title{
-  margin: 10px 0 6px;
-  font-weight: 900;
-  letter-spacing:.4px;
-  font-size: clamp(30px, 5vw, 44px);
-  text-transform: uppercase;
 
-  /* glow più forte */
-  text-shadow:
-    0 0 10px rgba(0,234,255,.65),
-    0 0 22px rgba(0,234,255,.35),
-    0 0 30px rgba(138,43,226,.28),
-    0 10px 25px rgba(0,0,0,.65);
+.avatar{
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  padding: 4px;
+  background: linear-gradient(90deg, rgba(0,220,255,.85), rgba(255,80,200,.85), rgba(255,160,0,.85));
+  box-shadow:
+    0 0 26px rgba(0,220,255,.30),
+    0 0 30px rgba(255,80,200,.20),
+    0 22px 40px rgba(0,0,0,.65);
 }
+.avatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  border-radius: 999px;
+  background: rgba(0,0,0,.35);
+}
+
+.title{
+  margin: 6px 0 6px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: clamp(28px, 5vw, 44px);
+  text-shadow:
+    0 0 10px rgba(0,220,255,.55),
+    0 0 24px rgba(0,220,255,.28),
+    0 0 34px rgba(255,80,200,.18),
+    0 12px 26px rgba(0,0,0,.75);
+}
+
 .subtitle{
   margin:0;
-  color: var(--muted);
   font-weight: 800;
-  text-shadow: 0 0 14px rgba(0,234,255,.25);
+  color: var(--muted);
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  font-size: 12px;
+  text-shadow: 0 0 16px rgba(0,220,255,.18);
 }
 
 /* BOTTONI */
 .menu{
-  margin-top: 14px;
+  margin-top: 18px;
   display:grid;
-  gap: 12px;
+  gap: 14px;
   padding: 0 10px;
 }
 
 .btn{
   display:flex;
   align-items:center;
-  gap: 12px;
-  padding: 14px 14px;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 16px;
+  border-radius: 18px;
 
-  border-radius: 16px;
-  text-decoration:none;
   color: var(--txt);
+  text-decoration: none;
 
-  background: linear-gradient(180deg, rgba(16,20,28,.78), rgba(8,10,14,.78));
+  background: linear-gradient(180deg, rgba(18,22,28,.65), rgba(8,10,12,.55));
   border: 1px solid var(--stroke);
 
   box-shadow:
-    0 12px 28px rgba(0,0,0,.55),
-    0 0 0 1px rgba(0,234,255,.10) inset;
+    0 14px 32px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+  backdrop-filter: blur(10px);
 
   transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 
 .btn:hover{
   transform: translateY(-2px);
-  border-color: rgba(0,234,255,.28);
+  border-color: rgba(255,255,255,.20);
   box-shadow:
-    0 16px 34px rgba(0,0,0,.65),
-    0 0 18px rgba(0,234,255,.18),
-    0 0 26px rgba(138,43,226,.14);
+    0 18px 40px rgba(0,0,0,.70),
+    0 0 22px rgba(255,255,255,.10);
 }
 
+/* ICONE “vere” stile social */
 .ico{
-  width: 22px;
-  height: 22px;
-  filter: invert(1) drop-shadow(0 0 10px rgba(0,234,255,.35));
-  opacity:.95;
-  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+  opacity:.96;
 }
 
 .emoji{
-  width:22px;
+  width: 24px;
   text-align:center;
-  font-size: 20px;
-  filter: drop-shadow(0 0 10px rgba(0,234,255,.25));
+  font-size: 22px;
+  line-height: 1;
 }
+
+.label{
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: none;
+}
+
+.arrow{
+  margin-left:auto;
+  opacity:.9;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+/* GLOW diversi (come nella foto) */
+.glow-blue{ box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(0,180,255,.35); border-color: rgba(0,180,255,.35); }
+.glow-gold{ box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(255,170,0,.32); border-color: rgba(255,170,0,.30); }
+.glow-pink{ box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(255,60,180,.32); border-color: rgba(255,60,180,.30); }
+.glow-red{  box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(255,70,70,.28); border-color: rgba(255,70,70,.26); }
+.glow-orange{box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(255,140,0,.28); border-color: rgba(255,140,0,.26); }
+.glow-cyan{ box-shadow: 0 14px 32px rgba(0,0,0,.55), 0 0 22px rgba(0,234,255,.32); border-color: rgba(0,234,255,.30); }
 
 .foot{
   margin-top: 18px;
   text-align:center;
-  color: rgba(167,179,199,.85);
-  font-weight: 700;
+  letter-spacing: .22em;
+  font-weight: 800;
+  color: rgba(255,255,255,.55);
 }
