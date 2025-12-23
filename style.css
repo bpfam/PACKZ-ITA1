@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;600;800&display=swap');
 
 :root{
-  /* ✅ SFONDO = immagine “cerchio” (invertita come richiesto) */
   --bgimg: url("https://i.postimg.cc/QNK5zXMn/6CB01DF3_F4DE_4AE3_A3EC_D799940FE32B.png");
 
   --text: #f3f6ff;
@@ -15,6 +14,7 @@
   --red:    #ff3b3b;
   --orange: #ff9b2f;
 
+  --card: rgba(10,10,14,.56);
   --stroke: rgba(255,255,255,.12);
 }
 
@@ -53,6 +53,7 @@ body{
     linear-gradient(180deg, rgba(0,0,0,.40), rgba(0,0,0,.68));
 }
 
+/* vignette forte come in foto */
 .vignette{
   position:fixed; inset:-2px;
   background: radial-gradient(ellipse at center,
@@ -134,8 +135,8 @@ body{
   background:#0b0b10;
 }
 
-/* ✅ TITOLO “GRAFFITI” */
-.title.graffiti{
+/* Titolo “graffiti” (effetto spray) */
+.title{
   margin:0;
   font-family:"Permanent Marker", system-ui, sans-serif;
   font-size:44px;
@@ -143,14 +144,12 @@ body{
   text-transform:uppercase;
   line-height:1.05;
 
-  /* effetto spray */
   text-shadow:
     0 2px 0 rgba(0,0,0,.65),
     0 0 14px rgba(0,255,210,.35),
     0 0 18px rgba(255,60,180,.28),
     0 0 26px rgba(255,170,40,.22);
 }
-
 .subtitle{
   margin:10px 0 0;
   font-size:13px;
@@ -207,7 +206,7 @@ body{
   transition: opacity .18s ease, transform .35s ease;
 }
 
-/* glow outline */
+/* stronger neon outline + pulse */
 .btn::after{
   content:"";
   position:absolute; inset:-2px;
@@ -229,6 +228,7 @@ body{
   transform: translateX(0%);
 }
 
+/* icon */
 .ico{
   width:22px; height:22px;
   flex:0 0 22px;
@@ -246,6 +246,7 @@ body{
 .label{
   font-weight:800;
   letter-spacing:.06em;
+  text-transform:none;
   font-size:18px;
 }
 
@@ -256,26 +257,58 @@ body{
   text-shadow: 0 0 10px rgba(255,255,255,.18);
 }
 
-/* glows */
+/* --- INDIVIDUAL GLOWS (più forti) --- */
 .glow-blue::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(42,215,255,.55), 0 0 58px rgba(42,215,255,.30);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(42,215,255,.55),
+    0 0 58px rgba(42,215,255,.30);
+  animation: pulseBlue 2.4s ease-in-out infinite;
 }
 .glow-gold::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(255,210,74,.55), 0 0 58px rgba(255,210,74,.28);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(255,210,74,.55),
+    0 0 58px rgba(255,210,74,.28);
+  animation: pulseGold 2.6s ease-in-out infinite;
 }
 .glow-pink::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(255,77,216,.55), 0 0 58px rgba(255,77,216,.28);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(255,77,216,.55),
+    0 0 58px rgba(255,77,216,.28);
+  animation: pulsePink 2.5s ease-in-out infinite;
 }
 .glow-red::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(255,59,59,.55), 0 0 58px rgba(255,59,59,.26);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(255,59,59,.55),
+    0 0 58px rgba(255,59,59,.26);
+  animation: pulseRed 2.7s ease-in-out infinite;
 }
 .glow-orange::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(255,155,47,.55), 0 0 58px rgba(255,155,47,.26);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(255,155,47,.55),
+    0 0 58px rgba(255,155,47,.26);
+  animation: pulseOrange 2.7s ease-in-out infinite;
 }
 .glow-cyan::after{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 0 26px rgba(0,255,213,.55), 0 0 58px rgba(0,255,213,.28);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px rgba(0,255,213,.55),
+    0 0 58px rgba(0,255,213,.28);
+  animation: pulseCyan 2.4s ease-in-out infinite;
 }
 
+@keyframes pulseBlue {0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+@keyframes pulseGold {0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+@keyframes pulsePink {0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+@keyframes pulseRed {0%,100%{filter:brightness(1)}50%{filter:brightness(1.10)}}
+@keyframes pulseOrange {0%,100%{filter:brightness(1)}50%{filter:brightness(1.10)}}
+@keyframes pulseCyan {0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+
+/* footer */
 .foot{
   text-align:center;
   margin-top:10px;
@@ -286,8 +319,9 @@ body{
   text-shadow: 0 0 14px rgba(0,255,210,.18);
 }
 
+/* small screens */
 @media (max-width: 380px){
-  .title.graffiti{font-size:38px}
+  .title{font-size:38px}
   .label{font-size:16px}
   .btn{padding:16px 16px}
 }
