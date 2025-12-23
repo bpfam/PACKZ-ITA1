@@ -1,136 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #fff;
   background: #000;
-  overflow-x: hidden;
+  color: #fff;
 }
 
-/* BACKGROUND */
 .bg {
   position: fixed;
   inset: 0;
-  background:
-    linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.85)),
-    url("https://i.postimg.cc/QNK5zXMn/6CB01DF3_F4DE_4AE3_A3EC_D799940FE32B.png")
-    center / cover no-repeat;
-  z-index: -2;
+  background: url("https://i.postimg.cc/QNK5zXMn/6CB01DF3_F4DE_4AE3_A3EC_D799940FE32B.png") center/cover no-repeat;
+  filter: brightness(0.55);
+  z-index: -3;
 }
 
 .vignette {
   position: fixed;
   inset: 0;
-  box-shadow: inset 0 0 160px rgba(0,0,0,.9);
-  z-index: -1;
+  box-shadow: inset 0 0 180px rgba(0,0,0,.9);
+  z-index: -2;
 }
 
-/* LAYOUT */
 .wrap {
   max-width: 420px;
   margin: auto;
-  padding: 24px 16px 40px;
+  padding: 26px 16px 40px;
 }
 
-/* HEADER */
 .hero {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.avatar {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 24px rgba(0,255,255,.6);
-}
-
 .avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 92px;
+  border-radius: 50%;
+  margin-bottom: 14px;
 }
 
-/* ✅ GRAFFITI TITLE */
+/* 🔥 TITOLO GRAFFITI */
 .title.graffiti {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 42px;
+  font-family: "Rubik Wet Paint", cursive;
+  font-size: 2.4rem;
   letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #f5f5f5;
+  color: #ffffff;
   text-shadow:
-    0 0 8px rgba(255,255,255,.7),
-    0 0 18px rgba(0,255,255,.6),
-    0 0 34px rgba(255,0,200,.45),
-    4px 4px 0 #000,
-    -3px -3px 0 #000;
-  margin-bottom: 6px;
-}
-
-.title.graffiti .flags {
-  font-size: .55em;
-  margin-left: 6px;
+    0 0 6px #00f0ff,
+    0 0 14px #00f0ff,
+    0 0 28px #ff2bd6,
+    0 0 48px rgba(0,0,0,.9);
 }
 
 .subtitle {
-  font-size: 13px;
-  opacity: .85;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  opacity: 0.85;
 }
 
-/* MENU */
+/* BOTTONI (IDENTICI A PRIMA) */
 .menu {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 14px;
 }
 
 .btn {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   padding: 16px 18px;
-  border-radius: 16px;
-  font-weight: 600;
+  border-radius: 18px;
   text-decoration: none;
   color: #fff;
+  font-weight: 600;
   backdrop-filter: blur(6px);
-  box-shadow: 0 0 22px rgba(0,0,0,.6);
-  transition: transform .15s ease, box-shadow .15s ease;
 }
 
-.btn:hover {
-  transform: scale(1.03);
-}
-
-.btn img {
-  width: 26px;
-  height: 26px;
+.ico {
+  width: 22px;
   filter: invert(1);
 }
 
-.btn .emoji {
-  font-size: 24px;
-}
+.emoji { font-size: 20px; }
 
-/* COLORI BOTTONI (INVARIATI) */
-.blue  { background: linear-gradient(135deg,#1da1f2,#0c5cff); }
-.gold  { background: linear-gradient(135deg,#f5b400,#ff8c00); }
-.pink  { background: linear-gradient(135deg,#ff4fd8,#ff006a); }
-.red   { background: linear-gradient(135deg,#ff4d4d,#ff0000); }
-.cyan  { background: linear-gradient(135deg,#00e5ff,#00bcd4); }
+.arrow { margin-left: auto; }
 
-/* FOOTER */
+.blue { background: linear-gradient(90deg,#007aff,#00c6ff); }
+.gold { background: linear-gradient(90deg,#c99700,#ffcc33); }
+.pink { background: linear-gradient(90deg,#ff2d55,#ff5fa2); }
+.red  { background: linear-gradient(90deg,#ff3b30,#ff6b5c); }
+.cyan { background: linear-gradient(90deg,#00c7be,#00ffe1); }
+
 .foot {
-  margin-top: 28px;
+  margin-top: 26px;
   text-align: center;
-  font-size: 12px;
-  opacity: .6;
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
