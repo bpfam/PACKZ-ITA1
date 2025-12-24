@@ -1,144 +1,237 @@
-/* =========================
-   A) TITLE DRIP (graffiti)
-   ========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
 
-.title.drip{
-  position: relative;
-  display: inline-block;
-  padding: 2px 8px 16px;
-  color: #e9e1d3;
-  text-shadow:
-    2px 2px 0 #000,
-    4px 4px 0 rgba(0,0,0,.55),
-    0 10px 22px rgba(0,0,0,.75);
-  filter: contrast(1.08) saturate(0.95);
+:root{
+  /* SFONDO (foto completa dietro, con fumo) */
+  --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
+
+  --text: #f6f7ff;
+  --muted: rgba(255,255,255,.78);
+
+  /* sposta i bottoni PIÙ SU / PIÙ GIÙ senza cambiare tutto */
+  --menuTop: 10px;
+
+  /* glow colors */
+  --blue:   rgba(42,215,255,.95);
+  --gold:   rgba(255,210,74,.95);
+  --pink:   rgba(255,77,216,.95);
+  --red:    rgba(255,70,70,.95);
+  --orange: rgba(255,155,47,.95);
+  --cyan:   rgba(0,255,213,.95);
 }
 
-/* “vernice sporca” sopra */
-.title.drip::before{
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  color: #e9e1d3;
-  opacity: .35;
-  filter: blur(.6px) contrast(1.2);
-  transform: translate(1px, 1px);
-  mix-blend-mode: overlay;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:#050509;
+
+  /* BLOCCA SCROLL (come vuoi tu) */
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* --- BACKGROUND --- */
+.bg{
+  position:fixed; inset:0;
+  background-image: var(--bgimg);
+  background-size: cover;
+  background-position: center;
+  background-repeat:no-repeat;
+
+  /* “camera più lontana” = si vede più immagine */
+  transform: scale(1.00);
+
+  filter: saturate(1.15) contrast(1.07) brightness(.82);
+  z-index:-4;
+}
+
+/* vignette come foto */
+.vignette{
+  position:fixed; inset:-2px;
+  background: radial-gradient(ellipse at center,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.35) 55%,
+    rgba(0,0,0,.86) 100%);
+  z-index:-1;
   pointer-events:none;
 }
 
-/* colature sotto (drip) */
-.title.drip::after{
-  content: "";
-  position: absolute;
-  left: 6px;
-  right: 6px;
-  top: 100%;
-  height: 22px;
-
-  background:
-    radial-gradient(circle at 8% 0%, rgba(0,0,0,.85) 0 5px, transparent 6px),
-    radial-gradient(circle at 22% 0%, rgba(0,0,0,.85) 0 4px, transparent 5px),
-    radial-gradient(circle at 46% 0%, rgba(0,0,0,.85) 0 6px, transparent 7px),
-    radial-gradient(circle at 74% 0%, rgba(0,0,0,.85) 0 4px, transparent 5px),
-    radial-gradient(circle at 92% 0%, rgba(0,0,0,.85) 0 5px, transparent 6px),
-
-    linear-gradient(to bottom,
-      rgba(0,0,0,.85) 0 7px,
-      rgba(0,0,0,.55) 8px,
-      rgba(0,0,0,0) 100%);
-
-  filter: blur(.15px);
-  opacity: .55;
-  pointer-events:none;
-}
-
-/* =========================
-   B) BUTTON EDGE GLOW (soft)
-   ========================= */
-
-/* assegna colore glow per ogni bottone */
-.glow-blue   { --g: rgba(42,215,255,.55); }
-.glow-gold   { --g: rgba(255,210,74,.55); }
-.glow-pink   { --g: rgba(255,77,216,.55); }
-.glow-red    { --g: rgba(255,59,59,.55); }
-.glow-orange { --g: rgba(255,155,47,.55); }
-.glow-cyan   { --g: rgba(0,255,213,.55); }
-
-/* bottoni più “invisibili” ma con bordo neon elegante */
-.btn{
-  background: rgba(12,12,14,.30) !important;
-  border: 1px solid rgba(255,255,255,.12) !important;
-  backdrop-filter: blur(7px) !important;
-  -webkit-backdrop-filter: blur(7px) !important;
-}
-
-.btn::after{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:22px;
-  pointer-events:none;
-  opacity:.85;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.08),
-    0 0 22px rgba(0,0,0,.35),
-    0 0 22px var(--g, rgba(255,255,255,.10));
-}
-
-/* niente pulse forte: solo un respiro leggero */
-.btn:hover::after{
-  opacity: .95;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(0,0,0,.38),
-    0 0 26px var(--g, rgba(255,255,255,.12));
-}
-
-/* =========================
-   C) SIDE SMOKE (non copre logo)
-   ========================= */
-
-/* spegni il fumo “a schermo pieno” (se lo avevi troppo invadente) */
+/* fumo ai lati + basso (molto simile alla foto) */
 .smoke{
-  opacity: .0 !important;
-}
-
-/* fumo solo ai lati */
-body::before,
-body::after{
-  content:"";
-  position: fixed;
-  top: -10%;
-  bottom: -10%;
-  width: 42vw;
+  position:fixed; inset:0;
+  z-index:-2;
   pointer-events:none;
-  z-index: -1;
-  filter: blur(22px);
-  opacity: .38;
+  opacity:.60;
   mix-blend-mode: screen;
   background:
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(circle at 60% 55%, rgba(255,255,255,.12), transparent 62%),
-    radial-gradient(circle at 35% 85%, rgba(255,255,255,.10), transparent 64%);
-  animation: sideSmoke 18s ease-in-out infinite;
+    radial-gradient(circle at 8% 22%, rgba(255,255,255,.22), transparent 55%),
+    radial-gradient(circle at 10% 70%, rgba(255,255,255,.18), transparent 58%),
+    radial-gradient(circle at 92% 24%, rgba(255,255,255,.22), transparent 55%),
+    radial-gradient(circle at 90% 72%, rgba(255,255,255,.18), transparent 58%),
+    radial-gradient(circle at 50% 98%, rgba(255,255,255,.14), transparent 62%);
+  filter: blur(22px);
 }
 
-/* sinistra */
-body::before{
-  left: -12vw;
-  transform: rotate(-6deg);
+/* --- LAYOUT --- */
+.wrap{
+  height: 100svh;
+  width: min(560px, 92vw);
+  margin: 0 auto;
+  padding: 10px 0 14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-/* destra */
-body::after{
-  right: -12vw;
-  transform: rotate(6deg);
-  animation-delay: -6s;
+/* header immagine grande sopra */
+.hero{
+  width:100%;
+  position:relative;
+  padding-top: 8px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
 }
 
-@keyframes sideSmoke{
-  0%   { transform: translateY(0) scale(1.02) rotate(var(--r,0deg)); }
-  50%  { transform: translateY(12px) scale(1.08) rotate(var(--r,0deg)); }
-  100% { transform: translateY(0) scale(1.02) rotate(var(--r,0deg)); }
+.heroImg{
+  width: min(420px, 92vw);
+  max-height: 34svh;
+  object-fit: contain;
+  display:block;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,.55));
+}
+
+/* riga scritta sotto header */
+.heroLine{
+  width: 100%;
+  text-align:center;
+  padding: 0 12px;
+}
+.heroText{
+  display:inline-block;
+  font-size: 13px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.45),
+    0 0 12px rgba(0,0,0,.55);
+}
+
+/* --- BUTTONS --- */
+.menu{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+  padding: 16px 12px 0;
+  margin-top: var(--menuTop);
+  flex: 1;
+  justify-content: center; /* centra i bottoni come nella foto */
+}
+
+.btn{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding: 18px 20px;
+  border-radius: 999px;
+
+  text-decoration:none;
+  color: var(--text);
+
+  /* “leggermente trasparente” ma NON sparisce */
+  background: rgba(0,0,0,.38);
+
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  overflow:hidden;
+}
+
+/* luce interna soft */
+.btn::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(700px 140px at 30% 0%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(115deg, transparent 0%, rgba(255,255,255,.12) 35%, transparent 70%);
+  opacity:.35;
+}
+
+/* neon esterno (forte) */
+.btn::after{
+  content:"";
+  position:absolute; inset:-3px;
+  border-radius: 999px;
+  pointer-events:none;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 0 26px var(--g1),
+    0 0 70px var(--g2);
+  opacity: 1;
+}
+
+/* icone */
+.ico{
+  width: 26px; height: 26px;
+  flex: 0 0 26px;
+  filter: invert(1) drop-shadow(0 0 12px rgba(255,255,255,.18));
+  opacity: .95;
+}
+.emoji{
+  width: 26px;
+  text-align:center;
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,.18));
+}
+
+.label{
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: .02em;
+}
+
+.arrow{
+  margin-left:auto;
+  font-size: 18px;
+  opacity: .9;
+  text-shadow: 0 0 10px rgba(255,255,255,.18);
+}
+
+/* glows per bottone (come tua foto) */
+.glow-blue   { --g1: rgba(42,215,255,.85); --g2: rgba(42,215,255,.40); }
+.glow-gold   { --g1: rgba(255,210,74,.85); --g2: rgba(255,210,74,.38); }
+.glow-pink   { --g1: rgba(255,77,216,.85); --g2: rgba(255,77,216,.36); }
+.glow-red    { --g1: rgba(255,70,70,.85);  --g2: rgba(255,70,70,.34); }
+.glow-orange { --g1: rgba(255,155,47,.85); --g2: rgba(255,155,47,.34); }
+.glow-cyan   { --g1: rgba(0,255,213,.85);  --g2: rgba(0,255,213,.38); }
+
+/* footer */
+.foot{
+  width:100%;
+  text-align:center;
+  margin-top: 8px;
+  padding-bottom: env(safe-area-inset-bottom);
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.70);
+  text-shadow: 0 0 14px rgba(0,0,0,.70);
+}
+
+/* schermi piccoli */
+@media (max-height: 760px){
+  .heroImg{ max-height: 30svh; }
+  .btn{ padding: 16px 18px; }
+  .label{ font-size: 17px; }
+  .menu{ gap: 12px; }
 }
