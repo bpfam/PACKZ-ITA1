@@ -1,237 +1,239 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
 
+/* ================= ROOT ================= */
 :root{
-  /* SFONDO (foto completa dietro, con fumo) */
   --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
 
-  --text: #f6f7ff;
-  --muted: rgba(255,255,255,.78);
-
-  /* sposta i bottoni PIÙ SU / PIÙ GIÙ senza cambiare tutto */
-  --menuTop: 10px;
-
-  /* glow colors */
-  --blue:   rgba(42,215,255,.95);
-  --gold:   rgba(255,210,74,.95);
-  --pink:   rgba(255,77,216,.95);
-  --red:    rgba(255,70,70,.95);
-  --orange: rgba(255,155,47,.95);
-  --cyan:   rgba(0,255,213,.95);
+  --text:#eef2ff;
+  --glass: rgba(8,8,10,.22);
+  --glass2: rgba(8,8,10,.12);
 }
 
+/* ================= RESET ================= */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#000;
   color:var(--text);
-  background:#050509;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 
-  /* BLOCCA SCROLL (come vuoi tu) */
-  overflow: hidden;
-  overscroll-behavior: none;
-  touch-action: none;
+  /* NO SCROLL */
+  overflow:hidden;
+  overscroll-behavior:none;
+  touch-action:none;
 }
 
-/* --- BACKGROUND --- */
+/* ================= BACKGROUND ================= */
 .bg{
-  position:fixed; inset:0;
-  background-image: var(--bgimg);
-  background-size: cover;
-  background-position: center;
+  position:fixed;
+  inset:0;
+  background-image:var(--bgimg);
   background-repeat:no-repeat;
-
-  /* “camera più lontana” = si vede più immagine */
-  transform: scale(1.00);
-
-  filter: saturate(1.15) contrast(1.07) brightness(.82);
-  z-index:-4;
+  background-size:115% auto;
+  background-position:center 40%;
+  filter:saturate(1.1) contrast(1.05) brightness(.92);
+  z-index:-3;
 }
 
-/* vignette come foto */
-.vignette{
-  position:fixed; inset:-2px;
-  background: radial-gradient(ellipse at center,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.35) 55%,
-    rgba(0,0,0,.86) 100%);
-  z-index:-1;
-  pointer-events:none;
-}
-
-/* fumo ai lati + basso (molto simile alla foto) */
+/* fumo leggero */
 .smoke{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:-20%;
   z-index:-2;
   pointer-events:none;
-  opacity:.60;
-  mix-blend-mode: screen;
+  opacity:.25;
+  mix-blend-mode:screen;
   background:
-    radial-gradient(circle at 8% 22%, rgba(255,255,255,.22), transparent 55%),
-    radial-gradient(circle at 10% 70%, rgba(255,255,255,.18), transparent 58%),
-    radial-gradient(circle at 92% 24%, rgba(255,255,255,.22), transparent 55%),
-    radial-gradient(circle at 90% 72%, rgba(255,255,255,.18), transparent 58%),
-    radial-gradient(circle at 50% 98%, rgba(255,255,255,.14), transparent 62%);
-  filter: blur(22px);
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(circle at 80% 35%, rgba(255,255,255,.14), transparent 60%),
+    radial-gradient(circle at 30% 80%, rgba(255,255,255,.12), transparent 60%);
+  filter:blur(24px);
+  animation:smokeMove 18s ease-in-out infinite;
+}
+@keyframes smokeMove{
+  0%{transform:translate3d(-1%,0,0) scale(1.02)}
+  50%{transform:translate3d(1.5%,-1%,0) scale(1.06)}
+  100%{transform:translate3d(-1%,0,0) scale(1.02)}
 }
 
-/* --- LAYOUT --- */
-.wrap{
-  height: 100svh;
-  width: min(560px, 92vw);
-  margin: 0 auto;
-  padding: 10px 0 14px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+.vignette{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.35) 60%,
+    rgba(0,0,0,.85) 100%);
 }
 
-/* header immagine grande sopra */
-.hero{
-  width:100%;
-  position:relative;
-  padding-top: 8px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
+/* ================= STAGE ================= */
+.stage{
+  position:fixed;
+  inset:0;
 }
 
-.heroImg{
-  width: min(420px, 92vw);
-  max-height: 34svh;
-  object-fit: contain;
-  display:block;
-  filter: drop-shadow(0 10px 30px rgba(0,0,0,.55));
-}
-
-/* riga scritta sotto header */
-.heroLine{
-  width: 100%;
+/* ================= TITOLO GRAFFITI ================= */
+.graffiti-wrap{
+  position:absolute;
+  top:clamp(70px,16vh,160px);
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2;
   text-align:center;
-  padding: 0 12px;
-}
-.heroText{
-  display:inline-block;
-  font-size: 13px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.85);
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.45),
-    0 0 12px rgba(0,0,0,.55);
+  pointer-events:none;
 }
 
-/* --- BUTTONS --- */
-.menu{
+.graffiti{
+  margin:0;
+  font-family:Impact,"Arial Black",system-ui,sans-serif;
+  font-size:clamp(56px,10vw,96px);
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#f3e7c8;
+  -webkit-text-stroke:2px #0b0b0b;
+  text-shadow:
+    0 3px 0 #000,
+    0 6px 0 #111,
+    0 10px 24px rgba(0,0,0,.75);
+  position:relative;
+}
+
+/* colature */
+.graffiti::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  color:#f3e7c8;
+  opacity:.95;
+  text-shadow:
+    0 18px 0 rgba(0,0,0,.35),
+    0 30px 14px rgba(0,0,0,.45);
+  clip-path:polygon(
+    0% 0%,100% 0%,100% 72%,
+    92% 82%,85% 72%,78% 90%,
+    70% 72%,60% 94%,50% 72%,
+    40% 90%,30% 72%,20% 92%,
+    10% 76%,0% 72%
+  );
+}
+
+.graffiti-sub{
+  margin-top:10px;
+  font-size:12px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  text-shadow:0 0 14px rgba(0,0,0,.6);
+}
+
+/* ================= BOTTONI (ZONA CERCHIATA) ================= */
+.dock{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:clamp(18px,7vh,54px);
+  width:min(520px,92vw);
+}
+
+.dock .btn{
   width:100%;
   display:flex;
-  flex-direction:column;
-  gap: 14px;
-  padding: 16px 12px 0;
-  margin-top: var(--menuTop);
-  flex: 1;
-  justify-content: center; /* centra i bottoni come nella foto */
-}
-
-.btn{
-  position:relative;
-  display:flex;
   align-items:center;
-  gap:12px;
-
-  padding: 18px 20px;
-  border-radius: 999px;
-
+  gap:14px;
+  padding:18px;
+  margin:14px 0;
+  border-radius:28px;
   text-decoration:none;
-  color: var(--text);
+  color:var(--text);
 
-  /* “leggermente trasparente” ma NON sparisce */
-  background: rgba(0,0,0,.38);
+  background:linear-gradient(90deg,var(--glass),var(--glass2));
+  border:1px solid rgba(255,255,255,.14);
 
-  border: 1px solid rgba(255,255,255,.10);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 
+  position:relative;
   overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
-/* luce interna soft */
-.btn::before{
+/* riflesso */
+.dock .btn::before{
   content:"";
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   background:
-    radial-gradient(700px 140px at 30% 0%, rgba(255,255,255,.22), transparent 60%),
-    linear-gradient(115deg, transparent 0%, rgba(255,255,255,.12) 35%, transparent 70%);
+    radial-gradient(600px 120px at 20% 0%,
+      rgba(255,255,255,.18),transparent 60%);
   opacity:.35;
 }
 
-/* neon esterno (forte) */
-.btn::after{
+/* bordo neon */
+.dock .btn::after{
   content:"";
-  position:absolute; inset:-3px;
-  border-radius: 999px;
+  position:absolute;
+  inset:-2px;
+  border-radius:30px;
   pointer-events:none;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px var(--g1),
-    0 0 70px var(--g2);
-  opacity: 1;
+    0 0 0 1px rgba(255,255,255,.1),
+    0 0 24px rgba(255,255,255,.08);
 }
 
 /* icone */
 .ico{
-  width: 26px; height: 26px;
-  flex: 0 0 26px;
-  filter: invert(1) drop-shadow(0 0 12px rgba(255,255,255,.18));
-  opacity: .95;
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
 }
-.emoji{
-  width: 26px;
-  text-align:center;
-  font-size: 22px;
-  line-height: 1;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,.18));
+.ico svg{
+  width:24px;
+  height:24px;
+  fill:currentColor;
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.2));
+}
+.ico.emoji{
+  font-size:22px;
 }
 
+/* testo bottone */
 .label{
-  font-weight: 900;
-  font-size: 18px;
-  letter-spacing: .02em;
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:.02em;
 }
-
 .arrow{
   margin-left:auto;
-  font-size: 18px;
-  opacity: .9;
-  text-shadow: 0 0 10px rgba(255,255,255,.18);
+  font-size:18px;
+  opacity:.9;
 }
 
-/* glows per bottone (come tua foto) */
-.glow-blue   { --g1: rgba(42,215,255,.85); --g2: rgba(42,215,255,.40); }
-.glow-gold   { --g1: rgba(255,210,74,.85); --g2: rgba(255,210,74,.38); }
-.glow-pink   { --g1: rgba(255,77,216,.85); --g2: rgba(255,77,216,.36); }
-.glow-red    { --g1: rgba(255,70,70,.85);  --g2: rgba(255,70,70,.34); }
-.glow-orange { --g1: rgba(255,155,47,.85); --g2: rgba(255,155,47,.34); }
-.glow-cyan   { --g1: rgba(0,255,213,.85);  --g2: rgba(0,255,213,.38); }
+/* ================= COLORI ================= */
+.b-signal{color:#4fa2ff}
+.b-potato{color:#ffd24a}
+.b-ig{color:#ff4dd8}
+.b-ig2{color:#ff3b3b}
+.b-tg{color:#2ad7ff}
+.b-tg2{color:#2ad7ff}
 
-/* footer */
+/* ================= FOOTER ================= */
 .foot{
-  width:100%;
+  margin-top:14px;
   text-align:center;
-  margin-top: 8px;
-  padding-bottom: env(safe-area-inset-bottom);
-  font-size: 12px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.70);
-  text-shadow: 0 0 14px rgba(0,0,0,.70);
+  font-weight:800;
+  letter-spacing:.22em;
+  font-size:12px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.7);
 }
 
-/* schermi piccoli */
-@media (max-height: 760px){
-  .heroImg{ max-height: 30svh; }
-  .btn{ padding: 16px 18px; }
-  .label{ font-size: 17px; }
-  .menu{ gap: 12px; }
+/* ================= SMALL ================= */
+@media (max-width:380px){
+  .label{font-size:16px}
+  .dock .btn{padding:16px;border-radius:26px}
 }
