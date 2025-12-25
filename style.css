@@ -4,206 +4,216 @@
   --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
 
   --text:#eef2ff;
-  --muted:rgba(255,255,255,.75);
+  --muted: rgba(255,255,255,.78);
 
-  --glass:rgba(0,0,0,.22);
-  --glass2:rgba(0,0,0,.12);
-  --stroke:rgba(255,255,255,.14);
+  /* bottone “invisibile” */
+  --glass: rgba(0,0,0,.18);
+  --glass2: rgba(0,0,0,.10);
+  --stroke: rgba(255,255,255,.14);
 }
 
-/* RESET + BLOCCO TOTALE */
 *{box-sizing:border-box}
 html,body{
-  width:100%;
   height:100%;
   margin:0;
   padding:0;
-  overflow:hidden;
+  overflow:hidden;              /* NO SCROLL */
   overscroll-behavior:none;
-  touch-action:none;
 }
 body{
   background:#000;
   color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* ===== BACKGROUND FISSO ===== */
+/* ===== SFONDO FISSO ===== */
 .bg{
   position:fixed;
   inset:0;
-  background-image:var(--bgimg);
+  z-index:-3;
+  background-image: var(--bgimg);
   background-repeat:no-repeat;
   background-position:center center;
-  background-size:cover;
-  background-attachment:fixed;
-  filter:saturate(1.1) contrast(1.05) brightness(.95);
-  z-index:-3;
+
+  /* “zoom out” (vedi più immagine) */
+  background-size: 115% auto;
+
+  filter: saturate(1.12) contrast(1.05) brightness(.96);
 }
 
-/* FUMO LEGGERO (STATICO) */
+/* fumo leggero (non copre) */
 .smoke{
   position:fixed;
-  inset:0;
+  inset:-20%;
   z-index:-2;
   pointer-events:none;
-  opacity:.18;
-  mix-blend-mode:screen;
+  opacity:.16;                 /* POCO fumo */
+  mix-blend-mode: screen;
   background:
-    radial-gradient(circle at 25% 30%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(circle at 75% 70%, rgba(255,255,255,.14), transparent 60%);
-  filter:blur(28px);
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,.22), transparent 60%),
+    radial-gradient(circle at 80% 35%, rgba(255,255,255,.16), transparent 62%),
+    radial-gradient(circle at 35% 85%, rgba(255,255,255,.14), transparent 64%);
+  filter: blur(28px);
+  animation: smokeMove 20s ease-in-out infinite;
+}
+@keyframes smokeMove{
+  0%{transform:translate3d(-1%, 0%, 0) scale(1.02)}
+  50%{transform:translate3d(1.2%, -0.8%, 0) scale(1.06)}
+  100%{transform:translate3d(-1%, 0%, 0) scale(1.02)}
 }
 
-/* VIGNETTA */
 .vignette{
   position:fixed;
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background:radial-gradient(ellipse at center,
+  background: radial-gradient(ellipse at center,
     rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.28) 60%,
+    rgba(0,0,0,.25) 60%,
     rgba(0,0,0,.78) 100%);
 }
 
-/* ===== LAYOUT ===== */
-.stage{
-  position:fixed;
-  inset:0;
+/* ===== LAYOUT FISSO (no scroll) ===== */
+.wrap{
+  height:100vh;
+  width:min(520px, 92vw);
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:22px 0 22px;
 }
 
-/* TITOLO STREET */
+/* HEADER */
+.hero{
+  text-align:center;
+  padding:10px 10px 0;
+}
+
+/* TOGLIE “cerchio logo”: avatar piatto */
+.avatar{
+  display:none; /* <-- così sparisce immagine sopra */
+}
+
+/* TITOLO graffiti street (non neon) */
 .title{
-  position:absolute;
-  top:26px;
-  left:50%;
-  transform:translateX(-50%);
-  font-family:"Permanent Marker",sans-serif;
-  font-size:42px;
+  margin:0;
+  font-family:"Permanent Marker", system-ui, sans-serif;
+  font-size:46px;
   letter-spacing:2px;
   text-transform:uppercase;
+  line-height:1.05;
   color:#f2f2f2;
   text-shadow:
-    0 2px 0 rgba(0,0,0,.8),
-    -2px 2px 0 rgba(0,0,0,.6),
-    2px 2px 0 rgba(0,0,0,.6);
+    0 2px 0 rgba(0,0,0,.85),
+    -2px 2px 0 rgba(0,0,0,.55),
+    2px 2px 0 rgba(0,0,0,.55);
   opacity:.92;
 }
 
-/* TESTO LINK UFFICIALI (si vede / non si vede) */
-.mini{
-  position:absolute;
-  top:86px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,.28);
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(6px);
+/* scritta “link ufficiali” piccola e discreta */
+.subtitle{
+  margin:10px 0 0;
   font-size:12px;
-  letter-spacing:.14em;
+  letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--muted);
+  padding:8px 12px;
+  display:inline-block;
+  border-radius:999px;
+  background: rgba(0,0,0,.26);
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* ===== BOTTONI IN BASSO ===== */
-.dock{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:40px;
-  width:min(520px,92vw);
+/* ===== BOTTONI (zona bassa come foto) ===== */
+.menu{
+  padding:0 10px 0;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  justify-content:flex-end; /* li spinge in basso */
 }
 
+/* bottone trasparente + bordo soft */
 .btn{
-  width:100%;
+  position:relative;
   display:flex;
   align-items:center;
-  gap:14px;
-  margin:14px 0;
-  padding:18px 18px;
-  border-radius:28px;
+  gap:12px;
+
+  padding:16px 16px;
+  border-radius:26px;
+
   text-decoration:none;
   color:var(--text);
 
-  background:linear-gradient(90deg,var(--glass),var(--glass2));
+  background: linear-gradient(90deg, var(--glass), var(--glass2));
   border:1px solid var(--stroke);
 
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  position:relative;
   overflow:hidden;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
 }
 
-/* riflesso soft */
+/* shine leggero */
 .btn::before{
   content:"";
   position:absolute;
   inset:0;
   background:
-    radial-gradient(700px 140px at 20% 0%, rgba(255,255,255,.18), transparent 62%);
-  opacity:.35;
-}
-
-/* bordo leggero */
-.btn::after{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:30px;
+    radial-gradient(650px 140px at 20% 0%, rgba(255,255,255,.18), transparent 62%);
+  opacity:.30;
   pointer-events:none;
-  box-shadow:0 0 0 1px rgba(255,255,255,.08);
 }
 
-/* ICONE */
+/* icone COLORATE (niente invert) */
 .ico{
-  width:24px;
-  height:24px;
-  display:grid;
-  place-items:center;
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
+  opacity:.95;
 }
-.ico svg{
-  width:24px;
-  height:24px;
-  fill:currentColor;
-}
-.ico.emoji{
-  font-size:22px;
+.emoji{
+  font-size:20px;
+  line-height:1;
 }
 
 .label{
   font-weight:800;
-  font-size:18px;
+  font-size:17px;
+  letter-spacing:.02em;
 }
 
 .arrow{
   margin-left:auto;
-  opacity:.8;
+  opacity:.85;
 }
 
-/* COLORI */
-.b-signal{color:#4fa2ff}
-.b-potato{color:#ffd24a}
-.b-ig{color:#ff4dd8}
-.b-ig2{color:#ff3b3b}
-.b-tg,.b-tg2{color:#2ad7ff}
+/* colori (solo testo/icona) */
+.glow-blue{color:#4fa2ff}
+.glow-gold{color:#ffd24a}
+.glow-pink{color:#ff4dd8}
+.glow-red{color:#ff3b3b}
+.glow-orange{color:#2ad7ff}
+.glow-cyan{color:#2ad7ff}
 
-/* FOOTER */
+/* footer */
 .foot{
-  margin-top:14px;
   text-align:center;
-  font-size:12px;
+  margin-top:12px;
+  font-size:11px;
   letter-spacing:.22em;
   text-transform:uppercase;
   color:rgba(255,255,255,.65);
 }
 
-/* MOBILE */
+/* mobile */
 @media (max-width:380px){
-  .title{font-size:36px}
+  .title{font-size:40px}
   .label{font-size:16px}
-  .btn{padding:16px}
+  .btn{padding:15px 15px}
 }
