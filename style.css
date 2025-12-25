@@ -2,19 +2,17 @@
 
 :root{
   --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
-  --text: #f5f5f5;
+  --text: #f3f6ff;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
   width:100%;
   height:100%;
   margin:0;
   padding:0;
-  overflow:hidden;              /* 🔒 NO SCROLL */
+  overflow:hidden; /* NO SCROLL */
 }
 
 body{
@@ -23,105 +21,90 @@ body{
   color:var(--text);
 }
 
-/* ===== SFONDO FISSO A TUTTO SCHERMO ===== */
+/* sfondo fisso a schermo intero */
 .bg{
   position:fixed;
   inset:0;
   background-image: var(--bgimg);
-  background-size: cover;        /* 🔥 TUTTO SCHERMO */
+  background-size: cover;
   background-position: center;
   background-repeat:no-repeat;
   z-index:-1;
 }
 
-/* ===== TITOLO SEMPLICE, STRADA ===== */
+/* titolo sopra */
 .top{
   position:fixed;
   top: 16px;
   left:50%;
-  transform:translateX(-50%);
+  transform: translateX(-50%);
   text-align:center;
   pointer-events:none;
 }
 
-.top .title{
-  font-family: "Permanent Marker", system-ui, sans-serif;
+.title{
+  font-family:"Permanent Marker", system-ui, sans-serif;
   font-size:42px;
   letter-spacing:2px;
   margin:0;
   text-transform:uppercase;
-  opacity:.9;
-  text-shadow:
-    0 3px 0 rgba(0,0,0,.9),
-    0 0 12px rgba(0,0,0,.6);
+  opacity:.92;
+  text-shadow: 0 3px 0 rgba(0,0,0,.9), 0 0 14px rgba(0,0,0,.6);
 }
 
-.top .tag{
+.tag{
   margin-top:6px;
   font-size:12px;
   letter-spacing:.18em;
-  opacity:.7;
+  opacity:.72;
+  text-shadow: 0 0 14px rgba(0,0,0,.6);
 }
 
-/* ===== BOTTONI IN BASSO (ADATTATI ALL’IMMAGINE) ===== */
+/* bottoni in basso */
 .dock{
   position:fixed;
-  bottom: 24px;
   left:50%;
-  transform:translateX(-50%);
+  transform: translateX(-50%);
+  bottom: 22px;
   width: min(520px, 92vw);
   display:flex;
   flex-direction:column;
   gap:14px;
 }
 
-/* bottone MOLTO TRASPARENTE */
 .btn{
   display:flex;
   align-items:center;
   gap:14px;
   padding:16px 18px;
   border-radius:24px;
-
   text-decoration:none;
   color:var(--text);
-
-  background: rgba(0,0,0,.22);   /* 🔥 quasi invisibile */
+  background: rgba(0,0,0,.22); /* trasparente */
+  border: 1px solid rgba(255,255,255,.12);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-
-  border: 1px solid rgba(255,255,255,.10);
 }
 
-/* niente animazioni, niente casino */
-.btn:hover{
-  background: rgba(0,0,0,.28);
-}
+.btn:hover{ background: rgba(0,0,0,.28); }
 
-/* ===== ICONE COLORATE ===== */
 .ico{
-  width:24px;
-  height:24px;
+  width:24px; height:24px;
   flex:0 0 24px;
   display:grid;
   place-items:center;
 }
 
 .ico svg{
-  width:24px;
-  height:24px;
+  width:24px; height:24px;
   fill: currentColor;
 }
 
-.ico.emoji{
-  font-size:22px;
-}
+.ico.emoji{ font-size:22px; line-height:1; }
 
-/* testo bottone */
 .label{
   font-weight:800;
   font-size:17px;
-  letter-spacing:.02em;
 }
 
 .arrow{
@@ -129,7 +112,18 @@ body{
   opacity:.6;
 }
 
-/* ===== COLORI PRESI DALL’IMMAGINE ===== */
+.foot{
+  margin-top: 6px;
+  text-align:center;
+  font-weight:800;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-size:12px;
+  opacity:.75;
+  text-shadow: 0 0 14px rgba(0,0,0,.6);
+}
+
+/* colori coerenti */
 .b-signal{ color:#5aa9ff; }
 .b-potato{ color:#f1c84b; }
 .b-ig{ color:#ff4fd8; }
@@ -137,9 +131,8 @@ body{
 .b-tg{ color:#2ad7ff; }
 .b-tg2{ color:#00ffd5; }
 
-/* ===== MOBILE PICCOLO ===== */
 @media (max-width:380px){
-  .top .title{font-size:36px}
+  .title{font-size:36px}
   .label{font-size:16px}
   .btn{padding:15px 16px}
 }
