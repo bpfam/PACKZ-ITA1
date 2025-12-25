@@ -1,138 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@700;800&display=swap');
 
-:root{
-  --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
-  --text: #f3f6ff;
-}
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@600;800&display=swap');
 
 *{box-sizing:border-box}
-
 html,body{
+  margin:0;
   width:100%;
   height:100%;
-  margin:0;
-  padding:0;
-  overflow:hidden; /* NO SCROLL */
 }
 
 body{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
+  color:#fff;
+  overflow:hidden;              /* 🔒 BLOCCA SCROLL */
   background:#000;
-  color:var(--text);
 }
 
-/* sfondo fisso a schermo intero */
+/* ===== SFONDO FISSO ===== */
 .bg{
   position:fixed;
   inset:0;
-  background-image: var(--bgimg);
-  background-size: cover;
-  background-position: center;
+  background-image:url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
+  background-size:cover;
+  background-position:center;
   background-repeat:no-repeat;
-  z-index:-1;
+  z-index:-2;
 }
 
-/* titolo sopra */
-.top{
+/* vignetta leggera */
+.bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.35) 65%,
+    rgba(0,0,0,.75) 100%
+  );
+}
+
+/* ===== CONTENITORE ===== */
+.stage{
   position:fixed;
-  top: 16px;
-  left:50%;
-  transform: translateX(-50%);
-  text-align:center;
-  pointer-events:none;
+  inset:0;
 }
 
+/* ===== TITOLO GRAFFITI ===== */
 .title{
+  position:absolute;
+  top:6vh;
+  width:100%;
+  text-align:center;
+
   font-family:"Permanent Marker", system-ui, sans-serif;
-  font-size:42px;
-  letter-spacing:2px;
-  margin:0;
+  font-size:48px;
+  letter-spacing:4px;
   text-transform:uppercase;
-  opacity:.92;
-  text-shadow: 0 3px 0 rgba(0,0,0,.9), 0 0 14px rgba(0,0,0,.6);
+
+  color:#eaeaea;
+
+  text-shadow:
+    2px 2px 0 rgba(0,0,0,.9),
+    4px 4px 0 rgba(0,0,0,.8),
+    0 0 6px rgba(255,255,255,.15),
+    0 0 16px rgba(0,0,0,.9);
+
+  filter:contrast(1.25) saturate(.9);
 }
 
-.tag{
-  margin-top:6px;
-  font-size:12px;
-  letter-spacing:.18em;
-  opacity:.72;
-  text-shadow: 0 0 14px rgba(0,0,0,.6);
-}
-
-/* bottoni in basso */
+/* ===== BOTTONI IN BASSO ===== */
 .dock{
-  position:fixed;
+  position:absolute;
+  bottom:6vh;
   left:50%;
-  transform: translateX(-50%);
-  bottom: 22px;
-  width: min(520px, 92vw);
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+  transform:translateX(-50%);
+  width:min(520px,90vw);
 }
 
+/* singolo bottone */
 .btn{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:16px 18px;
-  border-radius:24px;
+
+  margin:14px 0;
+  padding:18px 20px;
+  border-radius:26px;
+
   text-decoration:none;
-  color:var(--text);
-  background: rgba(0,0,0,.22); /* trasparente */
-  border: 1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  color:#fff;
+
+  background:rgba(0,0,0,.28);   /* 🔥 quasi invisibile */
+  border:1px solid rgba(255,255,255,.18);
+
+  backdrop-filter:blur(6px);
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
 }
 
-.btn:hover{ background: rgba(0,0,0,.28); }
-
+/* icone */
 .ico{
-  width:24px; height:24px;
-  flex:0 0 24px;
-  display:grid;
-  place-items:center;
+  width:22px;
+  height:22px;
+  filter:invert(1);
 }
 
-.ico svg{
-  width:24px; height:24px;
-  fill: currentColor;
-}
-
-.ico.emoji{ font-size:22px; line-height:1; }
-
+/* testo bottone */
 .label{
   font-weight:800;
-  font-size:17px;
+  font-size:18px;
 }
 
+/* freccia */
 .arrow{
   margin-left:auto;
-  opacity:.6;
-}
-
-.foot{
-  margin-top: 6px;
-  text-align:center;
-  font-weight:800;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  font-size:12px;
-  opacity:.75;
-  text-shadow: 0 0 14px rgba(0,0,0,.6);
-}
-
-/* colori coerenti */
-.b-signal{ color:#5aa9ff; }
-.b-potato{ color:#f1c84b; }
-.b-ig{ color:#ff4fd8; }
-.b-ig2{ color:#ff3b3b; }
-.b-tg{ color:#2ad7ff; }
-.b-tg2{ color:#00ffd5; }
-
-@media (max-width:380px){
-  .title{font-size:36px}
-  .label{font-size:16px}
-  .btn{padding:15px 16px}
+  opacity:.8;
 }
