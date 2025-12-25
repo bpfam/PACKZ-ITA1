@@ -1,187 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@700;800&display=swap');
 
 :root{
   --bgimg: url("https://i.postimg.cc/YSX5fF01/CFF23295-B263-475F-B181-608D8C7C4A9D.png");
-
-  --text:#eef2ff;
-  --muted: rgba(255,255,255,.78);
-
-  /* bottone “invisibile” */
-  --glass: rgba(0,0,0,.18);
-  --glass2: rgba(0,0,0,.10);
-  --stroke: rgba(255,255,255,.14);
+  --text: #f5f5f5;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 html,body{
+  width:100%;
   height:100%;
   margin:0;
   padding:0;
-  overflow:hidden;              /* NO SCROLL */
-  overscroll-behavior:none;
-}
-body{
-  background:#000;
-  color:var(--text);
-  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow:hidden;              /* 🔒 NO SCROLL */
 }
 
-/* ===== SFONDO FISSO ===== */
+body{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#000;
+  color:var(--text);
+}
+
+/* ===== SFONDO FISSO A TUTTO SCHERMO ===== */
 .bg{
   position:fixed;
   inset:0;
-  z-index:-3;
   background-image: var(--bgimg);
+  background-size: cover;        /* 🔥 TUTTO SCHERMO */
+  background-position: center;
   background-repeat:no-repeat;
-  background-position:center center;
-
-  /* “zoom out” (vedi più immagine) */
-  background-size: 115% auto;
-
-  filter: saturate(1.12) contrast(1.05) brightness(.96);
-}
-
-/* fumo leggero (non copre) */
-.smoke{
-  position:fixed;
-  inset:-20%;
-  z-index:-2;
-  pointer-events:none;
-  opacity:.16;                 /* POCO fumo */
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(circle at 20% 25%, rgba(255,255,255,.22), transparent 60%),
-    radial-gradient(circle at 80% 35%, rgba(255,255,255,.16), transparent 62%),
-    radial-gradient(circle at 35% 85%, rgba(255,255,255,.14), transparent 64%);
-  filter: blur(28px);
-  animation: smokeMove 20s ease-in-out infinite;
-}
-@keyframes smokeMove{
-  0%{transform:translate3d(-1%, 0%, 0) scale(1.02)}
-  50%{transform:translate3d(1.2%, -0.8%, 0) scale(1.06)}
-  100%{transform:translate3d(-1%, 0%, 0) scale(1.02)}
-}
-
-.vignette{
-  position:fixed;
-  inset:0;
   z-index:-1;
-  pointer-events:none;
-  background: radial-gradient(ellipse at center,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.25) 60%,
-    rgba(0,0,0,.78) 100%);
 }
 
-/* ===== LAYOUT FISSO (no scroll) ===== */
-.wrap{
-  height:100vh;
-  width:min(520px, 92vw);
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:22px 0 22px;
-}
-
-/* HEADER */
-.hero{
+/* ===== TITOLO SEMPLICE, STRADA ===== */
+.top{
+  position:fixed;
+  top: 16px;
+  left:50%;
+  transform:translateX(-50%);
   text-align:center;
-  padding:10px 10px 0;
+  pointer-events:none;
 }
 
-/* TOGLIE “cerchio logo”: avatar piatto */
-.avatar{
-  display:none; /* <-- così sparisce immagine sopra */
-}
-
-/* TITOLO graffiti street (non neon) */
-.title{
-  margin:0;
-  font-family:"Permanent Marker", system-ui, sans-serif;
-  font-size:46px;
+.top .title{
+  font-family: "Permanent Marker", system-ui, sans-serif;
+  font-size:42px;
   letter-spacing:2px;
+  margin:0;
   text-transform:uppercase;
-  line-height:1.05;
-  color:#f2f2f2;
+  opacity:.9;
   text-shadow:
-    0 2px 0 rgba(0,0,0,.85),
-    -2px 2px 0 rgba(0,0,0,.55),
-    2px 2px 0 rgba(0,0,0,.55);
-  opacity:.92;
+    0 3px 0 rgba(0,0,0,.9),
+    0 0 12px rgba(0,0,0,.6);
 }
 
-/* scritta “link ufficiali” piccola e discreta */
-.subtitle{
-  margin:10px 0 0;
+.top .tag{
+  margin-top:6px;
   font-size:12px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
-  padding:8px 12px;
-  display:inline-block;
-  border-radius:999px;
-  background: rgba(0,0,0,.26);
-  border: 1px solid rgba(255,255,255,.10);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  letter-spacing:.18em;
+  opacity:.7;
 }
 
-/* ===== BOTTONI (zona bassa come foto) ===== */
-.menu{
-  padding:0 10px 0;
+/* ===== BOTTONI IN BASSO (ADATTATI ALL’IMMAGINE) ===== */
+.dock{
+  position:fixed;
+  bottom: 24px;
+  left:50%;
+  transform:translateX(-50%);
+  width: min(520px, 92vw);
   display:flex;
   flex-direction:column;
   gap:14px;
-  justify-content:flex-end; /* li spinge in basso */
 }
 
-/* bottone trasparente + bordo soft */
+/* bottone MOLTO TRASPARENTE */
 .btn{
-  position:relative;
   display:flex;
   align-items:center;
-  gap:12px;
-
-  padding:16px 16px;
-  border-radius:26px;
+  gap:14px;
+  padding:16px 18px;
+  border-radius:24px;
 
   text-decoration:none;
   color:var(--text);
 
-  background: linear-gradient(90deg, var(--glass), var(--glass2));
-  border:1px solid var(--stroke);
+  background: rgba(0,0,0,.22);   /* 🔥 quasi invisibile */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  overflow:hidden;
-  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.10);
 }
 
-/* shine leggero */
-.btn::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(650px 140px at 20% 0%, rgba(255,255,255,.18), transparent 62%);
-  opacity:.30;
-  pointer-events:none;
+/* niente animazioni, niente casino */
+.btn:hover{
+  background: rgba(0,0,0,.28);
 }
 
-/* icone COLORATE (niente invert) */
+/* ===== ICONE COLORATE ===== */
 .ico{
-  width:22px;
-  height:22px;
-  flex:0 0 22px;
-  opacity:.95;
-}
-.emoji{
-  font-size:20px;
-  line-height:1;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  display:grid;
+  place-items:center;
 }
 
+.ico svg{
+  width:24px;
+  height:24px;
+  fill: currentColor;
+}
+
+.ico.emoji{
+  font-size:22px;
+}
+
+/* testo bottone */
 .label{
   font-weight:800;
   font-size:17px;
@@ -190,30 +126,20 @@ body{
 
 .arrow{
   margin-left:auto;
-  opacity:.85;
+  opacity:.6;
 }
 
-/* colori (solo testo/icona) */
-.glow-blue{color:#4fa2ff}
-.glow-gold{color:#ffd24a}
-.glow-pink{color:#ff4dd8}
-.glow-red{color:#ff3b3b}
-.glow-orange{color:#2ad7ff}
-.glow-cyan{color:#2ad7ff}
+/* ===== COLORI PRESI DALL’IMMAGINE ===== */
+.b-signal{ color:#5aa9ff; }
+.b-potato{ color:#f1c84b; }
+.b-ig{ color:#ff4fd8; }
+.b-ig2{ color:#ff3b3b; }
+.b-tg{ color:#2ad7ff; }
+.b-tg2{ color:#00ffd5; }
 
-/* footer */
-.foot{
-  text-align:center;
-  margin-top:12px;
-  font-size:11px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.65);
-}
-
-/* mobile */
+/* ===== MOBILE PICCOLO ===== */
 @media (max-width:380px){
-  .title{font-size:40px}
+  .top .title{font-size:36px}
   .label{font-size:16px}
-  .btn{padding:15px 15px}
+  .btn{padding:15px 16px}
 }
