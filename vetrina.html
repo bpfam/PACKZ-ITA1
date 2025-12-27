@@ -1,8 +1,180 @@
 <!DOCTYPE html>
-<html>
-<head><title>Vetrina</title></head>
-<body style="background:black;color:white;text-align:center">
-<h1>🎥 VETRINA</h1>
-<p>In arrivo…</p>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PACKZ-ITA — Vetrina Video</title>
+
+<style>
+  :root { --neon:#00eaff; --gap:12px; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#000; color:#e9feff; font-family:system-ui, Arial, sans-serif; }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; gap:10px; justify-content:space-between;
+    padding:12px; background:radial-gradient(circle at center, #030b0c 40%, #000 100%);
+    border-bottom:1px solid rgba(0,234,255,.18);
+  }
+  .left{ display:flex; gap:10px; align-items:center; min-width:0; }
+  .back{
+    text-decoration:none; padding:.5rem .9rem; border:1px solid var(--neon); border-radius:999px;
+    color:var(--neon); box-shadow:0 0 12px var(--neon); transition:all .2s ease; white-space:nowrap;
+  }
+  .back:hover{ background:var(--neon); color:#000; }
+  .title{
+    margin:0; font-size:1rem; line-height:1; display:flex; align-items:center; gap:8px;
+    color:var(--neon); text-shadow:0 0 10px var(--neon), 0 0 30px var(--neon);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    animation: glow 2s infinite alternate;
+  }
+  @keyframes glow { from { text-shadow:0 0 10px var(--neon) } to { text-shadow:0 0 25px var(--neon) } }
+
+  .wrap{ max-width:1200px; margin:0 auto; padding:16px; }
+  .grid{ display:grid; gap:var(--gap); }
+  .grid[data-cols="4"]{ grid-template-columns:repeat(4,1fr); }
+  .grid[data-cols="3"]{ grid-template-columns:repeat(3,1fr); }
+  .grid[data-cols="2"]{ grid-template-columns:repeat(2,1fr); }
+  .grid[data-cols="1"]{ grid-template-columns:repeat(1,1fr); }
+
+  .card{
+    padding:10px; border-radius:14px; background:#020202; border:1px solid rgba(0,234,255,.2);
+    box-shadow:0 0 0 1px rgba(0,234,255,.25) inset, 0 0 22px rgba(0,234,255,.25), 0 0 44px rgba(0,234,255,.15);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{ transform:scale(1.03); box-shadow:0 0 28px rgba(0,234,255,.45); }
+
+  video{
+    width:100%; aspect-ratio:9/16; object-fit:cover; display:block; border-radius:12px; background:#000;
+  }
+  .name{ margin:.45rem 0 0; text-align:center; font-size:.7rem; color:#9af6ff; word-break:break-word; }
+
+  .empty{ color:#9af6ff; text-align:center; padding:40px 12px; }
+  footer{ text-align:center; color:#9af6ff; opacity:.8; padding:26px 12px; }
+
+  /* FAB 1-2-3-4 */
+  .fab{ position:fixed; right:14px; bottom:18px; z-index:20; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  .fab-toggle{
+    width:52px; height:52px; border-radius:50%; border:1px solid var(--neon); background:#000; color:var(--neon);
+    box-shadow:0 0 12px var(--neon), inset 0 0 10px rgba(0,234,255,.2);
+    font-size:1.2rem; cursor:pointer; transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .fab-toggle:hover{ transform:scale(1.05); box-shadow:0 0 18px var(--neon); }
+  .fab-menu{
+    display:none; flex-direction:column; gap:6px; padding:8px;
+    background:#020202; border:1px solid rgba(0,234,255,.25); border-radius:12px;
+    box-shadow:0 0 24px rgba(0,234,255,.35);
+  }
+  .fab.open .fab-menu{ display:flex; }
+  .fab-btn{
+    min-width:44px; padding:.35rem .65rem; border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--neon); border:1px solid var(--neon); font-weight:700;
+    box-shadow:0 0 8px var(--neon);
+  }
+  .fab-btn.active{ background:var(--neon); color:#000; }
+</style>
+</head>
+
+<body>
+  <header>
+    <div class="left">
+      <a class="back" href="index.html">⬅️ Torna ai Contatti</a>
+      <h1 class="title">🎥 PACKZ-ITA — VETRINA</h1>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div id="grid" class="grid" data-cols="2"></div>
+    <div id="empty" class="empty" style="display:none">Nessun video trovato in /videos.</div>
+  </div>
+
+  <footer>PACKZ-ITA • OFFICIAL</footer>
+
+  <!-- FAB: controllo vista -->
+  <div class="fab" id="fab">
+    <div class="fab-menu" id="fabMenu" aria-label="Numero colonne">
+      <button class="fab-btn" data-c="1">1</button>
+      <button class="fab-btn" data-c="2">2</button>
+      <button class="fab-btn" data-c="3">3</button>
+      <button class="fab-btn" data-c="4">4</button>
+    </div>
+    <button class="fab-toggle" id="fabToggle" aria-label="Vista">⧉</button>
+  </div>
+
+<script>
+(async () => {
+  // ✅ QUESTA È LA TUA VETRINA PER PACKZ-ITA1
+  const owner = "bpfam";
+  const repo  = "PACKZ-ITA1";
+  const path  = "videos";
+  const api   = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+  // Vista salvata (default "2")
+  const grid = document.getElementById("grid");
+  const saved = localStorage.getItem("packz_cols") || "2";
+  grid.setAttribute("data-cols", saved);
+
+  const fab = document.getElementById("fab");
+  const toggle = document.getElementById("fabToggle");
+  const menu = document.getElementById("fabMenu");
+  const btns = menu.querySelectorAll(".fab-btn");
+
+  function setActive(c){
+    grid.setAttribute("data-cols", c);
+    localStorage.setItem("packz_cols", c);
+    btns.forEach(b => b.classList.toggle("active", b.dataset.c === c));
+  }
+  setActive(saved);
+  toggle.addEventListener("click", ()=> fab.classList.toggle("open"));
+  document.addEventListener("click", (e)=>{ if(!fab.contains(e.target)) fab.classList.remove("open"); });
+  btns.forEach(b=> b.addEventListener("click", ()=>{ setActive(b.dataset.c); fab.classList.remove("open"); }));
+
+  const empty = document.getElementById("empty");
+  const VIDEO_RE = /\.(mp4|mov|m4v|webm)$/i;
+
+  try{
+    const res = await fetch(api, { headers:{ "Accept":"application/vnd.github+json" }});
+    if(!res.ok){
+      empty.style.display = "block";
+      empty.textContent = "Errore: cartella /videos non trovata o repo privato.";
+      return;
+    }
+    const data = await res.json();
+
+    const files = (Array.isArray(data)?data:[])
+      .filter(f => f.type === "file" && VIDEO_RE.test(f.name))
+      .sort((a,b)=> a.name.localeCompare(b.name));
+
+    if(!files.length){
+      empty.style.display = "block";
+      return;
+    }
+
+    for (const f of files) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const v = document.createElement('video');
+      v.controls = true;
+      v.playsInline = true;
+      v.preload = "metadata";
+      v.src = f.download_url; // ✅ più affidabile su GitHub Pages
+
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = f.name;
+
+      card.appendChild(v);
+      card.appendChild(name);
+      grid.appendChild(card);
+    }
+
+  }catch(e){
+    console.error(e);
+    empty.style.display = "block";
+    empty.textContent = "Errore nel caricare i video.";
+  }
+})();
+</script>
 </body>
 </html>
