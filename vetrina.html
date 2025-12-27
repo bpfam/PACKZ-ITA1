@@ -1,32 +1,3 @@
-:root{
-  --neon:#58d7ff;
-  --neon2:#b86bff;
-  --bg1:#020815;
-  --bg2:#000;
-  --card: rgba(8,10,18,.72);
-  --stroke: rgba(255,255,255,.14);
-}
-body{
-  background:
-    radial-gradient(circle at 20% 0%, rgba(88,215,255,.18), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(184,107,255,.16), transparent 45%),
-    radial-gradient(circle at top,#0b2340 0%,#020815 45%,#000 100%);
-}
-header{
-  background:linear-gradient(180deg, rgba(3,12,20,.92), rgba(2,5,12,.78));
-  border-bottom:1px solid rgba(88,215,255,.20);
-}
-.card{
-  background: var(--card);
-  border: 1px solid rgba(88,215,255,.22);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.06) inset,
-    0 0 22px rgba(88,215,255,.22),
-    0 0 40px rgba(184,107,255,.16);
-}
-.card:hover{ box-shadow:0 0 34px rgba(88,215,255,.40); }
-.back{ border-color: var(--neon); color: var(--neon); box-shadow:0 0 12px rgba(88,215,255,.65); }
-.title{ color:var(--neon); text-shadow:0 0 10px rgba(88,215,255,.75), 0 0 24px rgba(184,107,255,.45); }
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -35,139 +6,153 @@ header{
 <title>PACKZ-ITA — Vetrina Video</title>
 
 <style>
-  :root { --neon:#00eaff; --gap:12px; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:#000; color:#e9feff; font-family:system-ui, Arial, sans-serif; }
+  :root{
+    --neon:#58d7ff;
+    --neon2:#b86bff;
 
+    --card: rgba(8,10,18,.72);
+    --stroke: rgba(255,255,255,.14);
+
+    --gap:12px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  body{
+    min-height:100vh;
+    color:#e9feff;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(88,215,255,.18), transparent 45%),
+      radial-gradient(circle at 80% 10%, rgba(184,107,255,.16), transparent 45%),
+      radial-gradient(circle at top,#0b2340 0%,#020815 45%,#000 100%);
+  }
+
+  /* HEADER */
   header{
     position:sticky; top:0; z-index:10;
-    display:flex; align-items:center; gap:10px; justify-content:space-between;
-    padding:12px; background:radial-gradient(circle at center, #030b0c 40%, #000 100%);
-    border-bottom:1px solid rgba(0,234,255,.18);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 14px;
+    background:linear-gradient(180deg, rgba(3,12,20,.92), rgba(2,5,12,.78));
+    border-bottom:1px solid rgba(88,215,255,.20);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
-  .left{ display:flex; gap:10px; align-items:center; min-width:0; }
-  .back{
-    text-decoration:none; padding:.5rem .9rem; border:1px solid var(--neon); border-radius:999px;
-    color:var(--neon); box-shadow:0 0 12px var(--neon); transition:all .2s ease; white-space:nowrap;
-  }
-  .back:hover{ background:var(--neon); color:#000; }
-  .title{
-    margin:0; font-size:1rem; line-height:1; display:flex; align-items:center; gap:8px;
-    color:var(--neon); text-shadow:0 0 10px var(--neon), 0 0 30px var(--neon);
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    animation: glow 2s infinite alternate;
-  }
-  @keyframes glow { from { text-shadow:0 0 10px var(--neon) } to { text-shadow:0 0 25px var(--neon) } }
 
-  .wrap{ max-width:1200px; margin:0 auto; padding:16px; }
-  .grid{ display:grid; gap:var(--gap); }
-  .grid[data-cols="4"]{ grid-template-columns:repeat(4,1fr); }
-  .grid[data-cols="3"]{ grid-template-columns:repeat(3,1fr); }
-  .grid[data-cols="2"]{ grid-template-columns:repeat(2,1fr); }
-  .grid[data-cols="1"]{ grid-template-columns:repeat(1,1fr); }
+  .left{display:flex;align-items:center;gap:12px;min-width:0}
+  .back{
+    text-decoration:none;
+    padding:.5rem .95rem;
+    border:1px solid var(--neon);
+    border-radius:999px;
+    color:var(--neon);
+    font-size:12px;
+    box-shadow:0 0 12px rgba(88,215,255,.65);
+    white-space:nowrap;
+    transition:.2s ease;
+  }
+  .back:hover{background:rgba(88,215,255,.12)}
+
+  .title{
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--neon);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-shadow:0 0 10px rgba(88,215,255,.75), 0 0 24px rgba(184,107,255,.45);
+  }
+
+  /* GRID */
+  .wrap{max-width:1200px;margin:0 auto;padding:16px}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:var(--gap);
+  }
 
   .card{
-    padding:10px; border-radius:14px; background:#020202; border:1px solid rgba(0,234,255,.2);
-    box-shadow:0 0 0 1px rgba(0,234,255,.25) inset, 0 0 22px rgba(0,234,255,.25), 0 0 44px rgba(0,234,255,.15);
+    padding:10px;
+    border-radius:16px;
+    background:var(--card);
+    border:1px solid rgba(88,215,255,.22);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.06) inset,
+      0 0 22px rgba(88,215,255,.22),
+      0 0 40px rgba(184,107,255,.16);
     transition:transform .15s ease, box-shadow .15s ease;
+    overflow:hidden;
   }
-  .card:hover{ transform:scale(1.03); box-shadow:0 0 28px rgba(0,234,255,.45); }
+  .card:hover{
+    transform:translateY(-2px) scale(1.01);
+    box-shadow:0 0 34px rgba(88,215,255,.40);
+  }
 
   video{
-    width:100%; aspect-ratio:9/16; object-fit:cover; display:block; border-radius:12px; background:#000;
+    width:100%;
+    aspect-ratio:9/16;
+    object-fit:cover;
+    border-radius:12px;
+    background:#000;
+    display:block;
   }
-  .name{ margin:.45rem 0 0; text-align:center; font-size:.7rem; color:#9af6ff; word-break:break-word; }
+  .name{
+    margin-top:8px;
+    text-align:center;
+    font-size:11px;
+    color:#bff6ff;
+    opacity:.9;
+    word-break:break-word;
+  }
 
-  .empty{ color:#9af6ff; text-align:center; padding:40px 12px; }
-  footer{ text-align:center; color:#9af6ff; opacity:.8; padding:26px 12px; }
+  .empty{
+    color:#bff6ff;
+    text-align:center;
+    padding:50px 14px;
+    font-size:13px;
+    opacity:.9;
+  }
 
-  /* FAB 1-2-3-4 */
-  .fab{ position:fixed; right:14px; bottom:18px; z-index:20; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-  .fab-toggle{
-    width:52px; height:52px; border-radius:50%; border:1px solid var(--neon); background:#000; color:var(--neon);
-    box-shadow:0 0 12px var(--neon), inset 0 0 10px rgba(0,234,255,.2);
-    font-size:1.2rem; cursor:pointer; transition:transform .15s ease, box-shadow .2s ease;
+  footer{
+    text-align:center;
+    color:#bff6ff;
+    opacity:.8;
+    padding:26px 12px;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
   }
-  .fab-toggle:hover{ transform:scale(1.05); box-shadow:0 0 18px var(--neon); }
-  .fab-menu{
-    display:none; flex-direction:column; gap:6px; padding:8px;
-    background:#020202; border:1px solid rgba(0,234,255,.25); border-radius:12px;
-    box-shadow:0 0 24px rgba(0,234,255,.35);
-  }
-  .fab.open .fab-menu{ display:flex; }
-  .fab-btn{
-    min-width:44px; padding:.35rem .65rem; border-radius:999px; cursor:pointer;
-    background:transparent; color:var(--neon); border:1px solid var(--neon); font-weight:700;
-    box-shadow:0 0 8px var(--neon);
-  }
-  .fab-btn.active{ background:var(--neon); color:#000; }
 </style>
 </head>
 
 <body>
-  <header>
-    <div class="left">
-      <a class="back" href="index.html">⬅️ Torna ai Contatti</a>
-      <h1 class="title">🎥 PACKZ-ITA — VETRINA</h1>
-    </div>
-  </header>
-
-  <div class="wrap">
-    <div id="grid" class="grid" data-cols="2"></div>
-    <div id="empty" class="empty" style="display:none">Nessun video trovato in /videos.</div>
+<header>
+  <div class="left">
+    <a class="back" href="index.html">⬅️ Home</a>
+    <div class="title">🎥 PACKZ-ITA — VETRINA VIDEO 💎</div>
   </div>
+</header>
 
-  <footer>PACKZ-ITA • OFFICIAL</footer>
+<div class="wrap">
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" style="display:none;">Nessun video trovato.</div>
+</div>
 
-  <!-- FAB: controllo vista -->
-  <div class="fab" id="fab">
-    <div class="fab-menu" id="fabMenu" aria-label="Numero colonne">
-      <button class="fab-btn" data-c="1">1</button>
-      <button class="fab-btn" data-c="2">2</button>
-      <button class="fab-btn" data-c="3">3</button>
-      <button class="fab-btn" data-c="4">4</button>
-    </div>
-    <button class="fab-toggle" id="fabToggle" aria-label="Vista">⧉</button>
-  </div>
+<footer>PACKZ-ITA • OFFICIAL • ICE NEON</footer>
 
 <script>
 (async () => {
-  // ✅ QUESTA È LA TUA VETRINA PER PACKZ-ITA1
+  // ⚠️ METTI QUI owner/repo GIUSTI
   const owner = "bpfam";
-  const repo  = "PACKZ-ITA1";
-  const path  = "videos";
+  const repo  = "PACKZ-ITA1";   // <-- se il repo si chiama diverso, cambia qui
+  const path  = "videos";       // cartella dove carichi i video
   const api   = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-  // Vista salvata (default "2")
-  const grid = document.getElementById("grid");
-  const saved = localStorage.getItem("packz_cols") || "2";
-  grid.setAttribute("data-cols", saved);
-
-  const fab = document.getElementById("fab");
-  const toggle = document.getElementById("fabToggle");
-  const menu = document.getElementById("fabMenu");
-  const btns = menu.querySelectorAll(".fab-btn");
-
-  function setActive(c){
-    grid.setAttribute("data-cols", c);
-    localStorage.setItem("packz_cols", c);
-    btns.forEach(b => b.classList.toggle("active", b.dataset.c === c));
-  }
-  setActive(saved);
-  toggle.addEventListener("click", ()=> fab.classList.toggle("open"));
-  document.addEventListener("click", (e)=>{ if(!fab.contains(e.target)) fab.classList.remove("open"); });
-  btns.forEach(b=> b.addEventListener("click", ()=>{ setActive(b.dataset.c); fab.classList.remove("open"); }));
-
+  const grid  = document.getElementById("grid");
   const empty = document.getElementById("empty");
   const VIDEO_RE = /\.(mp4|mov|m4v|webm)$/i;
 
   try{
     const res = await fetch(api, { headers:{ "Accept":"application/vnd.github+json" }});
-    if(!res.ok){
-      empty.style.display = "block";
-      empty.textContent = "Errore: cartella /videos non trovata o repo privato.";
-      return;
-    }
     const data = await res.json();
 
     const files = (Array.isArray(data)?data:[])
@@ -180,28 +165,29 @@ header{
     }
 
     for (const f of files) {
-      const card = document.createElement('div');
-      card.className = 'card';
+      const src = `videos/${encodeURIComponent(f.name)}`;
 
-      const v = document.createElement('video');
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const v = document.createElement("video");
       v.controls = true;
       v.playsInline = true;
       v.preload = "metadata";
-      v.src = f.download_url; // ✅ più affidabile su GitHub Pages
+      v.src = src;
 
-      const name = document.createElement('div');
-      name.className = 'name';
+      const name = document.createElement("div");
+      name.className = "name";
       name.textContent = f.name;
 
       card.appendChild(v);
       card.appendChild(name);
       grid.appendChild(card);
     }
-
   }catch(e){
     console.error(e);
     empty.style.display = "block";
-    empty.textContent = "Errore nel caricare i video.";
+    empty.textContent = "Errore nel caricare i file.";
   }
 })();
 </script>
