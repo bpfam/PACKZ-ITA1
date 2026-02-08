@@ -1,229 +1,531 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BPFamNetwork — Area Riservata 💎</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BPFamNetwork — Area Riservata 💎</title>
+  <meta name="theme-color" content="#00E0C7" />
+  <meta name="color-scheme" content="dark" />
 
-<style>
-:root{
-  --accent:#00e0c7;
-  --text:#eaf3ff;
-  --muted:#9aa3b2;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Poppins,system-ui;
-  background:radial-gradient(circle at top,#0b1220,#000);
-  color:var(--text);
-  padding:30px 16px;
-}
-.wrap{max-width:900px;margin:auto}
-.card{
-  background:#0e131a;
-  border-radius:20px;
-  padding:20px;
-  border:1px solid #ffffff14;
-  box-shadow:0 10px 40px #000;
-}
-h1{text-align:center;color:var(--accent)}
-.subtitle{text-align:center;color:var(--muted);margin-bottom:10px}
+  <style>
+    :root{
+      --bg:#070a0e; --grid:#00e0c7; --accent:#00e0c7;
+      --text:#eaf3ff; --muted:#9aa3b2;
+      --radius:22px; --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --glow: 0 0 22px rgba(0,224,199,.45), 0 0 80px rgba(0,224,199,.18);
+      --card-border:#ffffff14;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 50% 0%, #0b1220 0%, #05070a 50%, #000 100% );
+      min-height:100svh; overflow-x:hidden; padding:42px 20px; perspective:1000px;
+      --g: color-mix(in oklab, var(--grid), transparent 85%);
+      background-image:
+        linear-gradient(90deg, var(--g) 1px, transparent 1px),
+        linear-gradient(0deg,  var(--g) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 22s linear infinite;
+    }
+    @keyframes gridMove{0%{background-position:0 0}100%{background-position:60px 60px}}
+    .wrap{max-width:920px;margin:0 auto;position:relative;z-index:1}
+    .card{
+      position:relative; border-radius:var(--radius); padding:28px 22px;
+      background:linear-gradient(180deg, #0f1621ee 0%, #0a1119ee 100%);
+      border:1px solid var(--card-border); box-shadow: var(--shadow);
+      backdrop-filter: blur(10px) saturate(120%); transform-style:preserve-3d; overflow:hidden;
+    }
+    .card:before{
+      content:""; position:absolute; inset:-2px;
+      border-radius:calc(var(--radius) + 6px);
+      background:
+        radial-gradient(800px 140px at 50% -10%, rgba(0,224,199,.22), transparent 60%),
+        radial-gradient(400px 120px at 10% 20%, rgba(0,224,199,.12), transparent 70%),
+        radial-gradient(400px 120px at 90% 20%, rgba(0,224,199,.12), transparent 70%);
+      filter: blur(10px); z-index:0; pointer-events:none;
+    }
+    .inner{position:relative;z-index:1}
 
-.field{
-  width:100%;padding:12px;margin:6px 0;
-  border-radius:12px;border:1px solid #ffffff20;
-  background:#000;color:white;
-}
-.btn{
-  width:100%;padding:12px;border-radius:12px;
-  border:0;font-weight:800;cursor:pointer;
-  background:white;color:black;
-}
-.msg{margin-top:10px;color:var(--muted);font-size:14px}
+    .head{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
+    .logo{
+      width:112px;height:112px;border-radius:50%;object-fit:cover;
+      box-shadow:var(--glow); border:2px solid #00e0c72a;
+      transform: translateZ(30px); transition: transform .25s ease;
+    }
+    h1{
+      margin:6px 0 0; font-size:clamp(24px,4.6vw,38px); line-height:1.1;
+      color:var(--accent); text-shadow:0 0 22px rgba(0,224,199,.45);
+      letter-spacing:.3px; text-align:center; transform: translateZ(35px);
+    }
+    .subtitle{
+      text-align:center;color:var(--muted); margin:12px auto 18px; max-width:760px;
+      transform: translateZ(25px);
+    }
+    .divider{height:1px;background:linear-gradient(90deg, transparent, #ffffff26, transparent); margin:18px 0}
 
-.topbar{
-  display:flex;justify-content:space-between;
-  align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap;
-}
-.logout{
-  background:white;color:black;border:0;
-  padding:8px 12px;border-radius:10px;
-  font-weight:800;cursor:pointer;
-}
+    .pillRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:-6px}
+    .pill{
+      padding:8px 12px;border-radius:999px;font-weight:900;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+    }
+    .pill b{color:var(--accent)}
 
-.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.tab{
-  padding:8px 12px;border-radius:999px;
-  background:#ffffff15;border:1px solid #ffffff20;
-  cursor:pointer;font-weight:700;
-}
-.tab.active{
-  background:#00e0c720;color:var(--accent);
-  border-color:#00e0c7;
-}
+    /* Login */
+    .field{
+      width:100%; padding:12px 14px; margin:8px 0; border-radius:14px;
+      border:1px solid rgba(255,255,255,0.14); background:rgba(0,0,0,0.35);
+      color:var(--text); outline:none;
+    }
+    .btnSolid{
+      cursor:pointer;border:0;border-radius:14px;padding:12px 14px;
+      font-weight:900;background:#fff;color:#000;width:100%;
+    }
+    .msg{margin-top:10px;color:var(--muted);font-size:14px}
 
-.list{display:grid;gap:10px}
-.item{
-  display:flex;justify-content:space-between;
-  align-items:center;background:#00000040;
-  border:1px solid #ffffff12;padding:12px;
-  border-radius:12px;gap:10px;
-}
-a.link{color:var(--accent);text-decoration:none;font-weight:700}
+    /* Dashboard */
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .who{color:var(--muted);font-size:14px}
+    .logout{cursor:pointer;border:0;border-radius:14px;padding:10px 14px;font-weight:900;background:#fff;color:#000}
 
-.blade{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px;border-radius:12px;
-  border:1px solid #ffffff20;
-  background:#00000040;
-  font-weight:800;text-decoration:none;color:white;
-}
-.blade:hover{background:#00e0c720}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 14px}
+    .tab{
+      cursor:pointer;border-radius:999px;padding:10px 12px;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+      color:#fff;font-weight:900;
+    }
+    .tab.active{
+      background:rgba(0,224,199,.12); border-color:rgba(0,224,199,.35);
+      box-shadow:0 0 22px rgba(0,224,199,.10); color:var(--accent);
+    }
 
-.hide{display:none}
-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
-</style>
+    /* Contatti cards */
+    .list{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+    @media (max-width:720px){.list{grid-template-columns:1fr}}
+    .item{
+      display:flex;align-items:center;gap:12px; background:#0c131c; border:1px solid #ffffff12;
+      border-radius:16px;padding:14px 14px; box-shadow:0 8px 24px rgba(0,0,0,.35);
+      position:relative;overflow:hidden;
+    }
+    .item:after{
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(500px 80px at 0% 0%, rgba(0,224,199,.12), transparent 60%);
+      pointer-events:none;
+    }
+    .ico{
+      width:38px;height:38px;display:grid;place-items:center;border-radius:12px;
+      background:linear-gradient(145deg,#0f1a24,#0a1117);border:1px solid #ffffff12;
+      box-shadow: inset 0 0 0 1px #00e0c714, 0 0 28px rgba(0,224,199,.05);
+      font-size:20px;
+    }
+    .txt{flex:1;min-width:0}
+    .lbl{font-weight:900;letter-spacing:.2px}
+    .mut{color:var(--muted);font-size:14px}
+    .btnLink{
+      white-space:nowrap;text-decoration:none;font-weight:900;border-radius:12px;padding:10px 14px;
+      border:1px solid #00e0c72a;background:linear-gradient(180deg,#0c1a1a,#061312);
+      box-shadow: inset 0 0 0 1px #00e0c71f, 0 0 22px rgba(0,224,199,.12);
+      color:var(--accent); position:relative; z-index:2;
+    }
+
+    /* Video button */
+    .menu{display:grid;grid-template-columns:1fr;gap:14px}
+    .blade{
+      display:flex;align-items:center;gap:10px; border-radius:18px; padding:16px 16px; text-decoration:none;
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.14); box-shadow:0 10px 34px rgba(0,0,0,.45);
+      position:relative; overflow:hidden; color:#fff; font-weight:900; letter-spacing:.2px;
+    }
+    .blade:before{
+      content:""; position:absolute; inset:-2px;
+      background: radial-gradient(500px 120px at 0% 0%, rgba(0,224,199,.18), transparent 60%);
+      filter: blur(8px); pointer-events:none;
+    }
+    .blade .l,.blade .r{
+      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); position:relative; z-index:2;
+    }
+    .blade .c{flex:1;position:relative;z-index:2}
+
+    /* Admin table */
+    table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;font-size:14px}
+    th{color:var(--muted);font-weight:900}
+    tr:hover td{background:rgba(255,255,255,.03)}
+    .miniBtn{
+      cursor:pointer;border:0;border-radius:10px;padding:8px 10px;font-weight:900;background:#fff;color:#000;
+    }
+    .miniBtn.secondary{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.18)}
+
+    .hide{display:none !important}
+    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
+    .tilt{transform-style:preserve-3d}
+    .tilt:hover .logo{transform: translateZ(45px) rotateX(2deg) rotateY(-3deg)}
+  </style>
 </head>
 
 <body>
-<div class="wrap">
-<div class="card">
+  <main class="wrap">
+    <section class="card tilt" id="card">
+      <div class="inner">
 
-<h1>💎 BPFamNetwork</h1>
-<p class="subtitle" id="sub">Accesso consentito solo agli autorizzati</p>
+        <div class="head">
+          <img class="logo" src="https://i.postimg.cc/N0WNKqZD/5-F5-DFE41-C80-D-4-FC2-B4-F6-D105844664-B3.jpg" alt="Logo">
+          <h1>BPFamNetwork 💎</h1>
+        </div>
 
-<!-- LOGIN -->
-<div id="loginView">
-  <input id="email" class="field" type="email" placeholder="Email">
-  <input id="pass" class="field" type="password" placeholder="Password">
-  <button id="loginBtn" class="btn">Entra</button>
-  <div class="msg" id="msg"></div>
-  <footer>Se non hai accesso contatta l’amministratore</footer>
-</div>
+        <p class="subtitle" id="subtitlePublic">
+          Accesso riservato con <b>email + password</b>.
+        </p>
 
-<!-- DASHBOARD -->
-<div id="dashView" class="hide">
+        <div class="pillRow" id="publicPills">
+          <div class="pill">🔒 <b>Private</b> Access</div>
+          <div class="pill">✅ Canali <b>Verificati</b></div>
+        </div>
 
-  <div class="topbar">
-    <div id="who"></div>
-    <button class="logout" id="logoutBtn">Logout</button>
-  </div>
+        <!-- LOGIN -->
+        <div id="viewLogin">
+          <div class="divider"></div>
+          <input id="email" class="field" type="email" placeholder="Email" autocomplete="email" />
+          <input id="pass" class="field" type="password" placeholder="Password" autocomplete="current-password" />
+          <button id="login" class="btnSolid">Entra</button>
+          <div class="msg" id="msg"></div>
+          <footer>Se non hai accesso, devi essere aggiunto dall’amministratore.</footer>
+        </div>
 
-  <div class="tabs">
-    <div class="tab active" data-t="contacts">Contatti</div>
-    <div class="tab" data-t="media">Video / Menu</div>
-  </div>
+        <!-- DASH -->
+        <div id="viewDash" class="hide">
+          <div class="divider"></div>
 
-  <!-- CONTATTI -->
-  <div id="contactsTab" class="list">
+          <div class="topbar">
+            <div>
+              <div style="font-size:18px;font-weight:900;color:var(--accent);text-shadow:0 0 18px rgba(0,224,199,.35)">Dashboard</div>
+              <div class="who" id="who">...</div>
+              <div class="pillRow" style="justify-content:flex-start;margin-top:10px">
+                <div class="pill">👥 Iscritti attivi: <b id="activeCount">—</b></div>
+                <div class="pill">🕒 Ultimo login: <b id="lastLogin">—</b></div>
+              </div>
+            </div>
+            <button class="logout" id="logout">Logout</button>
+          </div>
 
-    <div class="item">
-      <span>📸 Instagram Principale</span>
-      <a class="link" target="_blank" href="https://www.instagram.com/bpfamofficial420">Apri</a>
-    </div>
+          <div class="tabs">
+            <button class="tab active" data-tab="contacts">CONTATTI</button>
+            <button class="tab" data-tab="videos">VIDEO / MENU</button>
+            <button class="tab hide" data-tab="admin" id="adminTabBtn">ADMIN</button>
+          </div>
 
-    <div class="item">
-      <span>🟠 Instagram Backup</span>
-      <a class="link" target="_blank" href="https://www.instagram.com/bpfamofficial420backup">Apri</a>
-    </div>
+          <!-- CONTATTI -->
+          <div id="tab-contacts">
+            <div class="list">
+              <div class="item"><div class="ico">📸</div><div class="txt"><div class="lbl">Instagram Principale</div><div class="mut">@bpfamofficial420</div></div><a class="btnLink" href="https://www.instagram.com/bpfamofficial420" target="_blank" rel="noopener">Apri</a></div>
+              <div class="item"><div class="ico">🟠</div><div class="txt"><div class="lbl">Instagram Backup</div><div class="mut">@bpfamofficial420backup</div></div><a class="btnLink" href="https://www.instagram.com/bpfamofficial420backup" target="_blank" rel="noopener">Apri</a></div>
+              <div class="item"><div class="ico">🎥</div><div class="txt"><div class="lbl">Instagram Media</div><div class="mut">@bpfamnetwork</div></div><a class="btnLink" href="https://www.instagram.com/bpfamnetwork" target="_blank" rel="noopener">Apri</a></div>
+              <div class="item"><div class="ico">💬</div><div class="txt"><div class="lbl">Contatto Telegram</div><div class="mut">@BPFAMPRIVATE_CLUB</div></div><a class="btnLink" href="https://t.me/BPFAMPRIVATE_CLUB" target="_blank" rel="noopener">Apri</a></div>
+              <div class="item"><div class="ico">📢</div><div class="txt"><div class="lbl">Canale Telegram</div><div class="mut">t.me/+6Rdz_JD0w61kMWU0</div></div><a class="btnLink" href="https://t.me/+6Rdz_JD0w61kMWU0" target="_blank" rel="noopener">Unisciti</a></div>
+              <div class="item"><div class="ico">🤖</div><div class="txt"><div class="lbl">Bot Telegram</div><div class="mut">@Bpfamofficial_bot</div></div><a class="btnLink" href="https://t.me/Bpfamofficial_bot" target="_blank" rel="noopener">Avvia</a></div>
+            </div>
+          </div>
 
-    <div class="item">
-      <span>🎥 Instagram Media</span>
-      <a class="link" target="_blank" href="https://www.instagram.com/bpfamnetwork">Apri</a>
-    </div>
+          <!-- VIDEO -->
+          <div id="tab-videos" class="hide">
+            <p class="subtitle" style="margin-top:0">Portale ufficiale video/menu.</p>
+            <div class="menu">
+              <a class="blade" href="https://bpfam.github.io/Video-bpfam/" target="_self" rel="noopener">
+                <span class="l">🎬</span>
+                <span class="c">ENTRA NEL PORTALE VIDEO</span>
+                <span class="r">▶️</span>
+              </a>
+            </div>
+          </div>
 
-    <div class="item">
-      <span>💬 Contatto Telegram</span>
-      <a class="link" target="_blank" href="https://t.me/BPFAMPRIVATE_CLUB">Apri</a>
-    </div>
+          <!-- ADMIN -->
+          <div id="tab-admin" class="hide">
+            <p class="subtitle" style="margin-top:0">Gestione utenti (abilita/disabilita) + log accessi.</p>
 
-    <div class="item">
-      <span>📢 Canale Telegram</span>
-      <a class="link" target="_blank" href="https://t.me/+6Rdz_JD0w61kMWU0">Unisciti</a>
-    </div>
+            <div class="divider"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+              <button class="miniBtn" id="refreshAdmin">Aggiorna</button>
+              <button class="miniBtn secondary" id="refreshLogs">Log accessi</button>
+            </div>
 
-    <div class="item">
-      <span>🤖 Bot Telegram</span>
-      <a class="link" target="_blank" href="https://t.me/Bpfamofficial_bot">Avvia</a>
-    </div>
+            <div style="overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:14px">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Email</th><th>Ruolo</th><th>Enabled</th><th>Scadenza</th><th>Azioni</th>
+                  </tr>
+                </thead>
+                <tbody id="membersBody"></tbody>
+              </table>
+            </div>
 
-  </div>
+            <div class="divider"></div>
 
-  <!-- VIDEO -->
-  <div id="mediaTab" class="hide">
-    <a class="blade" href="https://bpfam.github.io/Video-bpfam/" target="_self">
-      <span>🎬 ENTRA NEL PORTALE VIDEO</span>
-      <span>▶️</span>
-    </a>
-    <div style="height:10px"></div>
-    <div class="subtitle">Verrai reindirizzato al sito media ufficiale</div>
-  </div>
+            <div style="overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:14px">
+              <table>
+                <thead>
+                  <tr><th>Quando</th><th>Email</th><th>Evento</th></tr>
+                </thead>
+                <tbody id="logsBody"></tbody>
+              </table>
+            </div>
+          </div>
 
-</div>
+          <footer>© BPFamNetwork — Private Access 💎</footer>
+        </div>
 
-</div>
-</div>
+      </div>
+    </section>
+  </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = "https://qnbouentjmyhyujsgwej.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_AchUs72cypEmbEj3pWAHnA_zYXjSu17";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const loginView=document.getElementById("loginView");
-const dashView=document.getElementById("dashView");
-const msg=(t)=>document.getElementById("msg").innerText=t;
-const who=document.getElementById("who");
-const sub=document.getElementById("sub");
-
-function showDash(email){
-  loginView.classList.add("hide");
-  dashView.classList.remove("hide");
-  who.innerText="Loggato come: "+email;
-  sub.classList.add("hide");
-}
-function showLogin(){
-  dashView.classList.add("hide");
-  loginView.classList.remove("hide");
-  sub.classList.remove("hide");
-}
-
-async function guard(){
-  const { data } = await sb.auth.getSession();
-  if(data.session) showDash(data.session.user.email);
-}
-guard();
-
-loginBtn.onclick = async ()=>{
-  msg("Accesso...");
-  const { data, error } = await sb.auth.signInWithPassword({
-    email: email.value,
-    password: pass.value
-  });
-  if(error) return msg("❌ "+error.message);
-  showDash(data.user.email);
-};
-
-logoutBtn.onclick = async ()=>{
-  await sb.auth.signOut();
-  showLogin();
-};
-
-document.querySelectorAll(".tab").forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(a=>a.classList.remove("active"));
-    t.classList.add("active");
-    if(t.dataset.t==="contacts"){
-      contactsTab.classList.remove("hide");
-      mediaTab.classList.add("hide");
-    }else{
-      mediaTab.classList.remove("hide");
-      contactsTab.classList.add("hide");
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Tilt
+    const card = document.getElementById('card');
+    let rAF;
+    function tilt(e){
+      const b = card.getBoundingClientRect();
+      const x = (e.clientX - b.left) / b.width;
+      const y = (e.clientY - b.top)  / b.height;
+      const rx = (y - .5) * -6;
+      const ry = (x - .5) *  6;
+      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     }
-  }
-});
-</script>
+    function resetTilt(){ card.style.transform = 'rotateX(0deg) rotateY(0deg)'; }
+    card.addEventListener('mousemove', (e)=>{ cancelAnimationFrame(rAF); rAF = requestAnimationFrame(()=>tilt(e)); });
+    card.addEventListener('mouseleave', ()=>{ resetTilt(); });
 
+    // Supabase
+    const SUPABASE_URL = "https://qnbouentjmyhyujsgwej.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_AchUs72cypEmbEj3pWAHnA_zYXjSu17";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const viewLogin = document.getElementById("viewLogin");
+    const viewDash  = document.getElementById("viewDash");
+    const msgEl     = document.getElementById("msg");
+    const whoEl     = document.getElementById("who");
+    const subtitlePublic = document.getElementById("subtitlePublic");
+    const publicPills = document.getElementById("publicPills");
+
+    const activeCountEl = document.getElementById("activeCount");
+    const lastLoginEl = document.getElementById("lastLogin");
+
+    const adminTabBtn = document.getElementById("adminTabBtn");
+    const membersBody = document.getElementById("membersBody");
+    const logsBody = document.getElementById("logsBody");
+
+    function msg(t){ msgEl.innerText = t || ""; }
+    function showDash(email){
+      viewLogin.classList.add("hide");
+      viewDash.classList.remove("hide");
+      whoEl.innerText = "Loggato come: " + email;
+      subtitlePublic.classList.add("hide");
+      publicPills.classList.add("hide");
+    }
+    function showLogin(){
+      viewDash.classList.add("hide");
+      viewLogin.classList.remove("hide");
+      subtitlePublic.classList.remove("hide");
+      publicPills.classList.remove("hide");
+    }
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tab");
+    const tabContacts = document.getElementById("tab-contacts");
+    const tabVideos = document.getElementById("tab-videos");
+    const tabAdmin = document.getElementById("tab-admin");
+
+    function setTab(name){
+      tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+      tabContacts.classList.toggle("hide", name !== "contacts");
+      tabVideos.classList.toggle("hide", name !== "videos");
+      tabAdmin.classList.toggle("hide", name !== "admin");
+    }
+    tabs.forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
+
+    // Helpers
+    function fmtDate(iso){
+      if(!iso) return "—";
+      const d = new Date(iso);
+      return d.toLocaleString("it-IT");
+    }
+
+    async function loadCounts(){
+      // iscritti attivi = enabled=true e (expires_at null o futura)
+      const nowIso = new Date().toISOString();
+      const { count, error } = await sb
+        .from("members")
+        .select("*", { count: "exact", head: true })
+        .eq("enabled", true)
+        .or(`expires_at.is.null,expires_at.gt.${nowIso}`);
+      activeCountEl.innerText = error ? "—" : String(count ?? "—");
+    }
+
+    async function loadLastLogin(myUserId){
+      const { data, error } = await sb
+        .from("access_logs")
+        .select("created_at")
+        .eq("user_id", myUserId)
+        .order("created_at", { ascending:false })
+        .limit(1);
+      if (error || !data || !data.length) { lastLoginEl.innerText = "—"; return; }
+      lastLoginEl.innerText = fmtDate(data[0].created_at);
+    }
+
+    async function checkMemberAndAdmin(user){
+      // verifica che esista in members, enabled e non scaduto
+      const { data, error } = await sb
+        .from("members")
+        .select("role, enabled, expires_at")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error || !data){
+        await sb.auth.signOut();
+        showLogin();
+        msg("❌ Accesso non autorizzato (manca in members).");
+        return { ok:false };
+      }
+
+      const expired = data.expires_at && new Date(data.expires_at).getTime() <= Date.now();
+      if (!data.enabled || expired){
+        await sb.auth.signOut();
+        showLogin();
+        msg("❌ Accesso disattivato o scaduto.");
+        return { ok:false };
+      }
+
+      const isAdmin = data.role === "admin";
+      adminTabBtn.classList.toggle("hide", !isAdmin);
+      return { ok:true, isAdmin };
+    }
+
+    async function writeLoginLog(user){
+      // registra login riuscito
+      await sb.from("access_logs").insert([{
+        user_id: user.id,
+        email: user.email,
+        event: "login",
+        user_agent: navigator.userAgent
+      }]);
+    }
+
+    async function loadAdminMembers(){
+      membersBody.innerHTML = "";
+      const { data, error } = await sb
+        .from("members")
+        .select("user_id,email,role,enabled,expires_at,created_at")
+        .order("created_at", { ascending:false })
+        .limit(200);
+
+      if (error){ membersBody.innerHTML = `<tr><td colspan="5">Errore: ${error.message}</td></tr>`; return; }
+      if (!data || !data.length){ membersBody.innerHTML = `<tr><td colspan="5">Nessun membro</td></tr>`; return; }
+
+      for (const m of data){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${m.email ?? "—"}</td>
+          <td>${m.role}</td>
+          <td>${m.enabled ? "✅" : "❌"}</td>
+          <td>${m.expires_at ? fmtDate(m.expires_at) : "—"}</td>
+          <td>
+            <button class="miniBtn" data-action="toggle" data-id="${m.user_id}" data-enabled="${m.enabled}">
+              ${m.enabled ? "Disattiva" : "Attiva"}
+            </button>
+          </td>
+        `;
+        membersBody.appendChild(tr);
+      }
+    }
+
+    async function loadAdminLogs(){
+      logsBody.innerHTML = "";
+      const { data, error } = await sb
+        .from("access_logs")
+        .select("created_at,email,event")
+        .order("created_at", { ascending:false })
+        .limit(100);
+
+      if (error){ logsBody.innerHTML = `<tr><td colspan="3">Errore: ${error.message}</td></tr>`; return; }
+      if (!data || !data.length){ logsBody.innerHTML = `<tr><td colspan="3">Nessun log</td></tr>`; return; }
+
+      for (const l of data){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${fmtDate(l.created_at)}</td><td>${l.email ?? "—"}</td><td>${l.event}</td>`;
+        logsBody.appendChild(tr);
+      }
+    }
+
+    // Admin button actions
+    document.getElementById("refreshAdmin").onclick = async () => { await loadAdminMembers(); };
+    document.getElementById("refreshLogs").onclick = async () => { await loadAdminLogs(); };
+
+    membersBody.addEventListener("click", async (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.action !== "toggle") return;
+
+      const id = btn.dataset.id;
+      const enabled = btn.dataset.enabled === "true";
+      const { error } = await sb.from("members").update({ enabled: !enabled }).eq("user_id", id);
+      if (error){ alert("Errore: " + error.message); return; }
+
+      await loadAdminMembers();
+      await loadCounts();
+    });
+
+    // Guard
+    async function guard(){
+      const { data } = await sb.auth.getSession();
+      if (!data.session) return showLogin();
+
+      const user = data.session.user;
+      const ok = await checkMemberAndAdmin(user);
+      if (!ok.ok) return;
+
+      showDash(user.email);
+      await writeLoginLog(user);
+      await loadCounts();
+      await loadLastLogin(user.id);
+    }
+
+    document.getElementById("login").onclick = async () => {
+      msg("Accesso in corso...");
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("pass").value;
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) return msg("❌ " + error.message);
+
+      // Controllo abilitazione/scadenza + admin
+      const ok = await checkMemberAndAdmin(data.user);
+      if (!ok.ok) return;
+
+      msg("");
+      showDash(data.user.email);
+
+      await writeLoginLog(data.user);
+      await loadCounts();
+      await loadLastLogin(data.user.id);
+
+      // Se admin, carica subito pannello
+      if (ok.isAdmin){
+        await loadAdminMembers();
+        await loadAdminLogs();
+      }
+    };
+
+    document.getElementById("logout").onclick = async () => {
+      await sb.auth.signOut();
+      showLogin();
+      msg("");
+    };
+
+    guard();
+  </script>
 </body>
 </html>
