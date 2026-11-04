@@ -1,0 +1,16 @@
+[
+  {
+    "id": "recensione-001",
+    "type": "image",
+    "url": "https://esempio.it/recensione1.jpg",
+    "rating": 5,
+    "text": "Prodotto ricevuto, tutto perfetto!"
+  },
+  {
+    "id": "recensione-002",
+    "type": "video",
+    "url": "https://esempio.it/recensione2.mp4",
+    "rating": 5,
+    "text": "Ottima esperienza, prodotto conforme alla descrizione."
+  }
+]
