@@ -1,0 +1,42 @@
+{
+  "id": "./",
+  "name": "VESTIAMOCIALTAMODA",
+  "short_name": "ALTA MODA",
+  "description": "VESTIAMOCIALTAMODA — Luxury Fashion, Exclusive Collection. Negozio online di abbigliamento firmato.",
+  "lang": "it-IT",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#050608",
+  "theme_color": "#070a0e",
+  "orientation": "portrait",
+  "categories": [
+    "shopping",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
