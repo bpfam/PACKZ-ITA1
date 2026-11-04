@@ -1,531 +1,765 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BPFamNetwork — Area Riservata 💎</title>
-  <meta name="theme-color" content="#00E0C7" />
-  <meta name="color-scheme" content="dark" />
+  <meta charset="UTF-8">
 
-  <style>
-    :root{
-      --bg:#070a0e; --grid:#00e0c7; --accent:#00e0c7;
-      --text:#eaf3ff; --muted:#9aa3b2;
-      --radius:22px; --shadow: 0 18px 60px rgba(0,0,0,.55);
-      --glow: 0 0 22px rgba(0,224,199,.45), 0 0 80px rgba(0,224,199,.18);
-      --card-border:#ffffff14;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif;
-      color:var(--text);
-      background: radial-gradient(1200px 600px at 50% 0%, #0b1220 0%, #05070a 50%, #000 100% );
-      min-height:100svh; overflow-x:hidden; padding:42px 20px; perspective:1000px;
-      --g: color-mix(in oklab, var(--grid), transparent 85%);
-      background-image:
-        linear-gradient(90deg, var(--g) 1px, transparent 1px),
-        linear-gradient(0deg,  var(--g) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridMove 22s linear infinite;
-    }
-    @keyframes gridMove{0%{background-position:0 0}100%{background-position:60px 60px}}
-    .wrap{max-width:920px;margin:0 auto;position:relative;z-index:1}
-    .card{
-      position:relative; border-radius:var(--radius); padding:28px 22px;
-      background:linear-gradient(180deg, #0f1621ee 0%, #0a1119ee 100%);
-      border:1px solid var(--card-border); box-shadow: var(--shadow);
-      backdrop-filter: blur(10px) saturate(120%); transform-style:preserve-3d; overflow:hidden;
-    }
-    .card:before{
-      content:""; position:absolute; inset:-2px;
-      border-radius:calc(var(--radius) + 6px);
-      background:
-        radial-gradient(800px 140px at 50% -10%, rgba(0,224,199,.22), transparent 60%),
-        radial-gradient(400px 120px at 10% 20%, rgba(0,224,199,.12), transparent 70%),
-        radial-gradient(400px 120px at 90% 20%, rgba(0,224,199,.12), transparent 70%);
-      filter: blur(10px); z-index:0; pointer-events:none;
-    }
-    .inner{position:relative;z-index:1}
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    .head{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
-    .logo{
-      width:112px;height:112px;border-radius:50%;object-fit:cover;
-      box-shadow:var(--glow); border:2px solid #00e0c72a;
-      transform: translateZ(30px); transition: transform .25s ease;
-    }
-    h1{
-      margin:6px 0 0; font-size:clamp(24px,4.6vw,38px); line-height:1.1;
-      color:var(--accent); text-shadow:0 0 22px rgba(0,224,199,.45);
-      letter-spacing:.3px; text-align:center; transform: translateZ(35px);
-    }
-    .subtitle{
-      text-align:center;color:var(--muted); margin:12px auto 18px; max-width:760px;
-      transform: translateZ(25px);
-    }
-    .divider{height:1px;background:linear-gradient(90deg, transparent, #ffffff26, transparent); margin:18px 0}
+  <meta name="theme-color" content="#070a0e">
+  <meta name="color-scheme" content="dark">
 
-    .pillRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:-6px}
-    .pill{
-      padding:8px 12px;border-radius:999px;font-weight:900;
-      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
-      color:#fff;
-    }
-    .pill b{color:var(--accent)}
+  <meta name="description"
+        content="VESTIAMOCIALTAMODA — Catalogo, novità, recensioni e contatti.">
 
-    /* Login */
-    .field{
-      width:100%; padding:12px 14px; margin:8px 0; border-radius:14px;
-      border:1px solid rgba(255,255,255,0.14); background:rgba(0,0,0,0.35);
-      color:var(--text); outline:none;
-    }
-    .btnSolid{
-      cursor:pointer;border:0;border-radius:14px;padding:12px 14px;
-      font-weight:900;background:#fff;color:#000;width:100%;
-    }
-    .msg{margin-top:10px;color:var(--muted);font-size:14px}
+  <title>VESTIAMOCIALTAMODA | Luxury Fashion</title>
 
-    /* Dashboard */
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-    .who{color:var(--muted);font-size:14px}
-    .logout{cursor:pointer;border:0;border-radius:14px;padding:10px 14px;font-weight:900;background:#fff;color:#000}
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 
-    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 14px}
-    .tab{
-      cursor:pointer;border-radius:999px;padding:10px 12px;
-      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
-      color:#fff;font-weight:900;
-    }
-    .tab.active{
-      background:rgba(0,224,199,.12); border-color:rgba(0,224,199,.35);
-      box-shadow:0 0 22px rgba(0,224,199,.10); color:var(--accent);
-    }
-
-    /* Contatti cards */
-    .list{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
-    @media (max-width:720px){.list{grid-template-columns:1fr}}
-    .item{
-      display:flex;align-items:center;gap:12px; background:#0c131c; border:1px solid #ffffff12;
-      border-radius:16px;padding:14px 14px; box-shadow:0 8px 24px rgba(0,0,0,.35);
-      position:relative;overflow:hidden;
-    }
-    .item:after{
-      content:""; position:absolute; inset:0;
-      background: radial-gradient(500px 80px at 0% 0%, rgba(0,224,199,.12), transparent 60%);
-      pointer-events:none;
-    }
-    .ico{
-      width:38px;height:38px;display:grid;place-items:center;border-radius:12px;
-      background:linear-gradient(145deg,#0f1a24,#0a1117);border:1px solid #ffffff12;
-      box-shadow: inset 0 0 0 1px #00e0c714, 0 0 28px rgba(0,224,199,.05);
-      font-size:20px;
-    }
-    .txt{flex:1;min-width:0}
-    .lbl{font-weight:900;letter-spacing:.2px}
-    .mut{color:var(--muted);font-size:14px}
-    .btnLink{
-      white-space:nowrap;text-decoration:none;font-weight:900;border-radius:12px;padding:10px 14px;
-      border:1px solid #00e0c72a;background:linear-gradient(180deg,#0c1a1a,#061312);
-      box-shadow: inset 0 0 0 1px #00e0c71f, 0 0 22px rgba(0,224,199,.12);
-      color:var(--accent); position:relative; z-index:2;
-    }
-
-    /* Video button */
-    .menu{display:grid;grid-template-columns:1fr;gap:14px}
-    .blade{
-      display:flex;align-items:center;gap:10px; border-radius:18px; padding:16px 16px; text-decoration:none;
-      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.14); box-shadow:0 10px 34px rgba(0,0,0,.45);
-      position:relative; overflow:hidden; color:#fff; font-weight:900; letter-spacing:.2px;
-    }
-    .blade:before{
-      content:""; position:absolute; inset:-2px;
-      background: radial-gradient(500px 120px at 0% 0%, rgba(0,224,199,.18), transparent 60%);
-      filter: blur(8px); pointer-events:none;
-    }
-    .blade .l,.blade .r{
-      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); position:relative; z-index:2;
-    }
-    .blade .c{flex:1;position:relative;z-index:2}
-
-    /* Admin table */
-    table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px}
-    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;font-size:14px}
-    th{color:var(--muted);font-weight:900}
-    tr:hover td{background:rgba(255,255,255,.03)}
-    .miniBtn{
-      cursor:pointer;border:0;border-radius:10px;padding:8px 10px;font-weight:900;background:#fff;color:#000;
-    }
-    .miniBtn.secondary{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.18)}
-
-    .hide{display:none !important}
-    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
-    .tilt{transform-style:preserve-3d}
-    .tilt:hover .logo{transform: translateZ(45px) rotateX(2deg) rotateY(-3deg)}
-  </style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-  <main class="wrap">
-    <section class="card tilt" id="card">
-      <div class="inner">
 
-        <div class="head">
-          <img class="logo" src="https://i.postimg.cc/N0WNKqZD/5-F5-DFE41-C80-D-4-FC2-B4-F6-D105844664-B3.jpg" alt="Logo">
-          <h1>BPFamNetwork 💎</h1>
-        </div>
+  <!-- =========================
+       SCHERMATA INIZIALE
+  ========================== -->
 
-        <p class="subtitle" id="subtitlePublic">
-          Accesso riservato con <b>email + password</b>.
+  <div id="splash" class="splash" aria-hidden="true">
+    <div class="splash-content">
+      <img
+        src="./assets/logo.png"
+        alt=""
+        class="splash-logo"
+      >
+
+      <h1>VESTIAMOCIALTAMODA</h1>
+      <p>Luxury Fashion • Exclusive Style</p>
+    </div>
+  </div>
+
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="site-header">
+
+    <button
+      id="homeBtn"
+      class="brand"
+      type="button"
+      aria-label="Torna alla Home"
+    >
+      <img
+        src="./assets/logo.png"
+        alt="Logo VESTIAMOCIALTAMODA"
+        class="header-logo"
+      >
+
+      <span>VESTIAMOCIALTAMODA</span>
+    </button>
+
+    <button
+      id="cartBtn"
+      class="cart-button"
+      type="button"
+      aria-label="Apri carrello"
+    >
+      🛒
+      <span id="cartCount">0</span>
+    </button>
+
+  </header>
+
+
+  <main id="mainContent">
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
+    <section id="home" class="page active">
+
+      <div class="hero">
+
+        <img
+          src="./assets/logo.png"
+          alt="VESTIAMOCIALTAMODA"
+          class="hero-logo"
+        >
+
+        <h1>VESTIAMOCIALTAMODA</h1>
+
+        <p class="hero-subtitle">
+          LUXURY FASHION
+          <br>
+          EXCLUSIVE COLLECTION
         </p>
 
-        <div class="pillRow" id="publicPills">
-          <div class="pill">🔒 <b>Private</b> Access</div>
-          <div class="pill">✅ Canali <b>Verificati</b></div>
-        </div>
+        <div class="hero-divider"></div>
 
-        <!-- LOGIN -->
-        <div id="viewLogin">
-          <div class="divider"></div>
-          <input id="email" class="field" type="email" placeholder="Email" autocomplete="email" />
-          <input id="pass" class="field" type="password" placeholder="Password" autocomplete="current-password" />
-          <button id="login" class="btnSolid">Entra</button>
-          <div class="msg" id="msg"></div>
-          <footer>Se non hai accesso, devi essere aggiunto dall’amministratore.</footer>
-        </div>
+        <div class="home-menu">
 
-        <!-- DASH -->
-        <div id="viewDash" class="hide">
-          <div class="divider"></div>
+          <button
+            class="home-button"
+            data-page="vetrina"
+            type="button"
+          >
+            <span class="menu-icon">🛍️</span>
+            <span>VETRINA</span>
+            <span class="menu-arrow">›</span>
+          </button>
 
-          <div class="topbar">
-            <div>
-              <div style="font-size:18px;font-weight:900;color:var(--accent);text-shadow:0 0 18px rgba(0,224,199,.35)">Dashboard</div>
-              <div class="who" id="who">...</div>
-              <div class="pillRow" style="justify-content:flex-start;margin-top:10px">
-                <div class="pill">👥 Iscritti attivi: <b id="activeCount">—</b></div>
-                <div class="pill">🕒 Ultimo login: <b id="lastLogin">—</b></div>
-              </div>
-            </div>
-            <button class="logout" id="logout">Logout</button>
-          </div>
+          <button
+            class="home-button"
+            data-page="recensioni"
+            type="button"
+          >
+            <span class="menu-icon">⭐</span>
+            <span>RECENSIONI</span>
+            <span class="menu-arrow">›</span>
+          </button>
 
-          <div class="tabs">
-            <button class="tab active" data-tab="contacts">CONTATTI</button>
-            <button class="tab" data-tab="videos">VIDEO / MENU</button>
-            <button class="tab hide" data-tab="admin" id="adminTabBtn">ADMIN</button>
-          </div>
+          <button
+            class="home-button"
+            data-page="contatto"
+            type="button"
+          >
+            <span class="menu-icon">📲</span>
+            <span>CONTATTO</span>
+            <span class="menu-arrow">›</span>
+          </button>
 
-          <!-- CONTATTI -->
-          <div id="tab-contacts">
-            <div class="list">
-              <div class="item"><div class="ico">📸</div><div class="txt"><div class="lbl">Instagram Principale</div><div class="mut">@bpfamofficial420</div></div><a class="btnLink" href="https://www.instagram.com/bpfamofficial420" target="_blank" rel="noopener">Apri</a></div>
-              <div class="item"><div class="ico">🟠</div><div class="txt"><div class="lbl">Instagram Backup</div><div class="mut">@bpfamofficial420backup</div></div><a class="btnLink" href="https://www.instagram.com/bpfamofficial420backup" target="_blank" rel="noopener">Apri</a></div>
-              <div class="item"><div class="ico">🎥</div><div class="txt"><div class="lbl">Instagram Media</div><div class="mut">@bpfamnetwork</div></div><a class="btnLink" href="https://www.instagram.com/bpfamnetwork" target="_blank" rel="noopener">Apri</a></div>
-              <div class="item"><div class="ico">💬</div><div class="txt"><div class="lbl">Contatto Telegram</div><div class="mut">@BPFAMPRIVATE_CLUB</div></div><a class="btnLink" href="https://t.me/BPFAMPRIVATE_CLUB" target="_blank" rel="noopener">Apri</a></div>
-              <div class="item"><div class="ico">📢</div><div class="txt"><div class="lbl">Canale Telegram</div><div class="mut">t.me/+6Rdz_JD0w61kMWU0</div></div><a class="btnLink" href="https://t.me/+6Rdz_JD0w61kMWU0" target="_blank" rel="noopener">Unisciti</a></div>
-              <div class="item"><div class="ico">🤖</div><div class="txt"><div class="lbl">Bot Telegram</div><div class="mut">@Bpfamofficial_bot</div></div><a class="btnLink" href="https://t.me/Bpfamofficial_bot" target="_blank" rel="noopener">Avvia</a></div>
-            </div>
-          </div>
+          <button
+            class="home-button"
+            data-page="info"
+            type="button"
+          >
+            <span class="menu-icon">ℹ️</span>
+            <span>INFO</span>
+            <span class="menu-arrow">›</span>
+          </button>
 
-          <!-- VIDEO -->
-          <div id="tab-videos" class="hide">
-            <p class="subtitle" style="margin-top:0">Portale ufficiale video/menu.</p>
-            <div class="menu">
-              <a class="blade" href="https://bpfam.github.io/Video-bpfam/" target="_self" rel="noopener">
-                <span class="l">🎬</span>
-                <span class="c">ENTRA NEL PORTALE VIDEO</span>
-                <span class="r">▶️</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- ADMIN -->
-          <div id="tab-admin" class="hide">
-            <p class="subtitle" style="margin-top:0">Gestione utenti (abilita/disabilita) + log accessi.</p>
-
-            <div class="divider"></div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
-              <button class="miniBtn" id="refreshAdmin">Aggiorna</button>
-              <button class="miniBtn secondary" id="refreshLogs">Log accessi</button>
-            </div>
-
-            <div style="overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:14px">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Email</th><th>Ruolo</th><th>Enabled</th><th>Scadenza</th><th>Azioni</th>
-                  </tr>
-                </thead>
-                <tbody id="membersBody"></tbody>
-              </table>
-            </div>
-
-            <div class="divider"></div>
-
-            <div style="overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:14px">
-              <table>
-                <thead>
-                  <tr><th>Quando</th><th>Email</th><th>Evento</th></tr>
-                </thead>
-                <tbody id="logsBody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <footer>© BPFamNetwork — Private Access 💎</footer>
         </div>
 
       </div>
+
     </section>
+
+
+    <!-- =========================
+         VETRINA
+    ========================== -->
+
+    <section id="vetrina" class="page">
+
+      <div class="page-heading">
+        <button class="back-button" data-page="home" type="button">
+          ← Indietro
+        </button>
+
+        <h2>🛍️ VETRINA</h2>
+
+        <p>
+          Scopri i nostri prodotti e seleziona
+          le varianti disponibili.
+        </p>
+      </div>
+
+      <!-- RICERCA -->
+
+      <div class="catalog-tools">
+
+        <input
+          id="productSearch"
+          type="search"
+          placeholder="🔎 Cerca un prodotto..."
+          aria-label="Cerca prodotti"
+        >
+
+        <select id="categoryFilter" aria-label="Filtra categoria">
+          <option value="all">Tutte le categorie</option>
+        </select>
+
+      </div>
+
+      <!-- CATEGORIE DINAMICHE -->
+
+      <div id="categoryButtons" class="category-buttons"></div>
+
+      <!-- PRODOTTI DINAMICI -->
+
+      <div id="productsGrid" class="products-grid"></div>
+
+      <div id="productsEmpty" class="empty-state" hidden>
+        Nessun prodotto disponibile.
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RECENSIONI
+    ========================== -->
+
+    <section id="recensioni" class="page">
+
+      <div class="page-heading">
+
+        <button class="back-button" data-page="home" type="button">
+          ← Indietro
+        </button>
+
+        <h2>⭐ RECENSIONI</h2>
+
+        <p>
+          Foto, video e opinioni dei nostri clienti.
+        </p>
+
+      </div>
+
+      <div id="reviewsGrid" class="reviews-grid"></div>
+
+      <div id="reviewsEmpty" class="empty-state">
+        Le recensioni saranno disponibili prossimamente.
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTATTO
+    ========================== -->
+
+    <section id="contatto" class="page">
+
+      <div class="page-heading">
+
+        <button class="back-button" data-page="home" type="button">
+          ← Indietro
+        </button>
+
+        <h2>📲 CONTATTO</h2>
+
+        <p>
+          Scegli il canale che preferisci
+          per contattarci.
+        </p>
+
+      </div>
+
+      <div class="contact-list">
+
+        <a
+          id="telegramContact"
+          class="contact-card"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>🔵</span>
+          <strong>TELEGRAM</strong>
+          <span>›</span>
+        </a>
+
+        <a
+          id="signalContact"
+          class="contact-card"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>🔒</span>
+          <strong>SIGNAL</strong>
+          <span>›</span>
+        </a>
+
+        <a
+          id="whatsappContact"
+          class="contact-card"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>🟢</span>
+          <strong>WHATSAPP</strong>
+          <span>›</span>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         INFO
+    ========================== -->
+
+    <section id="info" class="page">
+
+      <div class="page-heading">
+
+        <button class="back-button" data-page="home" type="button">
+          ← Indietro
+        </button>
+
+        <h2>ℹ️ INFORMAZIONI</h2>
+
+      </div>
+
+      <div class="info-list">
+
+        <article class="info-card">
+          <h3>📦 SPEDIZIONE</h3>
+          <p>
+            Spedizioni disponibili nelle destinazioni
+            e con i corrieri indicati al momento
+            della conferma dell'ordine.
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h3>🤝 MEET UP</h3>
+          <p>
+            Ritiro disponibile esclusivamente
+            nelle zone indicate dal negozio.
+            Luogo e orario vengono concordati
+            prima della conferma.
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h3>🚗 DELIVERY</h3>
+          <p>
+            Servizio di consegna su richiesta.
+            Disponibilità, costo e orario
+            sono da concordare.
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h3>🛒 ORDINI</h3>
+          <p>
+            Aggiungi i prodotti al carrello,
+            scegli il metodo di consegna
+            e invia la richiesta tramite
+            uno dei canali disponibili.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CARRELLO
+    ========================== -->
+
+    <section id="carrello" class="page">
+
+      <div class="page-heading">
+
+        <button class="back-button" data-page="vetrina" type="button">
+          ← Continua gli acquisti
+        </button>
+
+        <h2>🛒 IL TUO CARRELLO</h2>
+
+      </div>
+
+      <div id="cartItems" class="cart-items"></div>
+
+      <div id="cartEmpty" class="empty-state">
+        Il tuo carrello è vuoto.
+      </div>
+
+      <div id="cartSummary" class="cart-summary">
+
+        <div class="cart-total">
+          <span>TOTALE</span>
+          <strong id="cartTotal">0,00 €</strong>
+        </div>
+
+        <button
+          id="clearCartBtn"
+          class="secondary-button"
+          type="button"
+        >
+          🗑️ Svuota carrello
+        </button>
+
+        <button
+          id="checkoutBtn"
+          class="primary-button"
+          type="button"
+        >
+          📦 PROCEDI ALL'ORDINE
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CHECKOUT
+    ========================== -->
+
+    <section id="checkout" class="page">
+
+      <div class="page-heading">
+
+        <button class="back-button" data-page="carrello" type="button">
+          ← Torna al carrello
+        </button>
+
+        <h2>📦 COMPLETA LA RICHIESTA</h2>
+
+        <p>
+          Scegli come desideri ricevere
+          i prodotti.
+        </p>
+
+      </div>
+
+      <form id="checkoutForm">
+
+        <!-- METODO CONSEGNA -->
+
+        <fieldset class="delivery-methods">
+
+          <legend>Metodo di consegna</legend>
+
+          <label class="delivery-option">
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="spedizione"
+              required
+            >
+            <span>📦 SPEDIZIONE</span>
+          </label>
+
+          <label class="delivery-option">
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="meetup"
+            >
+            <span>🤝 MEET UP</span>
+          </label>
+
+          <label class="delivery-option">
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="delivery"
+            >
+            <span>🚗 DELIVERY</span>
+          </label>
+
+        </fieldset>
+
+
+        <!-- =========================
+             SPEDIZIONE
+        ========================== -->
+
+        <div id="shippingFields" class="checkout-fields" hidden>
+
+          <h3>📦 DATI SPEDIZIONE</h3>
+
+          <div class="form-grid">
+
+            <label>
+              Nome
+              <input name="shippingName" autocomplete="given-name">
+            </label>
+
+            <label>
+              Cognome
+              <input name="shippingSurname" autocomplete="family-name">
+            </label>
+
+            <label>
+              Email
+              <input name="shippingEmail" type="email" autocomplete="email">
+            </label>
+
+            <label>
+              Telefono
+              <input name="shippingPhone" type="tel" autocomplete="tel">
+            </label>
+
+            <label>
+              Paese
+              <input name="shippingCountry" autocomplete="country-name">
+            </label>
+
+            <label>
+              Regione
+              <input name="shippingRegion" autocomplete="address-level1">
+            </label>
+
+            <label>
+              Provincia
+              <input name="shippingProvince">
+            </label>
+
+            <label>
+              Città
+              <input name="shippingCity" autocomplete="address-level2">
+            </label>
+
+            <label>
+              CAP
+              <input name="shippingZip" inputmode="text" autocomplete="postal-code">
+            </label>
+
+            <label class="full-width">
+              Indirizzo e numero civico
+              <input name="shippingAddress" autocomplete="street-address">
+            </label>
+
+            <label class="full-width">
+              Corriere preferito
+              <select name="shippingCourier">
+                <option value="">Da concordare</option>
+                <option value="UPS">UPS</option>
+                <option value="DHL">DHL</option>
+                <option value="FedEx">FedEx</option>
+                <option value="BRT">BRT</option>
+                <option value="InPost">InPost</option>
+              </select>
+            </label>
+
+            <label class="full-width">
+              Note aggiuntive
+              <textarea name="shippingNotes" rows="3"></textarea>
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             MEET UP
+        ========================== -->
+
+        <div id="meetupFields" class="checkout-fields" hidden>
+
+          <h3>🤝 MEET UP</h3>
+
+          <p>
+            Seleziona una delle zone disponibili.
+            Il punto esatto e l'orario saranno
+            concordati successivamente.
+          </p>
+
+          <label>
+            Zona disponibile
+            <select id="meetupZone" name="meetupZone">
+              <option value="">Seleziona una zona</option>
+            </select>
+          </label>
+
+        </div>
+
+
+        <!-- =========================
+             DELIVERY
+        ========================== -->
+
+        <div id="deliveryFields" class="checkout-fields" hidden>
+
+          <h3>🚗 DATI DELIVERY</h3>
+
+          <p>
+            La consegna è soggetta a disponibilità.
+            Costo e orario sono da concordare.
+          </p>
+
+          <div class="form-grid">
+
+            <label>
+              Nome
+              <input name="deliveryName" autocomplete="given-name">
+            </label>
+
+            <label>
+              Cognome
+              <input name="deliverySurname" autocomplete="family-name">
+            </label>
+
+            <label>
+              Email
+              <input name="deliveryEmail" type="email" autocomplete="email">
+            </label>
+
+            <label>
+              Telefono
+              <input name="deliveryPhone" type="tel" autocomplete="tel">
+            </label>
+
+            <label>
+              Paese
+              <input name="deliveryCountry" autocomplete="country-name">
+            </label>
+
+            <label>
+              Regione
+              <input name="deliveryRegion" autocomplete="address-level1">
+            </label>
+
+            <label>
+              Provincia
+              <input name="deliveryProvince">
+            </label>
+
+            <label>
+              Città
+              <input name="deliveryCity" autocomplete="address-level2">
+            </label>
+
+            <label>
+              CAP
+              <input name="deliveryZip" autocomplete="postal-code">
+            </label>
+
+            <label class="full-width">
+              Indirizzo e numero civico
+              <input name="deliveryAddress" autocomplete="street-address">
+            </label>
+
+            <label class="full-width">
+              Note per la consegna
+              <textarea name="deliveryNotes" rows="3"></textarea>
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIEPILOGO ORDINE
+        ========================== -->
+
+        <div class="checkout-summary">
+
+          <h3>🛒 RIEPILOGO</h3>
+
+          <div id="checkoutItems"></div>
+
+          <div class="cart-total">
+            <span>Totale prodotti</span>
+            <strong id="checkoutTotal">0,00 €</strong>
+          </div>
+
+          <p class="checkout-note">
+            Eventuali costi di consegna saranno
+            comunicati prima della conferma.
+          </p>
+
+        </div>
+
+
+        <!-- PRIVACY -->
+
+        <label class="privacy-check">
+          <input
+            id="privacyConsent"
+            type="checkbox"
+            required
+          >
+          <span>
+            Ho letto l'informativa sulla privacy
+            e acconsento all'invio dei dati
+            necessari per gestire la mia richiesta.
+          </span>
+        </label>
+
+
+        <!-- INVIO -->
+
+        <div class="order-actions">
+
+          <h3>📲 INVIA LA RICHIESTA</h3>
+
+          <button
+            id="orderTelegram"
+            type="button"
+            class="primary-button"
+          >
+            🔵 INVIA SU TELEGRAM
+          </button>
+
+          <button
+            id="orderSignal"
+            type="button"
+            class="primary-button"
+          >
+            🔒 INVIA SU SIGNAL
+          </button>
+
+          <button
+            id="orderWhatsapp"
+            type="button"
+            class="primary-button"
+          >
+            🟢 INVIA SU WHATSAPP
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // Tilt
-    const card = document.getElementById('card');
-    let rAF;
-    function tilt(e){
-      const b = card.getBoundingClientRect();
-      const x = (e.clientX - b.left) / b.width;
-      const y = (e.clientY - b.top)  / b.height;
-      const rx = (y - .5) * -6;
-      const ry = (x - .5) *  6;
-      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-    }
-    function resetTilt(){ card.style.transform = 'rotateX(0deg) rotateY(0deg)'; }
-    card.addEventListener('mousemove', (e)=>{ cancelAnimationFrame(rAF); rAF = requestAnimationFrame(()=>tilt(e)); });
-    card.addEventListener('mouseleave', ()=>{ resetTilt(); });
 
-    // Supabase
-    const SUPABASE_URL = "https://qnbouentjmyhyujsgwej.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_AchUs72cypEmbEj3pWAHnA_zYXjSu17";
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <!-- =========================
+       NOTIFICHE
+  ========================== -->
 
-    const viewLogin = document.getElementById("viewLogin");
-    const viewDash  = document.getElementById("viewDash");
-    const msgEl     = document.getElementById("msg");
-    const whoEl     = document.getElementById("who");
-    const subtitlePublic = document.getElementById("subtitlePublic");
-    const publicPills = document.getElementById("publicPills");
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
 
-    const activeCountEl = document.getElementById("activeCount");
-    const lastLoginEl = document.getElementById("lastLogin");
 
-    const adminTabBtn = document.getElementById("adminTabBtn");
-    const membersBody = document.getElementById("membersBody");
-    const logsBody = document.getElementById("logsBody");
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
-    function msg(t){ msgEl.innerText = t || ""; }
-    function showDash(email){
-      viewLogin.classList.add("hide");
-      viewDash.classList.remove("hide");
-      whoEl.innerText = "Loggato come: " + email;
-      subtitlePublic.classList.add("hide");
-      publicPills.classList.add("hide");
-    }
-    function showLogin(){
-      viewDash.classList.add("hide");
-      viewLogin.classList.remove("hide");
-      subtitlePublic.classList.remove("hide");
-      publicPills.classList.remove("hide");
-    }
+  <footer class="site-footer">
 
-    // Tabs
-    const tabs = document.querySelectorAll(".tab");
-    const tabContacts = document.getElementById("tab-contacts");
-    const tabVideos = document.getElementById("tab-videos");
-    const tabAdmin = document.getElementById("tab-admin");
+    <strong>VESTIAMOCIALTAMODA</strong>
 
-    function setTab(name){
-      tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === name));
-      tabContacts.classList.toggle("hide", name !== "contacts");
-      tabVideos.classList.toggle("hide", name !== "videos");
-      tabAdmin.classList.toggle("hide", name !== "admin");
-    }
-    tabs.forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
+    <p>Luxury Fashion • Exclusive Style</p>
 
-    // Helpers
-    function fmtDate(iso){
-      if(!iso) return "—";
-      const d = new Date(iso);
-      return d.toLocaleString("it-IT");
-    }
+    <p>© 2026 VESTIAMOCIALTAMODA</p>
 
-    async function loadCounts(){
-      // iscritti attivi = enabled=true e (expires_at null o futura)
-      const nowIso = new Date().toISOString();
-      const { count, error } = await sb
-        .from("members")
-        .select("*", { count: "exact", head: true })
-        .eq("enabled", true)
-        .or(`expires_at.is.null,expires_at.gt.${nowIso}`);
-      activeCountEl.innerText = error ? "—" : String(count ?? "—");
-    }
+    <p>
+      <a href="./privacy.html">Privacy Policy</a>
+      ·
+      <a href="./termini.html">Termini e condizioni</a>
+    </p>
 
-    async function loadLastLogin(myUserId){
-      const { data, error } = await sb
-        .from("access_logs")
-        .select("created_at")
-        .eq("user_id", myUserId)
-        .order("created_at", { ascending:false })
-        .limit(1);
-      if (error || !data || !data.length) { lastLoginEl.innerText = "—"; return; }
-      lastLoginEl.innerText = fmtDate(data[0].created_at);
-    }
+  </footer>
 
-    async function checkMemberAndAdmin(user){
-      // verifica che esista in members, enabled e non scaduto
-      const { data, error } = await sb
-        .from("members")
-        .select("role, enabled, expires_at")
-        .eq("user_id", user.id)
-        .maybeSingle();
 
-      if (error || !data){
-        await sb.auth.signOut();
-        showLogin();
-        msg("❌ Accesso non autorizzato (manca in members).");
-        return { ok:false };
-      }
+  <!-- JAVASCRIPT -->
+  <script src="./app.js" defer></script>
 
-      const expired = data.expires_at && new Date(data.expires_at).getTime() <= Date.now();
-      if (!data.enabled || expired){
-        await sb.auth.signOut();
-        showLogin();
-        msg("❌ Accesso disattivato o scaduto.");
-        return { ok:false };
-      }
-
-      const isAdmin = data.role === "admin";
-      adminTabBtn.classList.toggle("hide", !isAdmin);
-      return { ok:true, isAdmin };
-    }
-
-    async function writeLoginLog(user){
-      // registra login riuscito
-      await sb.from("access_logs").insert([{
-        user_id: user.id,
-        email: user.email,
-        event: "login",
-        user_agent: navigator.userAgent
-      }]);
-    }
-
-    async function loadAdminMembers(){
-      membersBody.innerHTML = "";
-      const { data, error } = await sb
-        .from("members")
-        .select("user_id,email,role,enabled,expires_at,created_at")
-        .order("created_at", { ascending:false })
-        .limit(200);
-
-      if (error){ membersBody.innerHTML = `<tr><td colspan="5">Errore: ${error.message}</td></tr>`; return; }
-      if (!data || !data.length){ membersBody.innerHTML = `<tr><td colspan="5">Nessun membro</td></tr>`; return; }
-
-      for (const m of data){
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${m.email ?? "—"}</td>
-          <td>${m.role}</td>
-          <td>${m.enabled ? "✅" : "❌"}</td>
-          <td>${m.expires_at ? fmtDate(m.expires_at) : "—"}</td>
-          <td>
-            <button class="miniBtn" data-action="toggle" data-id="${m.user_id}" data-enabled="${m.enabled}">
-              ${m.enabled ? "Disattiva" : "Attiva"}
-            </button>
-          </td>
-        `;
-        membersBody.appendChild(tr);
-      }
-    }
-
-    async function loadAdminLogs(){
-      logsBody.innerHTML = "";
-      const { data, error } = await sb
-        .from("access_logs")
-        .select("created_at,email,event")
-        .order("created_at", { ascending:false })
-        .limit(100);
-
-      if (error){ logsBody.innerHTML = `<tr><td colspan="3">Errore: ${error.message}</td></tr>`; return; }
-      if (!data || !data.length){ logsBody.innerHTML = `<tr><td colspan="3">Nessun log</td></tr>`; return; }
-
-      for (const l of data){
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${fmtDate(l.created_at)}</td><td>${l.email ?? "—"}</td><td>${l.event}</td>`;
-        logsBody.appendChild(tr);
-      }
-    }
-
-    // Admin button actions
-    document.getElementById("refreshAdmin").onclick = async () => { await loadAdminMembers(); };
-    document.getElementById("refreshLogs").onclick = async () => { await loadAdminLogs(); };
-
-    membersBody.addEventListener("click", async (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-      if (btn.dataset.action !== "toggle") return;
-
-      const id = btn.dataset.id;
-      const enabled = btn.dataset.enabled === "true";
-      const { error } = await sb.from("members").update({ enabled: !enabled }).eq("user_id", id);
-      if (error){ alert("Errore: " + error.message); return; }
-
-      await loadAdminMembers();
-      await loadCounts();
-    });
-
-    // Guard
-    async function guard(){
-      const { data } = await sb.auth.getSession();
-      if (!data.session) return showLogin();
-
-      const user = data.session.user;
-      const ok = await checkMemberAndAdmin(user);
-      if (!ok.ok) return;
-
-      showDash(user.email);
-      await writeLoginLog(user);
-      await loadCounts();
-      await loadLastLogin(user.id);
-    }
-
-    document.getElementById("login").onclick = async () => {
-      msg("Accesso in corso...");
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("pass").value;
-
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) return msg("❌ " + error.message);
-
-      // Controllo abilitazione/scadenza + admin
-      const ok = await checkMemberAndAdmin(data.user);
-      if (!ok.ok) return;
-
-      msg("");
-      showDash(data.user.email);
-
-      await writeLoginLog(data.user);
-      await loadCounts();
-      await loadLastLogin(data.user.id);
-
-      // Se admin, carica subito pannello
-      if (ok.isAdmin){
-        await loadAdminMembers();
-        await loadAdminLogs();
-      }
-    };
-
-    document.getElementById("logout").onclick = async () => {
-      await sb.auth.signOut();
-      showLogin();
-      msg("");
-    };
-
-    guard();
-  </script>
 </body>
 </html>
